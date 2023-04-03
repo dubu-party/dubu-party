@@ -1,15 +1,26 @@
 import { Theme } from "@emotion/react";
 
-const color = {
-  //   border: "#d2e0f3",
-};
+enum color {
+  border = "#d2e0f3",
+}
 
-const font = {};
+enum font {
+  light = "Pretendard-Light",
+  regular = "Pretendard-Regular",
+  medium = "Pretendard-Medium",
+  semibold = "Pretendard-SemiBold",
+  bold = "Pretendard-Bold",
+  extraBold = "Pretendard-ExtraBold",
+}
 
-const theme: Theme = {
-  color: {
-    border: "#d2e0f3",
-  },
+enum size {
+  maxWidth = "1200px",
+}
+
+const theme = {
+  color,
+  font,
+  size,
 };
 
 export default theme;
