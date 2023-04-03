@@ -64,14 +64,14 @@ const TextWrap = styled.div`
 `;
 
 const Text = styled.div`
-  font-family: "Pretendard regular";
+  font-family: ${theme.font.regular};
   font-size: 14px;
   line-height: 17px;
 
   color: #000000;
 `;
 const Name = styled(Text)`
-  font-family: "Pretendard medium";
+  font-family: ${theme.font.medium};
 `;
 
 const SubText = styled(Text)`
@@ -91,7 +91,7 @@ const Button = styled.button`
   background: #4b586a;
   border-radius: 4px;
 
-  font-family: "Pretendard semiBold";
+  font-family: ${theme.font.semibold};
   font-size: 11px;
   line-height: 13px;
   text-align: center;
