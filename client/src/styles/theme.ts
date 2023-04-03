@@ -1,5 +1,7 @@
 import { Theme } from "@emotion/react";
 
+// TODO: 노란색이 약간 잘 안보이는 것 같은데 메인 색을 살짝 조정하면 어떨까요?
+
 enum color {
   mainColor = "#DD3E3E",
   border = "#d2e0f3",
