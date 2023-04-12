@@ -4,7 +4,7 @@ FROM openjdk:11-jdk
 LABEL maintainer="dubu"
 # maintainer 라벨을 추가합니다.
 
-ARG JAR_FILE=build/libs/dubu-0.0.1-SNAPSHOT.jar
+ARG JAR_FILE= server/build/libs/dubu-0.0.1-SNAPSHOT.jar
 # ARG = 빌드 시점에만 사용되는 변수입니다.
 
 ADD ${JAR_FILE} dubu-practice.jar
