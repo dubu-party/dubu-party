@@ -4,7 +4,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
-group = 'com.example'
+group = 'com.dubu'
 version = '0.0.1-SNAPSHOT' // Spring Boot 2.7.9 requires Java 11
 sourceCompatibility = '11' // Java 11
 
