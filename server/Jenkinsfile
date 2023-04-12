@@ -21,7 +21,7 @@ pipeline {
         }
         stage('Dockerize') {
             steps {
-                sh 'docker build -t ${IMAGE_NAME} .'
+                sh 'docker build -t ${IMAGE_NAME} ./server'
                 sh 'docker tag ${IMAGE_NAME} ${DOCKER_IMAGE}'
             }
         }
