@@ -7,13 +7,13 @@ LABEL maintainer="dubu"
 ARG JAR_FILE= server/build/libs/dubu-0.0.1-SNAPSHOT.jar
 # ARG = 빌드 시점에만 사용되는 변수입니다.
 
-ADD ${JAR_FILE} dubu-practice.jar
+ADD ${JAR_FILE} dubu-party.jar
 # ADD = 파일을 이미지에 추가합니다.
 # ADD <src> <dest>
-# 이미지를 빌드할 때, build/libs/dubu-0.0.1-SNAPSHOT.jar 파일을 dubu-practice.jar 파일로 복사합니다.
-# dubu-practice.jar 파일의 위치는 이미지의 루트 디렉토리에 있습니다.
+# 이미지를 빌드할 때, build/libs/dubu-0.0.1-SNAPSHOT.jar 파일을 dubu-party.jar 파일로 복사합니다.
+# dubu-party.jar 파일의 위치는 이미지의 루트 디렉토리에 있습니다.
 
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/dubu-practice.jar"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/server/dubu-party.jar"]
 # ENTRYPOINT = 컨테이너가 시작될 때 실행될 명령어를 지정합니다.
 
 EXPOSE 8080
