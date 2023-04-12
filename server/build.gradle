@@ -1,12 +1,12 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '2.7.9'
+	id 'org.springframework.boot' version '2.7.9' // Spring Boot 2.7.9
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
 group = 'com.example'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+version = '0.0.1-SNAPSHOT' // Spring Boot 2.7.9 requires Java 11
+sourceCompatibility = '11' // Java 11
 
 configurations {
 	compileOnly {
