@@ -1,0 +1,17 @@
+spring:
+  datasource:
+#    url: jdbc:mysql://{ec2 public IP}:3306/{DB 이름}
+    url: jdbc:mariadb://heyhey.i234.me:3307/dubu?useSSL=false&allowPublicKeyRetrieval=true
+    username: user
+    password: Qwer1234!@
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto:  update  # 스키마 자동 생성
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    show-sql: true      # SQL 쿼리 출력
+    properties:
+      hibernate:
+        format_sql: true  # SQL pretty print
+server:
+  port : 3333
