@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e033abed-6039-402d-90de-1f87a89a8e0d" name="Changes" comment="fix - Jenkinsfile 파일 위치 변경">
+      <change beforePath="$PROJECT_DIR$/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/Jenkinsfile" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="workspaceImportEnabled" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectId" id="2OJMMUZ1cwaG3fSmnRbaxGYCrTy" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "/Users/hyunhongim/project/dubu-party/server",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable"
+  },
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "PLAIN_TEXT"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="PartyApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.dubu.party.PartyApplication" />
+      <module name="server.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.dubu.party.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.PartyApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e033abed-6039-402d-90de-1f87a89a8e0d" name="Changes" comment="" />
+      <created>1681274183583</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1681274183583</updated>
+    </task>
+    <task id="LOCAL-00001" summary="feat - spring 프로젝트 생성 &#10;build.gradle 파일 + application.yml 파일 생성 &#10;- java 11&#10;- spring-boot 2.7.9   &#10;- lombok&#10;- maria db 2.7.4&#10;  - port 3307&#10;  - db name : dubu">
+      <created>1681278897573</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1681278897573</updated>
+    </task>
+    <task id="LOCAL-00002" summary="feat - Dockerfile 생성&#10;컨테이너 8080 포트 사용">
+      <created>1681280471315</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1681280471315</updated>
+    </task>
+    <task id="LOCAL-00003" summary="feat - Jenkinsfile 생성&#10;&#10;IMAGE_NAME = &quot;dubu-server&quot;&#10;DOCKER_IMAGE = &quot;bbnerino/dubu-server&quot;&#10;TARGET_HOST = &quot;bbnerino@heyhey.i234.me&quot;&#10;ContainerPort = &quot;3333&quot;&#10;LocalPort = &quot;3333&quot;">
+      <created>1681280739765</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1681280739765</updated>
+    </task>
+    <task id="LOCAL-00004" summary="feat - Jenkinsfile 생성&#10;&#10;IMAGE_NAME = &quot;dubu-server&quot;&#10;DOCKER_IMAGE = &quot;bbnerino/dubu-server&quot;&#10;TARGET_HOST = &quot;bbnerino@heyhey.i234.me&quot;&#10;ContainerPort = &quot;3333&quot;&#10;LocalPort = &quot;3333&quot;">
+      <created>1681280759619</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1681280759619</updated>
+    </task>
+    <task id="LOCAL-00005" summary="fix - jenkinsfile build 위치 변경">
+      <created>1681282529195</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1681282529195</updated>
+    </task>
+    <task id="LOCAL-00006" summary="fix - jenkinsfile,docker,build.gradle build 위치 변경">
+      <created>1681283698842</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1681283698842</updated>
+    </task>
+    <task id="LOCAL-00007" summary="fix - jenkinsfile build 위치 변경">
+      <created>1681284021818</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1681284021818</updated>
+    </task>
+    <task id="LOCAL-00008" summary="fix - dockerfile build 위치 변경">
+      <created>1681284316482</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1681284316483</updated>
+    </task>
+    <task id="LOCAL-00009" summary="fix - dockerfile build 위치 변경">
+      <created>1681285530759</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1681285530759</updated>
+    </task>
+    <task id="LOCAL-00010" summary="fix - dockerfile ㅁㅇㅇ eotls">
+      <created>1681285931913</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1681285931913</updated>
+    </task>
+    <task id="LOCAL-00011" summary="fix - dockerfile 파일 위치 변경">
+      <created>1681286464094</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1681286464094</updated>
+    </task>
+    <task id="LOCAL-00012" summary="fix - dockerfile 파일 위치 변경">
+      <created>1681287292783</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1681287292783</updated>
+    </task>
+    <task id="LOCAL-00013" summary="fix - Jenkinsfile 파일 위치 변경">
+      <created>1681287845906</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1681287845906</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="DP-5--프로젝트-세팅" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat - spring 프로젝트 생성 &#10;build.gradle 파일 + application.yml 파일 생성 &#10;- java 11&#10;- spring-boot 2.7.9   &#10;- lombok&#10;- maria db 2.7.4&#10;  - port 3307&#10;  - db name : dubu" />
+    <MESSAGE value="feat - Dockerfile 생성&#10;컨테이너 8080 포트 사용" />
+    <MESSAGE value="feat - Jenkinsfile 생성&#10;&#10;IMAGE_NAME = &quot;dubu-server&quot;&#10;DOCKER_IMAGE = &quot;bbnerino/dubu-server&quot;&#10;TARGET_HOST = &quot;bbnerino@heyhey.i234.me&quot;&#10;ContainerPort = &quot;3333&quot;&#10;LocalPort = &quot;3333&quot;" />
+    <MESSAGE value="fix - jenkinsfile,docker,build.gradle build 위치 변경" />
+    <MESSAGE value="fix - jenkinsfile build 위치 변경" />
+    <MESSAGE value="fix - dockerfile build 위치 변경" />
+    <MESSAGE value="fix - dockerfile ㅁㅇㅇ eotls" />
+    <MESSAGE value="fix - dockerfile 파일 위치 변경" />
+    <MESSAGE value="fix - Jenkinsfile 파일 위치 변경" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix - Jenkinsfile 파일 위치 변경" />
+  </component>
+</project>
