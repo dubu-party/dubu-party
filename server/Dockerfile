@@ -8,7 +8,7 @@ ENTRYPOINT ["java","-jar","app.jar","--spring.config.name=application-prod"]
 # Run the jar file
 
 
-EXPOSE 8080
-# Expose port 8080 to the host
+EXPOSE 3333
+# Expose port 3333 to the host
 
 

@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e033abed-6039-402d-90de-1f87a89a8e0d" name="Changes" comment="fix - Dockerfile 파일 변경">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-    </list>
+    <list default="true" id="e033abed-6039-402d-90de-1f87a89a8e0d" name="Changes" comment="fix - application.yml 파일 변경" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -302,7 +298,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681344937561</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="fix - application.yml 파일 변경">
+      <created>1681345525967</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1681345525967</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -327,6 +330,7 @@
     <MESSAGE value="fix - dockerfile 파일 위치 변경" />
     <MESSAGE value="fix - Jenkinsfile 파일 위치 변경" />
     <MESSAGE value="fix - Dockerfile 파일 변경" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix - Dockerfile 파일 변경" />
+    <MESSAGE value="fix - application.yml 파일 변경" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix - application.yml 파일 변경" />
   </component>
 </project>
