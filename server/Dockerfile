@@ -1,6 +1,8 @@
 FROM openjdk:11-jdk
 LABEL maintainer="dubu"
-ARG JAR_FILE= build/libs/server-0.0.1-SNAPSHOT.jar
+ARG JAR_FILE= server/build/libs/server-0.0.1-SNAPSHOT.jar
+RUN echo "JAR_FILE = ${JAR_FILE}"
+RUN echo "ls"
 COPY ${JAR_FILE} dubu-party.jar
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/dubu-party.jar"]
 EXPOSE 8080
