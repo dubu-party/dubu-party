@@ -2,7 +2,7 @@ FROM openjdk:11-jdk
 LABEL maintainer="dubu"
 ARG JAR_FILE= build/libs/server-0.0.1-SNAPSHOT.jar
 COPY ${JAR_FILE} dubu-party.jar
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","dubu-party.jar"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/dubu-party.jar"]
 EXPOSE 8080
 
 # FROM openjdk:11-jdk
