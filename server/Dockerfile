@@ -1,10 +1,9 @@
 FROM openjdk:11-jdk
-LABEL maintainer="dubu"
-ARG JAR_FILE= server/build/libs/server-0.0.1-SNAPSHOT.jar
-RUN echo "JAR_FILE = ${JAR_FILE}"
-RUN echo "ls"
-COPY ${JAR_FILE} dubu-party.jar
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/dubu-party.jar"]
+
+COPY build/libs/server-0.0.1-SNAPSHOT.jar app.jar
+
+ENTRYPOINT ["java","-jar","app.jar","--spring.config.name=application-prod"]
+
 EXPOSE 8080
 
 # FROM openjdk:11-jdk
