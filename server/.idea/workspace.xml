@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e033abed-6039-402d-90de-1f87a89a8e0d" name="Changes" comment="fix - application.yml 파일 변경 db ip 변경">
+    <list default="true" id="e033abed-6039-402d-90de-1f87a89a8e0d" name="Changes" comment="fix - application.yml autoReconnect=true">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -334,7 +335,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681349306497</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="fix - application.yml autoReconnect=true">
+      <created>1681349566052</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1681349566052</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -361,6 +369,7 @@
     <MESSAGE value="fix - Dockerfile 파일 변경" />
     <MESSAGE value="fix - application.yml 파일 변경" />
     <MESSAGE value="fix - application.yml 파일 변경 db ip 변경" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix - application.yml 파일 변경 db ip 변경" />
+    <MESSAGE value="fix - application.yml autoReconnect=true" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix - application.yml autoReconnect=true" />
   </component>
 </project>
