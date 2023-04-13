@@ -8,9 +8,9 @@ spring:
     username: user
     password: Qwer1234!@
     # DB 드라이버
-    driver-class-name: org.mariadb.jdbc.Driver
+#    driver-class-name: org.mariadb.jdbc.Driver
   jpa: # JPA 설정
-    database-platform: org.hibernate.dialect.MariaDBDialect # DB 방언
+#    database-platform: org.hibernate.dialect.MariaDBDialect # DB 방언
     show-sql: true # SQL 쿼리 출력 여부
     hibernate: # 하이버네이트 설정
       ddl-auto:  update  # 스키마 자동 생성 (create, create-drop, update, validate)
