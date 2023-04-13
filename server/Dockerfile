@@ -4,7 +4,7 @@ FROM openjdk:11-jdk
 COPY build/libs/server-0.0.1-SNAPSHOT.jar app.jar 
 # Copy the jar file to the image
 
-ENTRYPOINT ["java","-jar","app.jar","--spring.config.name=application-prod"] 
+ENTRYPOINT ["java","-jar","app.jar"] 
 # Run the jar file
 
 
