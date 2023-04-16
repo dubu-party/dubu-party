@@ -38,6 +38,13 @@ const reset = css`
     src: url("/assets/font/Pretendard-ExtraBold.subset.woff") format("truetype");
   }
 
+  @font-face {
+    font-family: "DungGeunMo";
+    font-weight: 400;
+    font-style: normal;
+    src: url("/fonts/DungGeunMo.ttf") format("ttf");
+  }
+
   * {
     box-sizing: border-box;
   }
