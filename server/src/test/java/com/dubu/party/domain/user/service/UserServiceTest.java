@@ -24,13 +24,13 @@ class UserServiceTest {
     @Autowired
     private UserRepository userRepository;
 
-    public User makeUser(String id) {
+    public User makeUser(String name) {
         User user = new User();
-        user.setUserLoginId("user"+id);
+        user.setUserId("user"+name);
         user.setUserPassword("1234");
-        user.setUserNickname("user"+id+id);
-        user.setUserEmail("beadf"+id+"@naver.com");
-        user.setUserPhone("010-"+id+"-1234");
+        user.setUserNickname("user"+name+name);
+        user.setUserEmail("beadf"+name+"@naver.com");
+        user.setUserPhone("010-"+name+"-1234");
         return user;
     }
 
@@ -59,7 +59,7 @@ class UserServiceTest {
     void 유저조회() {
         User user1 = makeUser("1");
         userService.saveUser(user1);
-        assertThat(userService.getUserById(user1.getUserId())).isEqualTo(user1);
+        assertThat(userService.getUserByPkId(user1.getUserPkId())).isEqualTo(user1);
     }
 
     @Test
@@ -70,7 +70,7 @@ class UserServiceTest {
         userService.saveUser(user1);
         userService.saveUser(user2);
         userService.saveUser(user3);
-        userService.deleteUser(user1.getUserId());
+        userService.deleteUser(user1.getUserPkId());
         assertThat(userService.getAllUsers().size()).isEqualTo(2);
     }
 
@@ -79,15 +79,15 @@ class UserServiceTest {
         User user1 = makeUser("1");
         userService.saveUser(user1);
         user1.setUserEmail("할로할로");
-        assertThat(userService.getUserById(user1.getUserId()).getUserEmail()).isEqualTo("할로할로");
+        assertThat(userService.getUserByPkId(user1.getUserPkId()).getUserEmail()).isEqualTo("할로할로");
     }
 
     @Test
     void 비밀번호변경() {
         User user1 = makeUser("6");
         userService.saveUser(user1);
-        userService.updatePassword(user1.getUserId(),"1324");
-        assertThat(userService.getUserById(user1.getUserId()).getUserPassword()).isEqualTo("1324");
+        userService.updatePassword(user1.getUserPkId(),"1324");
+        assertThat(userService.getUserByPkId(user1.getUserPkId()).getUserPassword()).isEqualTo("1324");
     }
     @Test
     void 중복유저(){

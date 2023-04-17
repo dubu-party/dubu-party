@@ -34,9 +34,9 @@ public class UserController {
         );
     }
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") Long id){
+    public ResponseEntity<User> getUserByPkId(@PathVariable("id") Long id){
         return new ResponseEntity<>(
-                userService.getUserById(id), HttpStatus.OK
+                userService.getUserByPkId(id), HttpStatus.OK
         );
     }
     @DeleteMapping("/{id}")
