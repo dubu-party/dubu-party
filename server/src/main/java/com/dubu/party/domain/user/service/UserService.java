@@ -1,9 +1,12 @@
 package com.dubu.party.domain.user.service;
 
 import com.dubu.party.domain.user.db.entity.User;
+import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.lang.reflect.Member;
 import java.util.List;
@@ -16,17 +19,14 @@ public class UserService {
     public Long saveUser(User user) {
         validateDuplicate(user);
         userRepository.save(user);
-        return user.getUserId();
+        return user.getUserPkId();
     }
 
-//    public void getByUserId(String userId){
-//        userRepository.findByUserId(null);
-//    }
 
     public List<User> getAllUsers(){
         return userRepository.findAll();
     }
-    public User getUserById(Long id) {
+    public User getUserByPkId(Long id) {
         return userRepository.findById(id).orElse(null);
     }
     public void deleteUser(Long id){
@@ -54,9 +54,9 @@ public class UserService {
 
 
     public void validateDuplicate(User user){
-        User findUser = userRepository.findByUserLoginId(user.getUserLoginId());
-        if (findUser != null){
-            throw new IllegalStateException("이미 존재하는 ID입니다.");
+        boolean isExistUser = userRepository.existsByUserId(user.getUserId());
+        if (isExistUser){ // 이미 존재하는 ID라면?
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 존재하는 ID입니다.");
         }
     }
 }

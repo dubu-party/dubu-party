@@ -1,6 +1,9 @@
 package com.dubu.party.domain.user.controller;
 
+import com.dubu.party.domain.user.db.entity.GameUser;
 import com.dubu.party.domain.user.db.entity.User;
+import com.dubu.party.domain.user.db.entity.UserDto;
+import com.dubu.party.domain.user.request.SignupForm;
 import com.dubu.party.domain.user.service.UserService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Slf4j // 로그 메시지를 출력
@@ -27,16 +31,15 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Long> saveUser(User user){
+    public ResponseEntity<User> saveUser(@RequestBody SignupForm signupForm){
+        User user = signupForm.toEntity();
         Long userId = userService.saveUser(user);
-        return new ResponseEntity<>(
-                userId, HttpStatus.CREATED
-        );
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") Long id){
+    public ResponseEntity<User> getUserByPkId(@PathVariable("id") Long id){
         return new ResponseEntity<>(
-                userService.getUserById(id), HttpStatus.OK
+                userService.getUserByPkId(id), HttpStatus.OK
         );
     }
     @DeleteMapping("/{id}")
