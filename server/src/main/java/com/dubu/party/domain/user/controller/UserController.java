@@ -2,6 +2,7 @@ package com.dubu.party.domain.user.controller;
 
 import com.dubu.party.domain.user.db.entity.User;
 import com.dubu.party.domain.user.db.entity.UserDto;
+import com.dubu.party.domain.user.request.SignupForm;
 import com.dubu.party.domain.user.service.UserService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,8 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Long> saveUser(User user){
+    public ResponseEntity<Long> saveUser(@RequestBody SignupForm signupForm){
+        User user = signupForm.toEntity();
         Long userId = userService.saveUser(user);
         return new ResponseEntity<>(
                 userId, HttpStatus.CREATED

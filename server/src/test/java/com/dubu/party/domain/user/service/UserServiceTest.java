@@ -3,6 +3,7 @@ package com.dubu.party.domain.user.service;
 import com.dubu.party.domain.user.db.entity.User;
 import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.db.repository.UserRepository;
+import com.dubu.party.domain.user.request.SignupForm;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -26,13 +27,13 @@ class UserServiceTest {
     private UserRepository userRepository;
 
     public User makeUser(String name) {
-        UserDto userDto = new UserDto();
-        userDto.setId("user"+name);
-        userDto.setPassword("1234");
-        userDto.setNickname("user"+name+name);
-        userDto.setEmail("beadf"+name+"@naver.com");
-        userDto.setPhone("010-"+name+"-1234");
-        return userDto.toEntity();
+        UserDto signupForm = new SignupForm();
+        signupForm.setId("user"+name);
+        signupForm.setPassword("1234");
+        signupForm.setNickname("user"+name+name);
+        signupForm.setEmail("beadf"+name+"@naver.com");
+        signupForm.setPhone("010-"+name+"-1234");
+        return signupForm.toEntity();
     }
 
 
