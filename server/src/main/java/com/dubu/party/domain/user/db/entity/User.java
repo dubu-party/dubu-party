@@ -24,7 +24,6 @@ public class User {
 
     private Long userGameRoomId;
 
-    private Long gameUserId;
     private Long roomId;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)

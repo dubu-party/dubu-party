@@ -4,7 +4,9 @@ import com.dubu.party.domain.user.db.entity.User;
 import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.lang.reflect.Member;
 import java.util.List;
@@ -52,9 +54,9 @@ public class UserService {
 
 
     public void validateDuplicate(User user){
-        User findUser = userRepository.findByUserId(user.getUserId());
-        if (findUser != null){
-            throw new IllegalStateException("이미 존재하는 ID입니다.");
+        boolean isExistUser = userRepository.existsByUserId(user.getUserId());
+        if (isExistUser){ // 이미 존재하는 ID라면?
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 존재하는 ID입니다.");
         }
     }
 }

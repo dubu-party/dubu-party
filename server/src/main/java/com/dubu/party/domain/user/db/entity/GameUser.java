@@ -1,17 +1,15 @@
 package com.dubu.party.domain.user.db.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 @Getter @Setter
 public class GameUser {
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long gameUserId;
     private String gameUserNickName;
     private String gameUserImg;
@@ -19,6 +17,8 @@ public class GameUser {
 
     // private Long gameUserLogId
     @OneToOne
-    @JoinColumn(name = "game_user_id")
-    private User user;
+    @JsonIgnore
+    @JoinColumn(name = "user_id")
+    public User user;
+
 }

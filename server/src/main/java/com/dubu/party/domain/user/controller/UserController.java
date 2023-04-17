@@ -1,5 +1,6 @@
 package com.dubu.party.domain.user.controller;
 
+import com.dubu.party.domain.user.db.entity.GameUser;
 import com.dubu.party.domain.user.db.entity.User;
 import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.request.SignupForm;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Slf4j // 로그 메시지를 출력
@@ -29,12 +31,10 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Long> saveUser(@RequestBody SignupForm signupForm){
+    public ResponseEntity<User> saveUser(@RequestBody SignupForm signupForm){
         User user = signupForm.toEntity();
         Long userId = userService.saveUser(user);
-        return new ResponseEntity<>(
-                userId, HttpStatus.CREATED
-        );
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserByPkId(@PathVariable("id") Long id){
