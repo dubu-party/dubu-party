@@ -9,8 +9,8 @@ import javax.persistence.*;
 @Entity
 @Getter @Setter
 public class GameUser {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long gameUserId;
+    @Id
+    private Long userId;
     private String gameUserNickName;
     private String gameUserImg;
     private Integer gameUserScore;
@@ -19,6 +19,12 @@ public class GameUser {
     @OneToOne
     @JsonIgnore
     @JoinColumn(name = "user_id")
+    @MapsId // User의 PK를 외래키로 참조합니다.
     public User user;
+    public GameUser() {
+    }
+    public GameUser(Long userId) {
+        this.userId = userId;
+    }
 
 }
