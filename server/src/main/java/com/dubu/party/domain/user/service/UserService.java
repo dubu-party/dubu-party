@@ -1,14 +1,15 @@
 package com.dubu.party.domain.user.service;
 
+import com.dubu.party.domain.user.db.entity.GameUser;
 import com.dubu.party.domain.user.db.entity.User;
-import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.db.repository.UserRepository;
+import com.dubu.party.domain.user.request.UpdateGameUserForm;
+import com.dubu.party.domain.user.request.UpdateUserForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.lang.reflect.Member;
 import java.util.List;
 
 @Service
@@ -34,14 +35,19 @@ public class UserService {
     }
 
 
-    public void updateUser(Long id, User user){
-        User existingUSer = userRepository.getById(id);
-        if (existingUSer!=null){
-            existingUSer.setUserEmail(user.getUserEmail());
-            existingUSer.setUserNickname(user.getUserNickname());
-            existingUSer.setUserPhone(user.getUserPhone());
+    public void updateUser(Long userPkId, UpdateUserForm updateUserForm){
+        User existingUser = userRepository.getById(userPkId);
+        if (existingUser!=null){
+            existingUser = updateUserForm.toEntity(existingUser);
+            System.out.println("existingUser"+existingUser.getUserPkId());
+            System.out.println("existingUser"+existingUser.getUserId());
+            System.out.println("existingUser"+existingUser.getUserPassword());
+            System.out.println("existingUser"+existingUser.getUserNickname());
+            System.out.println("existingUser"+existingUser.getUserEmail());
+            System.out.println("existingUser"+existingUser.getUserPhone());
+
         }
-        userRepository.save(existingUSer);
+        userRepository.save(existingUser);
     }
 
     public void updatePassword(Long id,String password){
@@ -51,7 +57,14 @@ public class UserService {
         }
         userRepository.save(existingUSer);
     }
-
+    public void updateGameUser(Long userPkId, UpdateGameUserForm updateGameUserForm){
+        User existingUser = userRepository.getById(userPkId);
+        if (existingUser != null) {
+            GameUser gameUser =updateGameUserForm.toEntity(userPkId);
+            existingUser.setGameUser(gameUser);
+        }
+        userRepository.save(existingUser);
+    }
 
     public void validateDuplicate(User user){
         boolean isExistUser = userRepository.existsByUserId(user.getUserId());

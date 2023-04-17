@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,7 +28,7 @@ class UserServiceTest {
     private UserRepository userRepository;
 
     public User makeUser(String name) {
-        UserDto signupForm = new SignupForm();
+        SignupForm signupForm = new SignupForm();
         signupForm.setId("user"+name);
         signupForm.setPassword("1234");
         signupForm.setNickname("user"+name+name);
@@ -96,8 +97,9 @@ class UserServiceTest {
         User user1 = makeUser("10");
         userService.saveUser(user1);
         User user2 = makeUser("10");
-        assertThrows(IllegalStateException.class, () -> {
+        assertThrows(ResponseStatusException.class, () -> {
             userService.saveUser(user2);
         });
+
     }
 }

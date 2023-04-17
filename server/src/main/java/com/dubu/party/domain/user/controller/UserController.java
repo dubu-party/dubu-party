@@ -1,9 +1,9 @@
 package com.dubu.party.domain.user.controller;
 
-import com.dubu.party.domain.user.db.entity.GameUser;
 import com.dubu.party.domain.user.db.entity.User;
-import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.request.SignupForm;
+import com.dubu.party.domain.user.request.UpdateGameUserForm;
+import com.dubu.party.domain.user.request.UpdateUserForm;
 import com.dubu.party.domain.user.service.UserService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Slf4j // 로그 메시지를 출력
@@ -48,15 +47,21 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id")Long id,@RequestBody User user){
-        userService.updateUser(id,user);
+    public ResponseEntity<UpdateUserForm> updateUser(@PathVariable("id")Long id,@RequestBody UpdateUserForm updateUserForm){
+        userService.updateUser(id, updateUserForm);
+
         return new ResponseEntity<>(
-                user, HttpStatus.OK
+                updateUserForm, HttpStatus.OK
         );
     }
     @PutMapping("/{id}/password")
     public ResponseEntity<?> updatePassword(@PathVariable("id") Long id,@RequestBody String password) {
         userService.updatePassword(id, password);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+    @PutMapping("/{id}/game")
+    public ResponseEntity<?> updateGameUser(@PathVariable("id") Long pkId,@RequestBody UpdateGameUserForm updateGameUserForm){
+        userService.updateGameUser(pkId,updateGameUserForm);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
