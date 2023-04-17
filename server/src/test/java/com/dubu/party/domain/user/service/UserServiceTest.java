@@ -1,6 +1,7 @@
 package com.dubu.party.domain.user.service;
 
 import com.dubu.party.domain.user.db.entity.User;
+import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.db.repository.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
@@ -25,13 +26,13 @@ class UserServiceTest {
     private UserRepository userRepository;
 
     public User makeUser(String name) {
-        User user = new User();
-        user.setUserId("user"+name);
-        user.setUserPassword("1234");
-        user.setUserNickname("user"+name+name);
-        user.setUserEmail("beadf"+name+"@naver.com");
-        user.setUserPhone("010-"+name+"-1234");
-        return user;
+        UserDto userDto = new UserDto();
+        userDto.setId("user"+name);
+        userDto.setPassword("1234");
+        userDto.setNickname("user"+name+name);
+        userDto.setEmail("beadf"+name+"@naver.com");
+        userDto.setPhone("010-"+name+"-1234");
+        return userDto.toEntity();
     }
 
 
@@ -64,7 +65,7 @@ class UserServiceTest {
 
     @Test
     void 회원삭제() {
-        User user1 = makeUser("1");
+        User user1= makeUser("1");
         User user2 = makeUser("2");
         User user3 = makeUser("3");
         userService.saveUser(user1);

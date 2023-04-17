@@ -1,6 +1,7 @@
 package com.dubu.party.domain.user.service;
 
 import com.dubu.party.domain.user.db.entity.User;
+import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,6 @@ public class UserService {
         return user.getUserPkId();
     }
 
-//    public void getByUserId(String userId){
-//        userRepository.findByUserId(null);
-//    }
 
     public List<User> getAllUsers(){
         return userRepository.findAll();
