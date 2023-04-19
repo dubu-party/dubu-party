@@ -1,6 +1,6 @@
+@Library('docker')
 pipeline {
     agent any
-
     environment {
         IMAGE_NAME = "dubu-server"
         DOCKER_IMAGE = "bbnerino/dubu-server"
