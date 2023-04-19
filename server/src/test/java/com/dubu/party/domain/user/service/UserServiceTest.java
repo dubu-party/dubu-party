@@ -4,6 +4,7 @@ import com.dubu.party.domain.user.db.entity.User;
 import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.db.repository.UserRepository;
 import com.dubu.party.domain.user.request.SignupForm;
+import com.dubu.party.domain.user.request.UpdateUserForm;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
@@ -37,18 +38,24 @@ class UserServiceTest {
         return signupForm.toEntity();
     }
 
-
+    public UpdateUserForm updateUser(String name) {
+        UpdateUserForm updateUserForm = new UpdateUserForm();
+        updateUserForm.setNickname("user" + name + name);
+        updateUserForm.setEmail("바꿨어요");
+        updateUserForm.setPhone("010-" + name + "-1234");
+        return updateUserForm;
+    }
     @Test
     void 회원가입() throws Exception {
         User user = makeUser("5");
-        Long saveId = userService.saveUser(user);
-        System.out.println("saveId = " + saveId);
-        User findUser = userRepository.getById(saveId);
+        Long saveId = userService.saveUser(user); // saveId = 1
+
+        User findUser = userRepository.getById(saveId); // findUser = 1
         assertThat(user.getUserEmail()).isEqualTo(findUser.getUserEmail());
     }
 
     @Test
-    void 모든유저조회() {
+    void 전체조회() {
         User user1 = makeUser("1");
         User user2 = makeUser("2");
         User user3 = makeUser("3");
@@ -59,7 +66,7 @@ class UserServiceTest {
     }
 
     @Test
-    void 유저조회() {
+    void 개인조회() {
         User user1 = makeUser("1");
         userService.saveUser(user1);
         assertThat(userService.getUserByPkId(user1.getUserPkId())).isEqualTo(user1);
@@ -68,21 +75,22 @@ class UserServiceTest {
     @Test
     void 회원삭제() {
         User user1= makeUser("1");
-        User user2 = makeUser("2");
-        User user3 = makeUser("3");
         userService.saveUser(user1);
-        userService.saveUser(user2);
-        userService.saveUser(user3);
         userService.deleteUser(user1.getUserPkId());
-        assertThat(userService.getAllUsers().size()).isEqualTo(2);
+        assertThat(userService.getAllUsers().size()).isEqualTo(0);
     }
 
     @Test
     void 회원수정() {
-        User user1 = makeUser("1");
-        userService.saveUser(user1);
-        user1.setUserEmail("할로할로");
-        assertThat(userService.getUserByPkId(user1.getUserPkId()).getUserEmail()).isEqualTo("할로할로");
+        User user = makeUser("5");
+        Long saveId = userService.saveUser(user); // saveId = 1
+
+        Long pkId = user.getUserPkId();
+        UpdateUserForm updateUserForm = updateUser("11");
+
+        userService.updateUser(pkId,updateUserForm);
+
+        assertThat(userService.getUserByPkId(pkId).getUserEmail()).isEqualTo("바꿨어요");
     }
 
     @Test

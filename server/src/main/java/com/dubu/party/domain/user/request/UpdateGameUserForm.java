@@ -10,8 +10,10 @@ public class UpdateGameUserForm{
     private String gameUserNickname;
     private String gameUserImg;
 
+
     public GameUser toEntity(Long userPkId){
-        GameUser gameUser = new GameUser(userPkId);
+        GameUser gameUser = new GameUser();
+        gameUser.setUserId(userPkId);
         gameUser.setGameUserNickName(this.gameUserNickname);
         gameUser.setGameUserImg(this.gameUserImg);
         return gameUser;

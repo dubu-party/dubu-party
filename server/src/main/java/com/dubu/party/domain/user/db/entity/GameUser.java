@@ -21,10 +21,8 @@ public class GameUser {
     @JoinColumn(name = "user_id")
     @MapsId // User의 PK를 외래키로 참조합니다.
     public User user;
-    public GameUser() {
-    }
-    public GameUser(Long userId) {
-        this.userId = userId;
-    }
+    
+
+
 
 }
