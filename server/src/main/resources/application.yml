@@ -19,5 +19,10 @@ spring:
     allowed-headers: "*"
     allow-credentials: true
     max-age: 3600
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 server: # 서버 설정
   port : 3333 # 서버 포트
+
+
