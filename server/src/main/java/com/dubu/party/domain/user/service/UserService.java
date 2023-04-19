@@ -2,6 +2,7 @@ package com.dubu.party.domain.user.service;
 
 import com.dubu.party.domain.user.db.entity.GameUser;
 import com.dubu.party.domain.user.db.entity.User;
+import com.dubu.party.domain.user.db.repository.GameUserRepository;
 import com.dubu.party.domain.user.db.repository.UserRepository;
 import com.dubu.party.domain.user.request.UpdateGameUserForm;
 import com.dubu.party.domain.user.request.UpdateUserForm;
@@ -39,13 +40,6 @@ public class UserService {
         User existingUser = userRepository.getById(userPkId);
         if (existingUser!=null){
             existingUser = updateUserForm.toEntity(existingUser);
-            System.out.println("existingUser"+existingUser.getUserPkId());
-            System.out.println("existingUser"+existingUser.getUserId());
-            System.out.println("existingUser"+existingUser.getUserPassword());
-            System.out.println("existingUser"+existingUser.getUserNickname());
-            System.out.println("existingUser"+existingUser.getUserEmail());
-            System.out.println("existingUser"+existingUser.getUserPhone());
-
         }
         userRepository.save(existingUser);
     }
@@ -57,14 +51,7 @@ public class UserService {
         }
         userRepository.save(existingUSer);
     }
-    public void updateGameUser(Long userPkId, UpdateGameUserForm updateGameUserForm){
-        User existingUser = userRepository.getById(userPkId);
-        if (existingUser != null) {
-            GameUser gameUser =updateGameUserForm.toEntity(userPkId);
-            existingUser.setGameUser(gameUser);
-        }
-        userRepository.save(existingUser);
-    }
+
 
     public void validateDuplicate(User user){
         boolean isExistUser = userRepository.existsByUserId(user.getUserId());

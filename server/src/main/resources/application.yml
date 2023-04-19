@@ -13,6 +13,11 @@ spring:
     hibernate: # 하이버네이트 설정
       ddl-auto:  create  # 스키마 자동 생성 (create, create-drop, update, validate)
       format_sql: true  # SQL pretty print
-
+  cors:
+    allowed-origins: "*"
+    allowed-methods: GET, POST, PUT, DELETE
+    allowed-headers: "*"
+    allow-credentials: true
+    max-age: 3600
 server: # 서버 설정
   port : 3333 # 서버 포트

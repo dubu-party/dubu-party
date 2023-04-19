@@ -4,6 +4,7 @@ import com.dubu.party.domain.user.db.entity.User;
 import com.dubu.party.domain.user.request.SignupForm;
 import com.dubu.party.domain.user.request.UpdateGameUserForm;
 import com.dubu.party.domain.user.request.UpdateUserForm;
+import com.dubu.party.domain.user.service.GameUserService;
 import com.dubu.party.domain.user.service.UserService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,9 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private GameUserService gameUserService;
 
     @GetMapping("/all")
     public ResponseEntity<List<User>> getAllUsers() {
@@ -61,7 +65,7 @@ public class UserController {
     }
     @PutMapping("/{id}/game")
     public ResponseEntity<?> updateGameUser(@PathVariable("id") Long pkId,@RequestBody UpdateGameUserForm updateGameUserForm){
-        userService.updateGameUser(pkId,updateGameUserForm);
+        gameUserService.updateGameUser(pkId,updateGameUserForm);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
