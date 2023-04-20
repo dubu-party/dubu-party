@@ -1,4 +1,4 @@
-package com.dubu.party;
+package com.dubu.party.common.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

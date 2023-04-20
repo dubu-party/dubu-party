@@ -1,10 +1,7 @@
 package com.dubu.party.domain.user.service;
 
-import com.dubu.party.domain.user.db.entity.GameUser;
 import com.dubu.party.domain.user.db.entity.User;
-import com.dubu.party.domain.user.db.repository.GameUserRepository;
 import com.dubu.party.domain.user.db.repository.UserRepository;
-import com.dubu.party.domain.user.request.UpdateGameUserForm;
 import com.dubu.party.domain.user.request.UpdateUserForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -59,4 +56,6 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 존재하는 ID입니다.");
         }
     }
+
+
 }
