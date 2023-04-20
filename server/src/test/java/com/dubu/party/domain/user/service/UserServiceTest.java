@@ -1,12 +1,11 @@
 package com.dubu.party.domain.user.service;
 
+import com.dubu.party.domain.user.db.entity.GameUser;
 import com.dubu.party.domain.user.db.entity.User;
-import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.db.repository.UserRepository;
 import com.dubu.party.domain.user.request.SignupForm;
+import com.dubu.party.domain.user.request.UpdateGameUserForm;
 import com.dubu.party.domain.user.request.UpdateUserForm;
-import org.assertj.core.api.Assertions;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +25,9 @@ class UserServiceTest {
     private UserService userService;
 
     @Autowired
+    private GameUserService gameUserService;
+
+    @Autowired
     private UserRepository userRepository;
 
     public User makeUser(String name) {
@@ -35,6 +37,8 @@ class UserServiceTest {
         signupForm.setNickname("user"+name+name);
         signupForm.setEmail("beadf"+name+"@naver.com");
         signupForm.setPhone("010-"+name+"-1234");
+        signupForm.setGameUserNickname("game" + name);
+        signupForm.setGameUserImg("IMG" + name);
         return signupForm.toEntity();
     }
 
@@ -108,6 +112,26 @@ class UserServiceTest {
         assertThrows(ResponseStatusException.class, () -> {
             userService.saveUser(user2);
         });
+
+    }
+
+    @Test
+    void 게임유저번경(){
+        User user1 = makeUser("10");
+        userService.saveUser(user1);
+
+        User findUser = userService.getUserByPkId(user1.getUserPkId());
+        UpdateGameUserForm updateGameUserForm = new UpdateGameUserForm();
+        updateGameUserForm.setGameUserImg("CHANGE_IMG");
+        updateGameUserForm.setGameUserNickname("CHANGE_NICKNAME");
+
+        gameUserService.updateGameUser(findUser.getUserPkId(), updateGameUserForm);
+
+        assertThat(
+                userService.getUserByPkId(user1.getUserPkId())
+                        .getGameUser().getGameUserNickName()
+        )
+                .isEqualTo("CHANGE_NICKNAME");
 
     }
 }
