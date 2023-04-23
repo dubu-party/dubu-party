@@ -17,7 +17,7 @@ const Login = () => {
           </TitleText>
           <LinkText
             text="DUBU에 대해 더 알고싶다면?"
-            goto="설명 페이지로 이동"
+            goto="/register"
             color={theme.color.border}
             LinkEffect={false}
           />
