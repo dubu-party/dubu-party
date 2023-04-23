@@ -40,7 +40,8 @@ interface ContainerProps {
 const Container = styled.div<ContainerProps>`
   font-size: 14px;
   line-height: 17px;
-  font-family: ${theme.font.medium};
+  font-family: ${({ LinkEffect }) =>
+    LinkEffect ? theme.font.medium : theme.font.bold};
   ${({ LinkEffect }) => LinkEffect && `text-decoration: underline;`}
   transition: 0.3s;
   color: ${({ color }) => color || "black"};
