@@ -146,6 +146,7 @@ const reset = css`
   }
   body {
     line-height: 1;
+    font-family: "Pretendard-Regular";
   }
   ol,
   ul {

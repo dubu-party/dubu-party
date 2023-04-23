@@ -9,6 +9,7 @@ enum color {
   placeholder = "#507BBB",
   inputShadow = "rgba(253, 253, 253, 1)",
   warning = "#DD3E3E",
+  lightBackground = "#E8F0FE",
 }
 
 enum font {
