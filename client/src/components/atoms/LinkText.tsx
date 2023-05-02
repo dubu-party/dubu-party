@@ -5,7 +5,7 @@ import React from "react";
 
 interface LinkTextProps {
   text: string;
-  goto: string;
+  goto?: string; // 추후 필수로 바꾸기
   color?: string;
   LinkEffect?: boolean;
 }
@@ -20,11 +20,11 @@ export default function LinkText({
 
   const onHandleGoto = (goto: string) => () => {
     console.log("goto: ", goto);
-    // router.push(goto);
+    router.push(goto);
   };
   return (
     <Container
-      onClick={onHandleGoto(goto)}
+      onClick={onHandleGoto(goto || "/")}
       color={color}
       LinkEffect={LinkEffect}
     >

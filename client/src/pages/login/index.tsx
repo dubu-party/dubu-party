@@ -17,7 +17,7 @@ const Login = () => {
           </TitleText>
           <LinkText
             text="DUBU에 대해 더 알고싶다면?"
-            goto="/register"
+            goto="/"
             color={theme.color.border}
             LinkEffect={false}
           />
@@ -26,7 +26,7 @@ const Login = () => {
           <UpperContainer>
             <LinkText
               text="회원가입"
-              goto="/search/password"
+              goto="register"
               LinkEffect={false}
               color={theme.color.placeholder}
             />
@@ -42,8 +42,7 @@ const Login = () => {
             placeholder="비밀번호를 입력해주세요"
           />
           <LinkContainer>
-            {/* <LinkText text="회원가입" goto="/search/password" /> */}
-            <LinkText text="비밀번호 찾기" goto="/search/password" />
+            <LinkText text="비밀번호 찾기" goto="/" />
           </LinkContainer>
           <ButtonContainer>
             <BasicBtn text="로그인" />
