@@ -44,13 +44,17 @@ const Title = styled.div`
 const Input = styled.input`
   width: 100%;
   padding: 15px;
-  background: #ffffff;
+  background: "white";
   border-radius: 8px;
   border: 2px solid ${theme.color.inputBorder};
   box-shadow: 10px 10px 30px ${theme.color.inputShadow};
 
   ::placeholder {
     color: ${theme.color.placeholder};
+  }
+  &:focus {
+    outline: none;
+    background: ${theme.color.lightBackground};
   }
 `;
 
