@@ -1,11 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import theme from "@/styles/theme";
 import BasicBtn from "@/components/atoms/BasicBtn";
 import LinkText from "@/components/atoms/LinkText";
 import RegInput from "@/components/atoms/RegInput";
 
+// TODO: 로그인 할 때도 형식 검사가 필요한가?
 const Login = () => {
+  const [id, setId] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    const type = e.target.dataset.reg;
+    switch (type) {
+      case "아이디":
+        setId(newValue);
+        break;
+      case "비밀번호":
+        setPassword(newValue);
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <Container>
       <Content>
@@ -31,15 +50,13 @@ const Login = () => {
               color={theme.color.placeholder}
             />
           </UpperContainer>
-          <RegInput
-            title="아이디"
-            type="email"
-            placeholder="아이디를 입력해주세요"
-          />
+          <RegInput title="아이디" value={id} onChange={onChange} warning />
           <RegInput
             title="비밀번호"
             type="password"
-            placeholder="비밀번호를 입력해주세요"
+            value={password}
+            onChange={onChange}
+            warning
           />
           <LinkContainer>
             <LinkText text="비밀번호 찾기" goto="/" />
