@@ -12,6 +12,7 @@ spring:
     show-sql: true # SQL 쿼리 출력 여부
     hibernate: # 하이버네이트 설정
       ddl-auto:  update  # 스키마 자동 생성 (create, create-drop, update, validate)
+#      ddl-auto:  create  # 스키마 자동 생성 (create, create-drop, update, validate)
       format_sql: true  # SQL pretty print
   cors:
     allowed-origins: "*"
@@ -25,4 +26,8 @@ spring:
 server: # 서버 설정
   port : 3333 # 서버 포트
 
+# jwt.secret.key: jwt 토큰 암호화 키
+jwt:
+  secret:
+    key: F)J@NcRfUjXn2r5u8x!A%D*G-KaPdSgV
 
