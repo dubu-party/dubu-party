@@ -1,6 +1,7 @@
 package com.dubu.party.domain.user.service;
 
 import com.dubu.party.domain.user.db.entity.User;
+import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.db.repository.UserRepository;
 import com.dubu.party.domain.user.request.SignupForm;
 import com.dubu.party.domain.user.request.UpdateUserForm;
@@ -53,32 +54,37 @@ class UserServiceTest {
 
     @Test
     void 전체조회() {
+
+        Integer BeforeUsers = userService.getAllUsers().size();
         User user1 = makeUser("1");
         User user2 = makeUser("2");
         User user3 = makeUser("3");
         userService.saveUser(user1);
         userService.saveUser(user2);
         userService.saveUser(user3);
-        assertThat(userService.getAllUsers().size()).isEqualTo(3);
+        assertThat(userService.getAllUsers().size()).isEqualTo(BeforeUsers+3);
     }
 
     @Test
     void 개인조회() {
         User user1 = makeUser("1");
         userService.saveUser(user1);
-        assertThat(userService.getUserByPkId(user1.getUserPkId())).isEqualTo(user1);
+        assertThat(userService.getUserByPkId(user1.getUserPkId()).getNickname()).isEqualTo(user1.getUserNickname());
     }
 
     @Test
     void 회원삭제() {
+        Integer BeforeUsers = userService.getAllUsers().size();
+
         User user1= makeUser("1");
         userService.saveUser(user1);
         userService.deleteUser(user1.getUserPkId());
-        assertThat(userService.getAllUsers().size()).isEqualTo(0);
+        assertThat(userService.getAllUsers().size()).isEqualTo(BeforeUsers);
     }
 
     @Test
     void 회원수정() {
+
         User user = makeUser("5");
         Long saveId = userService.saveUser(user); // saveId = 1
 
