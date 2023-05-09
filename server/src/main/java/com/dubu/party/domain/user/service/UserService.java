@@ -1,10 +1,8 @@
 package com.dubu.party.domain.user.service;
 
-import com.dubu.party.domain.user.db.entity.GameUser;
 import com.dubu.party.domain.user.db.entity.User;
-import com.dubu.party.domain.user.db.repository.GameUserRepository;
+import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.db.repository.UserRepository;
-import com.dubu.party.domain.user.request.UpdateGameUserForm;
 import com.dubu.party.domain.user.request.UpdateUserForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,40 +10,57 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public Long saveUser(User user) {
+    public Long saveUser(User user)  {
         validateDuplicate(user);
         userRepository.save(user);
         return user.getUserPkId();
     }
 
+    public List<UserDto> getAllUsers(){
+        List<User> users = userRepository.findAll();
 
-    public List<User> getAllUsers(){
-        return userRepository.findAll();
-    }
-    public User getUserByPkId(Long id) {
-        return userRepository.findById(id).orElse(null);
-    }
-    public void deleteUser(Long id){
-        userRepository.deleteById(id);
-    }
+        List<UserDto> userDtos = users.stream()
+                .map(user -> new UserDto(user))
+                .collect(Collectors.toList());
 
-
-    public void updateUser(Long userPkId, UpdateUserForm updateUserForm){
-        User existingUser = userRepository.getById(userPkId);
-        if (existingUser!=null){
-            existingUser = updateUserForm.toEntity(existingUser);
+        return userDtos;
+    }
+    public UserDto getUserByPkId(Long pkId) {
+        User user =  userRepository.findById(pkId).orElse(null);
+        if(user == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다.");
         }
-        userRepository.save(existingUser);
+        return new UserDto(user);
+    }
+    public boolean deleteUser(Long pkId){
+        User user =  userRepository.findById(pkId).orElse(null);
+        if(user == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다.");
+        }
+        userRepository.deleteById(pkId);
+        return true;
     }
 
-    public void updatePassword(Long id,String password){
-        User existingUSer = userRepository.getById(id);
+
+    public UserDto updateUser(Long pkId, UpdateUserForm updateUserForm){
+        User user =userRepository.findById(pkId).orElse(null);
+        if(user == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다.");
+        }
+        user = updateUserForm.toEntity(user);
+        userRepository.save(user);
+        return this.getUserByPkId(pkId);
+    }
+
+    public void updatePassword(Long pkId,String password){
+        User existingUSer = userRepository.getById(pkId);
         if (existingUSer != null) {
             existingUSer.setUserPassword(password);
         }
@@ -59,4 +74,6 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 존재하는 ID입니다.");
         }
     }
+
+
 }

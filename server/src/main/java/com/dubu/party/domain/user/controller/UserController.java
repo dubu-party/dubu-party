@@ -1,10 +1,9 @@
 package com.dubu.party.domain.user.controller;
 
 import com.dubu.party.domain.user.db.entity.User;
+import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.request.SignupForm;
-import com.dubu.party.domain.user.request.UpdateGameUserForm;
 import com.dubu.party.domain.user.request.UpdateUserForm;
-import com.dubu.party.domain.user.service.GameUserService;
 import com.dubu.party.domain.user.service.UserService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -23,11 +22,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private GameUserService gameUserService;
-
     @GetMapping("/all")
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserDto>> getAllUsers() {
         return new ResponseEntity<>(
                 userService.getAllUsers(), HttpStatus.OK
         );
@@ -40,22 +36,20 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserByPkId(@PathVariable("id") Long id){
+    public ResponseEntity<UserDto> getUserByPkId(@PathVariable("id") Long id){
         return new ResponseEntity<>(
                 userService.getUserByPkId(id), HttpStatus.OK
         );
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable("id")Long id){
-        userService.deleteUser(id);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<Boolean> deleteUser(@PathVariable("id")Long id){
+        return new ResponseEntity<>(userService.deleteUser(id), HttpStatus.OK);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<UpdateUserForm> updateUser(@PathVariable("id")Long id,@RequestBody UpdateUserForm updateUserForm){
-        userService.updateUser(id, updateUserForm);
+    public ResponseEntity<UserDto> updateUser(@PathVariable("id")Long id,@RequestBody UpdateUserForm updateUserForm){
 
         return new ResponseEntity<>(
-                updateUserForm, HttpStatus.OK
+                userService.updateUser(id, updateUserForm), HttpStatus.OK
         );
     }
     @PutMapping("/{id}/password")
@@ -63,9 +57,5 @@ public class UserController {
         userService.updatePassword(id, password);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
-    @PutMapping("/{id}/game")
-    public ResponseEntity<?> updateGameUser(@PathVariable("id") Long pkId,@RequestBody UpdateGameUserForm updateGameUserForm){
-        gameUserService.updateGameUser(pkId,updateGameUserForm);
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
+
 }

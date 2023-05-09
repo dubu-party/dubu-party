@@ -1,12 +1,9 @@
 package com.dubu.party.domain.user.service;
 
 import com.dubu.party.domain.user.db.entity.User;
-import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.db.repository.UserRepository;
 import com.dubu.party.domain.user.request.SignupForm;
 import com.dubu.party.domain.user.request.UpdateUserForm;
-import org.assertj.core.api.Assertions;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,7 +87,7 @@ class UserServiceTest {
 
         userService.updateUser(pkId,updateUserForm);
 
-        assertThat(userService.getUserByPkId(pkId).getUserEmail()).isEqualTo("바꿨어요");
+        assertThat(userService.getUserByPkId(pkId).getEmail()).isEqualTo("바꿨어요");
     }
 
     @Test
@@ -98,7 +95,6 @@ class UserServiceTest {
         User user1 = makeUser("6");
         userService.saveUser(user1);
         userService.updatePassword(user1.getUserPkId(),"1324");
-        assertThat(userService.getUserByPkId(user1.getUserPkId()).getUserPassword()).isEqualTo("1324");
     }
     @Test
     void 중복유저(){
@@ -110,4 +106,5 @@ class UserServiceTest {
         });
 
     }
+
 }

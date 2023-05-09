@@ -1,5 +1,4 @@
 package com.dubu.party.domain.user.request;
-import com.dubu.party.domain.user.db.entity.GameUser;
 import com.dubu.party.domain.user.db.entity.User;
 import com.dubu.party.domain.user.db.entity.UserDto;
 import lombok.Getter;
@@ -11,21 +10,12 @@ public class SignupForm extends UserDto {
     private String id;
     private String password;
 
-    public String gameUserNickname;
-    public String gameUserImg;
 
     public User toEntity(){ // UserDto의 toEntity를 오버라이딩
         // id 와 패스워드를 추가로 설정해준다.
         User user = super.toEntity();
         user.setUserId(this.id);
         user.setUserPassword(this.password);
-
-        GameUser gameUser = new GameUser();
-        gameUser.setGameUserNickName(this.gameUserNickname);
-        gameUser.setGameUserImg(this.gameUserImg);
-
-        gameUser.setUser(user);
-        user.setGameUser(gameUser);
         return user;
     }
 }
