@@ -12,11 +12,11 @@ public class UpdateUserForm {
     public String nickname;
     public String phone;
 
-    public User toEntity(User user){
-        user.setUserEmail(this.email);
-        user.setUserNickname(this.nickname);
-        user.setUserPhone(this.phone);
-
-        return user;
+    public User toUser(User user) {
+        return user.builder()
+                .userEmail(this.email)
+                .userNickname(this.nickname)
+                .userPhone(this.phone)
+                .build();
     }
 }
