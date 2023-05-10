@@ -15,6 +15,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -31,8 +32,7 @@ public class SecurityConfig {
     private final JwtProvider jwtProvider;
 
     private static final String[] AUTH_LIST = {
-            "/api/auth/register",
-            "/api/auth/login",
+            "/api/auth/**",
             "/swagger-resources/**",
             "/swagger-ui/**",
             "/swagger-ui.html",
@@ -100,7 +100,9 @@ public class SecurityConfig {
                         response.setContentType("text/html; charset=UTF-8");
                         response.getWriter().write("인증되지 않은 사용자입니다.");
                     }
-                });
+                })
+                ;
+
 
         return http.build();
     }
