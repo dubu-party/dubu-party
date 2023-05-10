@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor // 모든 필드 값을 파라미터로 받는 생성자를 생성
 @NoArgsConstructor // 파라미터가 없는 생성자를 생성
 @Builder
-public class SignResponse {
+public class AuthResponse {
 
     private Long userPkId;
     private String userId;
@@ -16,7 +16,7 @@ public class SignResponse {
     private String userEmail;
     private String token;
 
-    public SignResponse(User user) {
+    public AuthResponse(User user) {
         this.userPkId = user.getUserPkId();
         this.userId = user.getUserId();
         this.userNickname = user.getUserNickname();

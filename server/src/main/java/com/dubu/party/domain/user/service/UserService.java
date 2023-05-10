@@ -48,14 +48,23 @@ public class UserService {
         return true;
     }
 
+    public UserDto getUserById(String userId) {
+        User user =  userRepository.findByUserId(userId).orElse(null);
+        if(user == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다.");
+        }
+        return new UserDto(user);
+    }
+
 
     public UserDto updateUser(Long pkId, UpdateUserForm updateUserForm){
         User user =userRepository.findById(pkId).orElse(null);
         if(user == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다.");
         }
-        user = updateUserForm.toEntity(user);
-        userRepository.save(user);
+        User newUser = updateUserForm.toUser(user);
+
+        userRepository.save(newUser);
         return this.getUserByPkId(pkId);
     }
 

@@ -1,10 +1,11 @@
 package com.dubu.party.domain.user.request;
 
 import lombok.Getter;
-import lombok.Setter;
 
-@Getter @Setter
+@Getter
 public class LoginForm {
+
     private String id;
     private String password;
+
 }

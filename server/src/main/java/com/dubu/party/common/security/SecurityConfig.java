@@ -30,6 +30,17 @@ import java.util.List;
 public class SecurityConfig {
     private final JwtProvider jwtProvider;
 
+    private static final String[] AUTH_LIST = {
+            "/api/auth/register",
+            "/api/auth/login",
+            "/swagger-resources/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html",
+            "/v3/api-docs/**",
+            "/webjars/**"
+    };
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -59,7 +70,7 @@ public class SecurityConfig {
                 // 조건별로 요청 허용/제한 설정
                 .authorizeRequests()
                 // 회원가입과 로그인은 모두 승인 ⭐️
-                .antMatchers("/api/auth/register", "/api/auth/login").permitAll()
+                .antMatchers(AUTH_LIST).permitAll()
                 // /admin으로 시작하는 요청은 ADMIN 권한이 있는 유저에게만 허용
                 .antMatchers("/api/admin/**").hasRole("ADMIN")
                 // /user 로 시작하는 요청은 USER 권한이 있는 유저에게만 허용
@@ -94,8 +105,10 @@ public class SecurityConfig {
         return http.build();
     }
 
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+
 }

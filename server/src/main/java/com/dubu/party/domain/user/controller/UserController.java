@@ -1,8 +1,6 @@
 package com.dubu.party.domain.user.controller;
 
-import com.dubu.party.domain.user.db.entity.User;
 import com.dubu.party.domain.user.db.entity.UserDto;
-import com.dubu.party.domain.user.request.SignupForm;
 import com.dubu.party.domain.user.request.UpdateUserForm;
 import com.dubu.party.domain.user.service.UserService;
 import io.swagger.annotations.Api;
@@ -29,12 +27,7 @@ public class UserController {
         );
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<User> saveUser(@RequestBody SignupForm signupForm){
-        User user = signupForm.toEntity();
-        Long userId = userService.saveUser(user);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
-    }
+
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserByPkId(@PathVariable("id") Long id){
         return new ResponseEntity<>(
