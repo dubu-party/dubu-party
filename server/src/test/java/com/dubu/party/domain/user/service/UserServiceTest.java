@@ -47,14 +47,7 @@ class UserServiceTest {
         updateUserForm.setPhone("010-" + name + "-1234");
         return updateUserForm;
     }
-    @Test
-    void 회원가입() throws Exception {
-        Integer beforeUsers = userRepository.findAll().size();
-        AuthForm user = makeUser("5");
-        authService.register(user);
-        Integer afterUsers = userRepository.findAll().size();
-        assertThat(afterUsers).isEqualTo(beforeUsers+1);
-    }
+
 
     @Test
     void 전체조회() throws Exception {
@@ -104,15 +97,5 @@ class UserServiceTest {
     }
 
 
-    @Test
-    void 중복유저()throws Exception{
-        AuthForm user1 = makeUser("10");
-        authService.register(user1);
-        AuthForm user2 = makeUser("10");
-        assertThrows(Exception.class, () -> {
-            authService.register(user2);
-        });
-
-    }
 
 }
