@@ -39,7 +39,7 @@ public class AuthService {
                 .userNickname(user.getUserNickname())
                 .userPhone(user.getUserPhone())
                 .userEmail(user.getUserEmail())
-                .token(jwtProvider.createToken(user.getUserId(), user.getRoles()))
+                .token(jwtProvider.createToken(user, user.getRoles()))
                 .build();
     }
 

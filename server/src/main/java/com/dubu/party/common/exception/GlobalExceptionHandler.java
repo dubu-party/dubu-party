@@ -1,18 +1,17 @@
 package com.dubu.party.common.exception;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.annotation.*;
 
-@ControllerAdvice // 모든 컨트롤러에서 발생하는 예외를 잡아서 처리
+@RestControllerAdvice // 모든 예외를 잡아서 처리
 public class GlobalExceptionHandler {
-    @ExceptionHandler(ErrorException.class) // ErrorException 예외를 잡아서 처리
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) // 500
-    @ResponseBody // 응답을 json으로
-
-    public ErrorResponse handleException(ErrorException e) {
-        return new ErrorResponse(e.getStatus(), e.getMessage());
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+        String message = e.getMessage();
+        if (message.contains("Cannot deserialize value of type `com.dubu.party.domain.article.db.entity.TextAlign`")) {
+            return ResponseEntity.badRequest().body("TextAlign 형식을 확인해주세요(TOP,BOTTOM,CENTER)");
+        }
+        return ResponseEntity.badRequest().body("형식을 확인해주세요");
     }
-
 }

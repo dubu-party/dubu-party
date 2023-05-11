@@ -2,6 +2,8 @@ package com.dubu.party.common.security;
 
 
 import com.dubu.party.domain.user.db.entity.Authority;
+import com.dubu.party.domain.user.db.entity.User;
+import com.dubu.party.domain.user.db.entity.UserDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -41,8 +43,9 @@ public class JwtProvider {
         secretKey = Keys.hmacShaKeyFor(salt.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String createToken(String userId, List<Authority> roles) {
-        Claims claims = Jwts.claims().setSubject(userId);
+    public String createToken(User user, List<Authority> roles) {
+        Claims claims = Jwts.claims().setSubject(user.getUserId());
+        claims.put("user",new UserDto(user)); // user 정보를 담는다.
         claims.put("roles", roles);
         Date now = new Date();
         return Jwts.builder()
