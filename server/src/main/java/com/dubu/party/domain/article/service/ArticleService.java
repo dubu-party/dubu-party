@@ -4,19 +4,17 @@ package com.dubu.party.domain.article.service;
 import com.dubu.party.common.security.JwtProvider;
 import com.dubu.party.domain.article.db.entity.Article;
 import com.dubu.party.domain.article.db.entity.ArticleDto;
-import com.dubu.party.domain.article.db.entity.ContentSetting;
 import com.dubu.party.domain.article.db.repository.ArticleRepository;
 import com.dubu.party.domain.article.request.ArticleForm;
 import com.dubu.party.domain.user.db.entity.User;
-import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class ArticleService {
@@ -26,8 +24,11 @@ public class ArticleService {
     @Autowired
     private UserRepository userRepository;
 
-    public Long createArticle(ArticleForm articleForm) throws RuntimeException{
-        User user =  userRepository.findByUserPkId(articleForm.getUserPkId())
+    @Autowired
+    private JwtProvider jwtProvider;
+
+    public Long createArticle(Long userPkId, ArticleForm articleForm) throws RuntimeException{
+        User user =  userRepository.findByUserPkId(userPkId)
                 .orElseThrow(() -> new RuntimeException("해당 유저를 찾을 수 없습니다."));
 
 
@@ -85,6 +86,7 @@ public class ArticleService {
     }
 
     public  List<ArticleDto> getArticlesByUserPkId(Long userPkId){
+
         User user =  userRepository.findByUserPkId(userPkId)
                 .orElseThrow(() -> new RuntimeException("해당 유저를 찾을 수 없습니다."));
 

@@ -20,5 +20,14 @@ public class UserDto {
         this.phone = user.getUserPhone();
     }
 
+    public static UserDto getDefaultUserDto(){
+        return UserDto.builder()
+                .pkId(0L)
+                .id("")
+                .email("")
+                .nickname("")
+                .phone("")
+                .build();
+    }
 
 }

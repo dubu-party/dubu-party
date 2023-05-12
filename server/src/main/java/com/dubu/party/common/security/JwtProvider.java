@@ -46,6 +46,7 @@ public class JwtProvider {
     public String createToken(User user, List<Authority> roles) {
         Claims claims = Jwts.claims().setSubject(user.getUserId());
         claims.put("user",new UserDto(user)); // user 정보를 담는다.
+        claims.put("userPkId",user.getUserPkId()); // userPkId
         claims.put("roles", roles);
         Date now = new Date();
         return Jwts.builder()
@@ -66,9 +67,20 @@ public class JwtProvider {
         return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().getSubject();
     }
 
+    private Integer getUserPkId(String token) {
+        return (Integer) Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().get("userPkId");
+    }
+
+
     // Authorization Header를 통해 인증을 한다.
     public String resolveToken(HttpServletRequest request) {
         return request.getHeader("Authorization");
+    }
+
+    public Long getUserInfo(HttpServletRequest request) {
+        String token = resolveToken(request).split(" ")[1].trim();
+        // Integer로 넘어오는데 Long으로 넘겨줘야함
+        return getUserPkId(token).longValue();
     }
 
     public boolean validateToken(String token) {

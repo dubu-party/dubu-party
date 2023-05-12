@@ -2,7 +2,6 @@ package com.dubu.party.domain.article.request;
 
 
 import com.dubu.party.domain.article.db.entity.ContentSetting;
-import com.dubu.party.domain.article.db.entity.TextAlign;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +14,5 @@ public class ArticleForm {
 
     private ContentSetting contentSetting;
 
-    private Long userPkId;
 
 }
