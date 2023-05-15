@@ -2,18 +2,15 @@ package com.dubu.party.domain.article.controller;
 
 
 import com.dubu.party.common.security.JwtProvider;
-import com.dubu.party.domain.article.db.entity.Article;
 import com.dubu.party.domain.article.db.entity.ArticleDto;
 import com.dubu.party.domain.article.request.ArticleForm;
 import com.dubu.party.domain.article.service.ArticleService;
-import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -34,7 +31,8 @@ public class ArticleController {
 
     @PostMapping("/create")
     @ApiOperation(value = "게시글 생성")
-    public Long createArticle(HttpServletRequest request,@RequestBody ArticleForm articleForm) {
+    public Long createArticle(HttpServletRequest request, ArticleForm articleForm) throws Exception {
+
         Long userPkId = jwtProvider.getUserInfo(request);
         return articleService.createArticle(userPkId,articleForm);
     }
