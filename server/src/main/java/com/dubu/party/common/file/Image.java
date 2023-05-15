@@ -19,7 +19,8 @@ public class Image {
         this.fileUrl = this.saveImage(file);
     }
     static String saveImage(MultipartFile file)  throws Exception{
-        String filePath = System.getProperty("user.dir") + "/src/main/resources/static/files" ;
+        // 파일이 저장될 경로 설정 (static/files)
+        String filePath = new File("").getAbsolutePath() + "/src/main/resources/static/files";
         String name = UUID.randomUUID() + "_" + file.getOriginalFilename();
         file.transferTo(new File(filePath, name)); // 파일 저장
         return "/files/" + name; //url 경로 반환
