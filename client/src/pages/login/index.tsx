@@ -1,36 +1,65 @@
+import React, { useState } from "react";
+import styled from "@emotion/styled";
+import theme from "@/styles/theme";
 import BasicBtn from "@/components/atoms/BasicBtn";
 import LinkText from "@/components/atoms/LinkText";
 import RegInput from "@/components/atoms/RegInput";
-import theme from "@/styles/theme";
-import styled from "@emotion/styled";
-import React from "react";
 
+// TODO: 로그인 할 때도 형식 검사가 필요한가?
 const Login = () => {
+  const [id, setId] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    const type = e.target.dataset.reg;
+    switch (type) {
+      case "아이디":
+        setId(newValue);
+        break;
+      case "비밀번호":
+        setPassword(newValue);
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <Container>
       <Content>
         <ImageContainer>
-          <TitleText>DUBU PARTY</TitleText>
+          <TitleText>
+            DUBU
+            <br />
+            PARTY
+          </TitleText>
           <LinkText
             text="DUBU에 대해 더 알고싶다면?"
-            goto="설명 페이지로 이동"
+            goto="/"
             color={theme.color.border}
             LinkEffect={false}
           />
         </ImageContainer>
         <InputsContainer>
-          <RegInput
-            title="아이디"
-            type="email"
-            placeholder="아이디를 입력해주세요"
-          />
+          <UpperContainer>
+            <LinkText
+              text="회원가입"
+              goto="register"
+              LinkEffect={false}
+              color={theme.color.placeholder}
+            />
+          </UpperContainer>
+          <RegInput title="아이디" value={id} onChange={onChange} warning />
           <RegInput
             title="비밀번호"
             type="password"
-            placeholder="비밀번호를 입력해주세요"
+            value={password}
+            onChange={onChange}
+            warning
           />
           <LinkContainer>
-            <LinkText text="비밀번호 찾기" goto="/search/password" />
+            <LinkText text="비밀번호 찾기" goto="/" />
           </LinkContainer>
           <ButtonContainer>
             <BasicBtn text="로그인" />
@@ -53,7 +82,7 @@ const Container = styled.div`
 
 const Content = styled.div`
   width: 100%;
-  max-width: 680px;
+  max-width: 700px;
   display: flex;
   border: 2px solid ${theme.color.inputBorder};
   border-radius: 8px;
@@ -86,6 +115,9 @@ const LinkContainer = styled.div`
   padding: 0 0 70px;
 `;
 
-const ButtonContainer = styled.div`
-  /* padding-top: 50px; */
+const UpperContainer = styled.div`
+  padding: 0 0 10px;
+  display: flex;
+  justify-content: flex-end;
 `;
+const ButtonContainer = styled.div``;
