@@ -1,6 +1,7 @@
 package com.dubu.party.domain.article.db.entity;
 
 
+import com.dubu.party.common.file.Image;
 import com.dubu.party.domain.user.db.entity.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,6 +17,9 @@ public class ArticleDto {
     String title;
     String content;
     ContentSetting contentSetting;
+
+    String fileUrl;
+
     UserDto user;
 
     public ArticleDto(Article article){
@@ -24,6 +28,11 @@ public class ArticleDto {
         this.content = article.getContent();
         this.contentSetting = article.getContentSetting();
         this.user = new UserDto(article.getUser());
+
+        Image image = article.getImage();
+        if(image != null){
+            this.fileUrl = image.getFileUrl();
+        }
     }
 
 }

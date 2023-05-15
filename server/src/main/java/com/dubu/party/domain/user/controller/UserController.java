@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Slf4j // 로그 메시지를 출력
-@Api(value = "유저 정보 API") // Swagger 라이브러리를 통해 사용
+@Api(value = "유저 정보 API", tags = {"user"})
 @RestController // 웹 애플리케이션의 RESTful 웹 서비스를 개발하기 위한 어노테이션
 @RequestMapping("/api/users") // api 요청들을 관리할 예정
 public class UserController {

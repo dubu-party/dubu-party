@@ -1,6 +1,7 @@
 package com.dubu.party.domain.article.service;
 
 
+import com.dubu.party.common.file.Image;
 import com.dubu.party.common.security.JwtProvider;
 import com.dubu.party.domain.article.db.entity.Article;
 import com.dubu.party.domain.article.db.entity.ArticleDto;
@@ -8,15 +9,16 @@ import com.dubu.party.domain.article.db.entity.ContentSetting;
 import com.dubu.party.domain.article.db.repository.ArticleRepository;
 import com.dubu.party.domain.article.request.ArticleForm;
 import com.dubu.party.domain.user.db.entity.User;
-import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.File;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class ArticleService {
@@ -26,20 +28,31 @@ public class ArticleService {
     @Autowired
     private UserRepository userRepository;
 
-    public Long createArticle(ArticleForm articleForm) throws RuntimeException{
-        User user =  userRepository.findByUserPkId(articleForm.getUserPkId())
+    @Autowired
+    private JwtProvider jwtProvider;
+
+    public Long createArticle(Long userPkId, ArticleForm articleForm) throws Exception{
+
+        User user =  userRepository.findByUserPkId(userPkId)
                 .orElseThrow(() -> new RuntimeException("해당 유저를 찾을 수 없습니다."));
 
 
-        Article article = Article.builder()
-                .title(articleForm.getTitle())
-                .content(articleForm.getContent())
-                .contentSetting(articleForm.getContentSetting())
-                .build();
-
-
-
+        Article article = new Article();
         article.setUser(user);
+
+        article.setTitle(articleForm.getTitle());
+        article.setContent(articleForm.getContent());
+
+        ContentSetting contentSetting = new ContentSetting(articleForm);
+        article.setContentSetting(contentSetting);
+
+        /** File **/
+        MultipartFile file = articleForm.getFile();
+        if (file != null) {
+            Image image = new Image(file);
+            article.setImage(image);
+        }
+
         articleRepository.save(article);
         return article.getId();
     }
@@ -76,15 +89,19 @@ public class ArticleService {
         if(article == null){
             throw new ResponseStatusException(org.springframework.http.HttpStatus.NOT_FOUND, "해당 게시글을 찾을 수 없습니다.");
         }
+
+        ContentSetting contentSetting = new ContentSetting(articleForm);
+
         article.setTitle(articleForm.getTitle());
         article.setContent(articleForm.getContent());
-        article.setContentSetting(articleForm.getContentSetting());
+        article.setContentSetting(contentSetting);
 
         articleRepository.save(article);
         return new ArticleDto(article);
     }
 
     public  List<ArticleDto> getArticlesByUserPkId(Long userPkId){
+
         User user =  userRepository.findByUserPkId(userPkId)
                 .orElseThrow(() -> new RuntimeException("해당 유저를 찾을 수 없습니다."));
 

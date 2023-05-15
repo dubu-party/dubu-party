@@ -1,6 +1,7 @@
 package com.dubu.party.domain.article.db.entity;
 
 
+import com.dubu.party.common.file.Image;
 import com.dubu.party.domain.user.db.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -24,6 +25,9 @@ public class Article {
 
     @Embedded // 내장타입
     private ContentSetting contentSetting;
+
+    @Embedded
+    private Image image;
 
     @ManyToOne
     @JoinColumn(name="user_pk_id")

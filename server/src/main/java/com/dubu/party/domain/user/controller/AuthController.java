@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@Api(value = "유저 인증 API")
+@Api(value = "유저 인증 API", tags = {"auth"})
 @RequestMapping("/api/auth")
 public class AuthController {
     private final UserRepository userRepository;
