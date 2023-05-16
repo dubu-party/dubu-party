@@ -1,4 +1,5 @@
 package com.dubu.party.domain.user.db.entity;
+import com.dubu.party.common.file.Image;
 import lombok.*;
 
 @Getter @Setter
@@ -6,28 +7,25 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class UserDto {
-    private Long pkId;
-    private String id;
+    private Long id;
     private String email;
     private String nickname;
-    private String phone;
+    private String phoneNumber;
+
+    private String profileUrl;
 
     public UserDto(User user){
-        this.pkId = user.getUserPkId();
-        this.id = user.getUserId();
-        this.email = user.getUserEmail();
-        this.nickname = user.getUserNickname();
-        this.phone = user.getUserPhone();
+        this.id = user.getId();
+        this.email = user.getEmail();
+        this.nickname = user.getNickName();
+        this.phoneNumber = user.getPhoneNumber();
+        Image image = user.getProfileImage();
+        if(image != null){
+            this.profileUrl = user.getProfileImage().getFileUrl();
+        }
+
     }
 
-    public static UserDto getDefaultUserDto(){
-        return UserDto.builder()
-                .pkId(0L)
-                .id("")
-                .email("")
-                .nickname("")
-                .phone("")
-                .build();
-    }
+
 
 }

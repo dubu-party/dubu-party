@@ -27,7 +27,7 @@ public class Article {
     private ContentSetting contentSetting;
 
     @Embedded
-    private Image image;
+    private Image articleImage;
 
     @ManyToOne
     @JoinColumn(name="user_pk_id")

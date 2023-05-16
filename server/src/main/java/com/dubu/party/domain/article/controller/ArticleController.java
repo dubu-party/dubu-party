@@ -33,9 +33,17 @@ public class ArticleController {
     @ApiOperation(value = "게시글 생성")
     public Long createArticle(HttpServletRequest request, ArticleForm articleForm) throws Exception {
 
-        Long userPkId = jwtProvider.getUserInfo(request);
-        return articleService.createArticle(userPkId,articleForm);
+        Long userId = jwtProvider.getUserInfo(request);
+        return articleService.createArticle(userId,articleForm);
     }
+
+    @PutMapping("/{id}")
+    @ApiOperation(value = "게시글 수정")
+    public ArticleDto updateArticle(HttpServletRequest request,@PathVariable Long id, ArticleForm articleForm) throws Exception{
+        Long userId = jwtProvider.getUserInfo(request);
+        return articleService.updateArticleById(userId,id, articleForm);
+    }
+
 
     @GetMapping("/all")
     @ApiOperation(value = "모든 게시글 조회")
@@ -51,27 +59,25 @@ public class ArticleController {
 
     @DeleteMapping("/{id}")
     @ApiOperation(value = "게시글 삭제")
-    public void deleteArticle(@PathVariable Long id) {
-        articleService.deleteArticleById(id);
+    public void deleteArticle(HttpServletRequest request,@PathVariable Long id) {
+        Long userId = jwtProvider.getUserInfo(request);
+
+        articleService.deleteArticleById(userId,id);
     }
 
-    @PutMapping("/{id}")
-    @ApiOperation(value = "게시글 수정")
-    public ArticleDto updateArticle(@PathVariable Long id, @RequestBody ArticleForm articleForm) {
-        return articleService.updateArticleById(id, articleForm);
-    }
+
 
     @GetMapping("/mine")
     @ApiOperation(value = "나의 모든 게시글 조회")
     public List<ArticleDto> getMyArticles(HttpServletRequest request){
-        Long userPkId = jwtProvider.getUserInfo(request);
-        return articleService.getArticlesByUserPkId(userPkId);
+        Long userId = jwtProvider.getUserInfo(request);
+        return articleService.getArticlesByUser(userId);
     }
 
-    @GetMapping("/user/{userPkId}")
+    @GetMapping("/user/{userId}")
     @ApiOperation(value = "유저의 모든 게시글 조회")
-    public List<ArticleDto> getArticlesByUserPkId(HttpServletRequest request,@PathVariable Long userPkId){
+    public List<ArticleDto> getArticlesByUser(HttpServletRequest request,@PathVariable Long userId){
 
-        return articleService.getArticlesByUserPkId(userPkId);
+        return articleService.getArticlesByUser(userId);
     }
 }

@@ -1,5 +1,7 @@
 package com.dubu.party.domain.user.db.entity;
 
+import com.dubu.party.common.file.Image;
+import com.dubu.party.domain.article.db.entity.Article;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,18 +16,21 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userPkId;
+    private Long id;
 
-    private String userId;
+    // unique : 중복을 허용하지 않는다.
+    @Column(unique = true)
+    private String email;
 
-    private String userPassword;
+    private String password;
 
-    private String userEmail;
+    private String nickName;
 
-    private String userNickname;
+    private String phoneNumber;
 
-    private String userPhone;
 
+    @Embedded
+    private Image profileImage;
 
 
     // mappedBy : 연관관계의 주인이 아니다. (난 FK가 아니에요) DB에 컬럼을 만들지 마세요.

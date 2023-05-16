@@ -9,18 +9,16 @@ import lombok.*;
 @Builder
 public class AuthResponse {
 
-    private Long userPkId;
-    private String userId;
-    private String userNickname;
-    private String userPhone;
-    private String userEmail;
+    private Long id;
+    private String email;
+    private String nickName;
+    private String phoneNumber;
     private String token;
 
     public AuthResponse(User user) {
-        this.userPkId = user.getUserPkId();
-        this.userId = user.getUserId();
-        this.userNickname = user.getUserNickname();
-        this.userPhone = user.getUserPhone();
-        this.userEmail = user.getUserEmail();
+        this.id = user.getId();
+        this.email = user.getEmail();
+        this.nickName = user.getNickName();
+        this.phoneNumber = user.getPhoneNumber();
     }
 }

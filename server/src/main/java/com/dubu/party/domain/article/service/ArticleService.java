@@ -15,9 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.File;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,9 +29,9 @@ public class ArticleService {
     @Autowired
     private JwtProvider jwtProvider;
 
-    public Long createArticle(Long userPkId, ArticleForm articleForm) throws Exception{
+    public Long createArticle(Long userId, ArticleForm articleForm) throws Exception{
 
-        User user =  userRepository.findByUserPkId(userPkId)
+        User user =  userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("해당 유저를 찾을 수 없습니다."));
 
 
@@ -50,7 +48,7 @@ public class ArticleService {
         MultipartFile file = articleForm.getFile();
         if (file != null) {
             Image image = new Image(file);
-            article.setImage(image);
+            article.setArticleImage(image);
         }
 
         articleRepository.save(article);
@@ -75,19 +73,26 @@ public class ArticleService {
         return new ArticleDto(article);
     }
 
-    public boolean deleteArticleById(Long id){
+    public boolean deleteArticleById(Long userId,Long id){
         Article article =  articleRepository.findById(id).orElse(null);
         if(article == null){
             throw new ResponseStatusException(org.springframework.http.HttpStatus.NOT_FOUND, "해당 게시글을 찾을 수 없습니다.");
+        }
+        if(article.getUser().getId() != userId){
+            throw new ResponseStatusException(org.springframework.http.HttpStatus.FORBIDDEN, "해당 게시글을 삭제할 권한이 없습니다.");
         }
         articleRepository.deleteById(id);
         return true;
     }
 
-    public ArticleDto updateArticleById(Long id, ArticleForm articleForm){
+    public ArticleDto updateArticleById(Long userId,Long id, ArticleForm articleForm){
+
         Article article =  articleRepository.findById(id).orElse(null);
         if(article == null){
             throw new ResponseStatusException(org.springframework.http.HttpStatus.NOT_FOUND, "해당 게시글을 찾을 수 없습니다.");
+        }
+        if(article.getUser().getId() != userId){
+            throw new ResponseStatusException(org.springframework.http.HttpStatus.FORBIDDEN, "해당 게시글을 수정할 권한이 없습니다.");
         }
 
         ContentSetting contentSetting = new ContentSetting(articleForm);
@@ -100,9 +105,9 @@ public class ArticleService {
         return new ArticleDto(article);
     }
 
-    public  List<ArticleDto> getArticlesByUserPkId(Long userPkId){
+    public  List<ArticleDto> getArticlesByUser(Long userId){
 
-        User user =  userRepository.findByUserPkId(userPkId)
+        User user =  userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("해당 유저를 찾을 수 없습니다."));
 
         List<Article> articles = articleRepository.findByUser(user);

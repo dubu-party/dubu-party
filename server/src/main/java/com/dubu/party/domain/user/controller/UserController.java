@@ -1,5 +1,6 @@
 package com.dubu.party.domain.user.controller;
 
+import com.dubu.party.common.security.JwtProvider;
 import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.request.UpdateUserForm;
 import com.dubu.party.domain.user.service.UserService;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Slf4j // 로그 메시지를 출력
@@ -20,6 +22,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private JwtProvider jwtProvider;
+
     @GetMapping("/all")
     public ResponseEntity<List<UserDto>> getAllUsers() {
         return new ResponseEntity<>(
@@ -29,20 +34,21 @@ public class UserController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUserByPkId(@PathVariable("id") Long id){
+    public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long id){
         return new ResponseEntity<>(
-                userService.getUserByPkId(id), HttpStatus.OK
+                userService.getUserById(id), HttpStatus.OK
         );
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> deleteUser(@PathVariable("id")Long id){
         return new ResponseEntity<>(userService.deleteUser(id), HttpStatus.OK);
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable("id")Long id,@RequestBody UpdateUserForm updateUserForm){
+    @PutMapping("")
+    public ResponseEntity<UserDto> updateUser(HttpServletRequest request, UpdateUserForm updateUserForm)throws Exception{
+        Long userId = jwtProvider.getUserInfo(request);
 
         return new ResponseEntity<>(
-                userService.updateUser(id, updateUserForm), HttpStatus.OK
+                userService.updateUser(userId, updateUserForm), HttpStatus.OK
         );
     }
     @PutMapping("/{id}/password")
