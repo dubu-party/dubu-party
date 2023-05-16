@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class LoginForm {
 
-    private String id;
+    private String email;
     private String password;
 
 }

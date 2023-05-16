@@ -29,7 +29,7 @@ public class ArticleDto {
         this.contentSetting = article.getContentSetting();
         this.user = new UserDto(article.getUser());
 
-        Image image = article.getImage();
+        Image image = article.getArticleImage();
         if(image != null){
             this.fileUrl = image.getFileUrl();
         }

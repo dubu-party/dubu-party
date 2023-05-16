@@ -1,22 +1,15 @@
 package com.dubu.party.domain.user.request;
 
-import com.dubu.party.domain.user.db.entity.User;
-import com.dubu.party.domain.user.db.entity.UserDto;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter @Setter
+@NoArgsConstructor
 public class UpdateUserForm {
-    // email,nickname, phone
-    public String email;
     public String nickname;
-    public String phone;
+    public String phoneNumber;
+    public MultipartFile profileImage;
 
-    public User toUser(User user) {
-        return user.builder()
-                .userEmail(this.email)
-                .userNickname(this.nickname)
-                .userPhone(this.phone)
-                .build();
-    }
 }

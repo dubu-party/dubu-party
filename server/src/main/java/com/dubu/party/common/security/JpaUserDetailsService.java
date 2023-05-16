@@ -15,7 +15,7 @@ public class JpaUserDetailsService implements UserDetailsService {
 
     @Override
     public CustomUserDetails loadUserByUsername(String userId) throws UsernameNotFoundException{
-        User user = userRepository.findByUserId(userId).orElseThrow(
+        User user = userRepository.findByEmail(userId).orElseThrow(
                 () -> new UsernameNotFoundException("사용자를 찾을 수 없습니다.")
         );
         return new CustomUserDetails(user);

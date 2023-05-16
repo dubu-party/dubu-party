@@ -10,12 +10,9 @@ import java.util.Optional;
 @Repository
 @Transactional // JPA의 모든 데이터 변경은 트랜잭션 안에서 실행되어야 한다.
 public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByUserId(String userId);
+    Optional<User> findByEmail(String email);
 
-    Optional<User> findByUserPkId(Long userPkId);
+    boolean existsByEmail(String email);
 
-
-    boolean existsByUserId(String userId);
-
-    User findByUserIdAndUserPassword(String userId, String password);
+//    User findByUserIdAndUserPassword(String userId, String password);
 }

@@ -44,9 +44,9 @@ public class JwtProvider {
     }
 
     public String createToken(User user, List<Authority> roles) {
-        Claims claims = Jwts.claims().setSubject(user.getUserId());
+        Claims claims = Jwts.claims().setSubject(user.getEmail());
         claims.put("user",new UserDto(user)); // user 정보를 담는다.
-        claims.put("userPkId",user.getUserPkId()); // userPkId
+        claims.put("id",user.getId());
         claims.put("roles", roles);
         Date now = new Date();
         return Jwts.builder()
@@ -59,16 +59,16 @@ public class JwtProvider {
     // 권한정보 획득
     // Spring Security 인증과정에서 권한확인을 위한 기능
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = jpaUserDetailsService.loadUserByUsername(this.getUserId(token));
+        UserDetails userDetails = jpaUserDetailsService.loadUserByUsername(this.getUserEmail(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    public String getUserId(String token) {
+    public String getUserEmail(String token) {
         return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().getSubject();
     }
 
-    private Integer getUserPkId(String token) {
-        return (Integer) Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().get("userPkId");
+    private Integer getUserId(String token) {
+        return (Integer) Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().get("id");
     }
 
 
@@ -80,7 +80,7 @@ public class JwtProvider {
     public Long getUserInfo(HttpServletRequest request) {
         String token = resolveToken(request).split(" ")[1].trim();
         // Integer로 넘어오는데 Long으로 넘겨줘야함
-        return getUserPkId(token).longValue();
+        return getUserId(token).longValue();
     }
 
     public boolean validateToken(String token) {

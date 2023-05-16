@@ -1,7 +1,7 @@
 package com.dubu.party.domain.user.service;
 
 import com.dubu.party.domain.user.db.repository.UserRepository;
-import com.dubu.party.domain.user.request.AuthForm;
+import com.dubu.party.domain.user.request.CreateUserForm;
 import com.dubu.party.domain.user.request.LoginForm;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -18,13 +18,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional // 롤백
 class AuthServiceTest {
-    public AuthForm signupUser() {
-        AuthForm signupForm = new AuthForm();
-        signupForm.setId("test");
+    public CreateUserForm signupUser() {
+        CreateUserForm signupForm = new CreateUserForm();
+        signupForm.setEmail("asdf@naver.com");
         signupForm.setPassword("qwer1234");
         signupForm.setNickname("user");
-        signupForm.setEmail("asdf@naver.com");
-        signupForm.setPhone("01012345678");
+        signupForm.setPhoneNumber("01012345678");
         return signupForm;
     }
 
@@ -38,7 +37,7 @@ class AuthServiceTest {
     @Test
     void 회원가입() throws Exception {
         Integer beforeUsers = userRepository.findAll().size();
-        AuthForm user = signupUser();
+        CreateUserForm user = signupUser();
         authService.register(user);
         Integer afterUsers = userRepository.findAll().size();
         assertThat(afterUsers).isEqualTo(beforeUsers+1);
@@ -47,17 +46,17 @@ class AuthServiceTest {
     @Test
     void 로그인성공() throws Exception{
         authService.register((signupUser()));
-        LoginForm loginForm = new LoginForm("test", "qwer1234");
+        LoginForm loginForm = new LoginForm("asdf@naver.com", "qwer1234");
         assertThat(authService.login(loginForm).getToken()).isNotNull();
     }
 
     @Test
     void 중복유저확인()throws Exception{
-        AuthForm authForm = signupUser();
-        authService.register(authForm);
+        CreateUserForm createUserForm = signupUser();
+        authService.register(createUserForm);
 
         assertThrows(Exception.class, () -> {
-            authService.register(authForm);
+            authService.register(createUserForm);
         });
 
     }
