@@ -28,26 +28,14 @@ const Login = () => {
   return (
     <Container>
       <Content>
-        <ImageContainer>
-          <TitleText>
-            DUBU
-            <br />
-            PARTY
-          </TitleText>
-          <LinkText
-            text="DUBU에 대해 더 알고싶다면?"
-            goto="/"
-            color={theme.color.border}
-            LinkEffect={false}
-          />
-        </ImageContainer>
+        <TitleText>Title</TitleText>
         <InputsContainer>
           <UpperContainer>
             <LinkText
               text="회원가입"
               goto="register"
               LinkEffect={false}
-              color={theme.color.placeholder}
+              color={theme.color.fontColor}
             />
           </UpperContainer>
           <RegInput title="아이디" value={id} onChange={onChange} warning />
@@ -65,6 +53,13 @@ const Login = () => {
             <BasicBtn text="로그인" />
           </ButtonContainer>
         </InputsContainer>
+        <IntroContainer>
+          <LinkText
+            text="title에 대해 더 알고싶다면?"
+            goto="/"
+            LinkEffect={false}
+          />
+        </IntroContainer>
       </Content>
     </Container>
   );
@@ -82,19 +77,12 @@ const Container = styled.div`
 
 const Content = styled.div`
   width: 100%;
-  max-width: 700px;
-  display: flex;
-  border: 2px solid ${theme.color.inputBorder};
-  border-radius: 8px;
-`;
-
-const ImageContainer = styled.div`
-  flex: 0.7;
+  max-width: 500px;
+  /* max-width: 700px; */
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  background-color: ${theme.color.inputBorder};
-  padding: 20px;
+  align-items: center;
+  justify-content: center;
 `;
 
 const TitleText = styled.div`
@@ -120,4 +108,12 @@ const UpperContainer = styled.div`
   display: flex;
   justify-content: flex-end;
 `;
+
+const IntroContainer = styled.div`
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: flex-end;
+`;
+
 const ButtonContainer = styled.div``;

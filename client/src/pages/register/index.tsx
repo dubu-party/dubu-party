@@ -14,7 +14,6 @@ interface CheckProps {
   name: boolean;
 }
 // 아이디, 비밀번호, 이메일, 닉네임 필수 입력
-// TODO: alert 만들기
 const Register = () => {
   const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");

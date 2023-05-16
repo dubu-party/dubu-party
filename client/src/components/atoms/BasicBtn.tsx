@@ -1,5 +1,6 @@
 import theme from "@/styles/theme";
 import styled from "@emotion/styled";
+import { Black_And_White_Picture } from "next/font/google";
 import React from "react";
 
 interface BasicBtnProps {
@@ -11,7 +12,7 @@ interface BasicBtnProps {
 export default function BasicBtn({
   disabled,
   text,
-  color = theme.color.placeholder,
+  color = "black",
   onClick,
 }: BasicBtnProps) {
   return (
