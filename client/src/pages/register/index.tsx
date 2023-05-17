@@ -14,6 +14,7 @@ interface CheckProps {
   name: boolean;
 }
 // 아이디, 비밀번호, 이메일, 닉네임 필수 입력
+// 형식이 확정되면 형식 안내 추가하기
 const Register = () => {
   const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -74,14 +75,9 @@ const Register = () => {
     <Container>
       <Content>
         <UpperContainer>
-          <TitleText>DUBU PARTY</TitleText>
+          <TitleText>Title</TitleText>
           <LinkContainer>
-            <LinkText
-              text="로그인"
-              goto="login"
-              LinkEffect={false}
-              color={theme.color.placeholder}
-            />
+            <LinkText text="로그인" goto="login" LinkEffect={false} />
           </LinkContainer>
         </UpperContainer>
 
@@ -112,7 +108,7 @@ const Register = () => {
           warning={isValid.name}
         />
         <ButtonContainer>
-          <BasicBtn text="취소" color="#595e63" onClick={onClickCancel} />
+          <BasicBtn text="취소" color="black" onClick={onClickCancel} />
           <BasicBtn text="회원가입" disabled={!isFormValid} />
         </ButtonContainer>
       </Content>
@@ -151,6 +147,7 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 8px;
+  padding: 20px;
 `;
 
 const ButtonContainer = styled.div`
