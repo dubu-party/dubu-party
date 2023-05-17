@@ -70,7 +70,7 @@ public class SecurityConfig {
                 .and()
                 // 조건별로 요청 허용/제한 설정
                 .authorizeRequests()
-                // 회원가입과 로그인은 모두 승인 ⭐️
+                //AUTH_LIST는 모두 승인 ⭐️
                 .antMatchers(AUTH_LIST).permitAll()
                 // /admin으로 시작하는 요청은 ADMIN 권한이 있는 유저에게만 허용
                 .antMatchers("/api/admin/**").hasRole("ADMIN")

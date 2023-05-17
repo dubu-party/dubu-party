@@ -28,22 +28,6 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
-    public AuthResponse login(LoginForm request) throws Exception {
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(
-                () -> new BadCredentialsException("사용자를 찾을 수 없습니다.")
-        );
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
-        }
-        return AuthResponse.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .nickName(user.getNickName())
-                .phoneNumber(user.getPhoneNumber())
-                .token(jwtProvider.createToken(user, user.getRoles()))
-                .build();
-    }
-
     public Long register(CreateUserForm createUserForm) throws Exception{
         try{
             User user = new User();
@@ -65,6 +49,24 @@ public class AuthService {
             throw new Exception(e);
         }
     }
+
+
+    public AuthResponse login(LoginForm request) throws Exception {
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(
+                () -> new BadCredentialsException("사용자를 찾을 수 없습니다.")
+        );
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
+        }
+        return AuthResponse.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .nickName(user.getNickName())
+                .phoneNumber(user.getPhoneNumber())
+                .token(jwtProvider.createToken(user, user.getRoles()))
+                .build();
+    }
+
 
     public AuthResponse getUser(String userId) throws Exception {
         User user = userRepository.findByEmail(userId)

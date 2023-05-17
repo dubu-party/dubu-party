@@ -7,11 +7,8 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Setter
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@Getter @Setter
+@AllArgsConstructor @NoArgsConstructor @Builder
 public class Authority {
 
     @Id
