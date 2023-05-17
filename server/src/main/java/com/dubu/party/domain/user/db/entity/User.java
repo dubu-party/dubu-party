@@ -28,12 +28,11 @@ public class User {
 
     private String phoneNumber;
 
-
     @Embedded
     private Image profileImage;
 
 
-    // mappedBy : 연관관계의 주인이 아니다. (난 FK가 아니에요) DB에 컬럼을 만들지 마세요.
+    // mappedBy : 연관관계의 주인이 아니다. DB에 컬럼을 만들지 마세요.
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Builder.Default // builder를 사용할 때, 기본값으로 설정
     private List<Authority> roles = new ArrayList<>();

@@ -16,15 +16,9 @@ public class Image {
     private String fileUrl;
 
     public Image(MultipartFile file) throws Exception{
-        this.fileUrl = this.saveImage(file);
+        this.fileUrl = ImgConfig.saveImage(file);
     }
-    static String saveImage(MultipartFile file)  throws Exception{
-        // 파일이 저장될 경로 설정 (static/files)
-        String filePath = new File("").getAbsolutePath() + "/src/main/resources/static/files";
-        String name = UUID.randomUUID() + "_" + file.getOriginalFilename();
-        file.transferTo(new File(filePath, name)); // 파일 저장
-        return "/files/" + name; //url 경로 반환
-    }
+
     // /src/main/resources/static/files/ 에 파일이 저장된다.
     // 배포 환경에서는 이 폴더가 없기 때문에
     // 배포 환경에서는 외부에 파일을 저장해야 한다.
