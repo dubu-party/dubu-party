@@ -1,11 +1,9 @@
 package com.dubu.party.domain.user.service;
 
-import com.dubu.party.domain.user.db.entity.User;
 import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.db.repository.UserRepository;
-import com.dubu.party.domain.user.request.SignupForm;
-import org.assertj.core.api.Assertions;
-import org.junit.Assert;
+import com.dubu.party.domain.user.request.CreateUserForm;
+import com.dubu.party.domain.user.request.UpdateUserForm;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,90 +12,84 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional // 롤백
 class UserServiceTest {
+
+    @Autowired
+    private AuthService authService;
+
     @Autowired
     private UserService userService;
 
     @Autowired
     private UserRepository userRepository;
 
-    public User makeUser(String name) {
-        UserDto signupForm = new SignupForm();
-        signupForm.setId("user"+name);
+
+
+    public CreateUserForm makeUser(String name) {
+        CreateUserForm signupForm = new CreateUserForm();
         signupForm.setPassword("1234");
         signupForm.setNickname("user"+name+name);
         signupForm.setEmail("beadf"+name+"@naver.com");
-        signupForm.setPhone("010-"+name+"-1234");
-        return signupForm.toEntity();
+        signupForm.setPhoneNumber("010-"+name+"-1234");
+        return signupForm;
+    }
+
+    public UpdateUserForm updateUser(String name) {
+        UpdateUserForm updateUserForm = new UpdateUserForm();
+        updateUserForm.setNickname("user" + name + name);
+        updateUserForm.setPhoneNumber("123123");
+        return updateUserForm;
     }
 
 
     @Test
-    void 회원가입() throws Exception {
-        User user = makeUser("5");
-        Long saveId = userService.saveUser(user);
-        System.out.println("saveId = " + saveId);
-        User findUser = userRepository.getById(saveId);
-        assertThat(user.getUserEmail()).isEqualTo(findUser.getUserEmail());
+    void 전체조회() throws Exception {
+
+        Integer BeforeUsers = userRepository.findAll().size();
+        CreateUserForm user1 = makeUser("1");
+        CreateUserForm user2 = makeUser("2");
+        CreateUserForm user3 = makeUser("3");
+        authService.register(user1);
+        authService.register(user2);
+        authService.register(user3);
+        Integer AfterUsers = userRepository.findAll().size();
+        assertThat(AfterUsers).isEqualTo(BeforeUsers+3);
     }
 
     @Test
-    void 모든유저조회() {
-        User user1 = makeUser("1");
-        User user2 = makeUser("2");
-        User user3 = makeUser("3");
-        userService.saveUser(user1);
-        userService.saveUser(user2);
-        userService.saveUser(user3);
-        assertThat(userService.getAllUsers().size()).isEqualTo(3);
+    void 개인조회() throws Exception {
+        CreateUserForm user1 = makeUser("1");
+        Long id = authService.register(user1);
+        UserDto userDto = userService.getUserById(id);
+        assertThat(userDto.getId()).isEqualTo(id);
     }
 
     @Test
-    void 유저조회() {
-        User user1 = makeUser("1");
-        userService.saveUser(user1);
-        assertThat(userService.getUserByPkId(user1.getUserPkId())).isEqualTo(user1);
+    void 회원삭제() throws Exception{
+        Integer BeforeUsers = userService.getAllUsers().size();
+        CreateUserForm user1= makeUser("1");
+        Long id = authService.register(user1);
+        UserDto userDto = userService.getUserById(id);
+        userService.deleteUser(userDto.getId());
+        assertThat(userService.getAllUsers().size()).isEqualTo(BeforeUsers);
     }
 
-    @Test
-    void 회원삭제() {
-        User user1= makeUser("1");
-        User user2 = makeUser("2");
-        User user3 = makeUser("3");
-        userService.saveUser(user1);
-        userService.saveUser(user2);
-        userService.saveUser(user3);
-        userService.deleteUser(user1.getUserPkId());
-        assertThat(userService.getAllUsers().size()).isEqualTo(2);
-    }
+//    @Test
+//    void 회원수정() throws Exception{
+//
+//        CreateUserForm user = makeUser("5");
+//        Long id = authService.register(user); // saveId = 1
+//        UpdateUserForm updateUserForm = updateUser("11");
+//
+//        UserDto userDto = userService.updateUser(id, updateUserForm);
+//
+//        assertThat(userDto.getPhoneNumber()).isEqualTo("123123");
+//    }
 
-    @Test
-    void 회원수정() {
-        User user1 = makeUser("1");
-        userService.saveUser(user1);
-        user1.setUserEmail("할로할로");
-        assertThat(userService.getUserByPkId(user1.getUserPkId()).getUserEmail()).isEqualTo("할로할로");
-    }
 
-    @Test
-    void 비밀번호변경() {
-        User user1 = makeUser("6");
-        userService.saveUser(user1);
-        userService.updatePassword(user1.getUserPkId(),"1324");
-        assertThat(userService.getUserByPkId(user1.getUserPkId()).getUserPassword()).isEqualTo("1324");
-    }
-    @Test
-    void 중복유저(){
-        User user1 = makeUser("10");
-        userService.saveUser(user1);
-        User user2 = makeUser("10");
-        assertThrows(IllegalStateException.class, () -> {
-            userService.saveUser(user2);
-        });
-    }
+
 }

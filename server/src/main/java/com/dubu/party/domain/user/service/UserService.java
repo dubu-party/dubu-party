@@ -1,62 +1,97 @@
 package com.dubu.party.domain.user.service;
 
+import com.dubu.party.common.file.Image;
 import com.dubu.party.domain.user.db.entity.User;
 import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.db.repository.UserRepository;
+import com.dubu.party.domain.user.request.UpdateUserForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.lang.reflect.Member;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public Long saveUser(User user) {
+    public Long saveUser(User user)  {
         validateDuplicate(user);
         userRepository.save(user);
-        return user.getUserPkId();
+        return user.getId();
     }
 
+    public List<UserDto> getAllUsers(){
+        List<User> users = userRepository.findAll();
 
-    public List<User> getAllUsers(){
-        return userRepository.findAll();
-    }
-    public User getUserByPkId(Long id) {
-        return userRepository.findById(id).orElse(null);
-    }
-    public void deleteUser(Long id){
-        userRepository.deleteById(id);
-    }
+        List<UserDto> userDtos = users.stream()
+                .map(user -> new UserDto(user))
+                .collect(Collectors.toList());
 
-
-    public void updateUser(Long id, User user){
-        User existingUSer = userRepository.getById(id);
-        if (existingUSer!=null){
-            existingUSer.setUserEmail(user.getUserEmail());
-            existingUSer.setUserNickname(user.getUserNickname());
-            existingUSer.setUserPhone(user.getUserPhone());
+        return userDtos;
+    }
+    public UserDto getUserById(Long id) {
+        User user =  userRepository.findById(id).orElse(null);
+        if(user == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다.");
         }
-        userRepository.save(existingUSer);
+        return new UserDto(user);
+    }
+    public boolean deleteUser(Long id){
+        User user =  userRepository.findById(id).orElse(null);
+        if(user == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다.");
+        }
+        userRepository.deleteById(id);
+        return true;
+    }
+
+    public UserDto getUserById(String userId) {
+        User user =  userRepository.findByEmail(userId).orElse(null);
+        if(user == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다.");
+        }
+        return new UserDto(user);
+    }
+
+
+    public UserDto updateUser(Long id, UpdateUserForm updateUserForm)throws Exception{
+        User user =userRepository.findById(id).orElse(null);
+        if(user == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다.");
+        }
+        user.setNickName(updateUserForm.getNickname());
+        user.setPhoneNumber(updateUserForm.getPhoneNumber());
+
+
+        MultipartFile file = updateUserForm.getProfileImage();
+        if (file != null) {
+            Image image = new Image(file);
+            user.setProfileImage(image);
+        }
+        userRepository.save(user);
+        return this.getUserById(id);
     }
 
     public void updatePassword(Long id,String password){
         User existingUSer = userRepository.getById(id);
         if (existingUSer != null) {
-            existingUSer.setUserPassword(password);
+            existingUSer.setPassword(password);
         }
         userRepository.save(existingUSer);
     }
 
 
     public void validateDuplicate(User user){
-        boolean isExistUser = userRepository.existsByUserId(user.getUserId());
+        boolean isExistUser = userRepository.existsByEmail(user.getEmail());
         if (isExistUser){ // 이미 존재하는 ID라면?
             throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 존재하는 ID입니다.");
         }
     }
+
+
 }
