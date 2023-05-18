@@ -169,5 +169,5 @@ const TitleText = styled.div`
 const ImgInputContainer = styled.div`
   width: 100%;
   height: 100%;
-  padding-bottom: 20px;
+  padding-bottom: 50px;
 `;

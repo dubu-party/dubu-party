@@ -24,6 +24,7 @@ export default function ImgInput() {
 
   return (
     <Container>
+      {/* 제목추가해주기 */}
       <ImgContainer onClick={handleClick}>
         {selectedImage ? (
           <Image width={460} height={360} src={selectedImage} alt="Selected" />
@@ -53,9 +54,9 @@ const Container = styled.div`
 
 const ImgContainer = styled.div`
   display: flex;
-  width: 460px;
-  height: 360px;
-  border-radius: 10%;
+  width: 200px;
+  height: 200px;
+  border-radius: 20px;
   border: 2px solid ${theme.color.inputBorder};
   overflow: hidden;
 `;

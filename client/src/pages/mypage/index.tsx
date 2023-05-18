@@ -7,7 +7,7 @@ import React, { Component, useMemo, useState } from "react";
 // TODO: 이름은 추후 변경하기
 const menuArr = [
   { title: "정보수정", goto: "/mypage/edit" },
-  { title: "팔로우", goto: "/mypage/follow" },
+  //   { title: "팔로우", goto: "/mypage/follow" },
   { title: "좋아요 관리", goto: "/mypage/likes" },
   { title: "내가 작성한 글", goto: "/mypage/myPosts" },
 ];
