@@ -69,9 +69,32 @@ export class ArticleCreateRequest implements ArticleForm {
 }
 
 export class ArticleService {
+  static async list() {
+    try {
+      // 아오...
+      // 원래는 "/api/articles" 이렇게 써야하는데
+      // api 파싱 에러가 뜨는데 이유를 모르겠다.
+      // 그래서 process.env.BASE_FETCH_URL 을 사용했다.
+
+      const res = await fetch(`${process.env.BASE_FETCH_URL}/api/articles`, {
+        method: "GET",
+        headers: {
+          //   Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+      });
+      if (res.status === 200) {
+        return await res.json();
+      }
+      return [];
+    } catch (error) {
+      return [];
+    }
+  }
+
   static async create(articleForm: ArticleForm) {
     try {
-      const res = await fetch("/api/articles", {
+      const res = await fetch(`${process.env.BASE_FETCH_URL}/api/articles`, {
         method: "POST",
         headers: {
           //   "Content-Type": "application/json",
@@ -79,12 +102,12 @@ export class ArticleService {
         },
         body: ArticleService.toFormData(articleForm),
       });
-      console.log(sessionStorage.getItem("token"));
-      const articleId = await res.json();
+      const articleId = Number(await res.json());
 
       if (articleId) {
         alert("게시글이 등록되었습니다.");
-        return (location.href = `/articles/${articleId}`);
+        return;
+        // return (location.href = `/articles/${articleId}`);
       }
       return alert("게시글 등록에 실패하였습니다.");
     } catch (error) {
@@ -104,5 +127,24 @@ export class ArticleService {
       formData.append("file", articleForm.file);
     }
     return formData;
+  }
+
+  static async get(articleId: number): Promise<Article> {
+    try {
+      const res = await fetch(
+        `${process.env.BASE_FETCH_URL}/api/articles/${articleId}`,
+        {
+          method: "GET",
+          headers: {
+            // Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          },
+        },
+      );
+      const article = await res.json();
+      return article;
+    } catch (error) {
+      console.log("게시글을 불러오는데 실패하였습니다.");
+      return new Article();
+    }
   }
 }

@@ -1,29 +1,8 @@
-import { Article } from "@/script/@type/article";
+import { Article, ArticleService } from "@/script/@type/article";
 import styled from "@emotion/styled";
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 
-const index = () => {
-  let article = new Article();
-
-  article = {
-    id: 1,
-    title: "제목2",
-    content: "내용2",
-    fileUrl: "파일url",
-    user: {
-      id: 1,
-      nickname: "이름",
-      email: "이메일",
-      phoneNumber: "전화번호",
-    },
-    contentSetting: {
-      fontSize: 16,
-      fontColor: "#000000",
-      fontFamily: "굴림",
-      textAlign: "TOP",
-    },
-  };
-
+const index = ({ article }: { article: Article }) => {
   return (
     <Wrapper>
       <div className="title">{article.title}</div>
@@ -31,6 +10,16 @@ const index = () => {
       <img src={article.fileUrl} alt="이미지" />
     </Wrapper>
   );
+};
+
+export const getServerSideProps = async ({ params }: any) => {
+  const article = await ArticleService.get(Number(params.id));
+  console.log(article.title, "article");
+  return {
+    props: {
+      article: article,
+    },
+  };
 };
 
 const Wrapper = styled.section`

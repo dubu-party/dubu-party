@@ -1,7 +1,5 @@
-"use client";
 
 import {
-  ArticleForm,
   ArticleCreateRequest,
   FONT_FAMILY,
   FONT_SIZE,
