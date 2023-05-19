@@ -94,7 +94,8 @@ export class ArticleService {
 
   static async create(articleForm: ArticleForm) {
     try {
-      const res = await fetch(`${process.env.BASE_FETCH_URL}/api/articles`, {
+      // const res = await fetch(`${process.env.BASE_FETCH_URL}/api/articles`, {
+      const res = await fetch(`/api/articles`, {
         method: "POST",
         headers: {
           //   "Content-Type": "application/json",
