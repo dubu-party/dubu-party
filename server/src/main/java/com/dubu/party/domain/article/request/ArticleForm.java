@@ -16,7 +16,6 @@ public class ArticleForm {
     /** Content Setting **/
     private Integer fontSize;
     private String fontColor;
-    private String bgColor;
     private String fontFamily;
     private TextAlign textAlign;
 
