@@ -1,19 +1,18 @@
 import theme from "@/styles/theme";
+import { emailRegEx, idRegEx, nameRegEx, passwordRegEx } from "@/utils/RegEx";
 import styled from "@emotion/styled";
 import React, { useState } from "react";
 
 interface RegInputProps {
   title: string;
-  placeholder: string;
   type?: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  warning?: boolean; // TODO: 어던 형식인지 알려주기 위해 스트링으로 텍스트 받기
 }
 
-const RegInput = ({ title, placeholder, type }: RegInputProps) => {
-  const [value, setValue] = useState("");
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-  };
-
+const RegInput = ({ title, type, value, onChange, warning }: RegInputProps) => {
+  const placeholder = `${title}을/를 입력해주세요`; // TODO: 분리하기?
   return (
     <Container>
       <Title>{title}</Title>
@@ -22,8 +21,9 @@ const RegInput = ({ title, placeholder, type }: RegInputProps) => {
         onChange={onChange}
         placeholder={placeholder}
         type={type || "text"}
+        data-reg={title}
       />
-      <Warning>이메일 형식이 아닙니다.</Warning>
+      <Warning>{warning ? "" : `${title} 형식이 아닙니다.`}</Warning>
     </Container>
   );
 };
@@ -44,13 +44,18 @@ const Title = styled.div`
 const Input = styled.input`
   width: 100%;
   padding: 15px;
-  background: #ffffff;
+  background: "white";
   border-radius: 8px;
   border: 2px solid ${theme.color.inputBorder};
   box-shadow: 10px 10px 30px ${theme.color.inputShadow};
 
   ::placeholder {
-    color: ${theme.color.placeholder};
+    color: ${theme.color.fontColor};
+    /* color: ${theme.color.placeholder}; */
+  }
+  &:focus {
+    outline: none;
+    background: ${theme.color.lightBackground};
   }
 `;
 
@@ -60,4 +65,5 @@ const Warning = styled.div`
   font-family: ${theme.font.regular};
   font-size: 12px;
   color: ${theme.color.warning};
+  height: 15px;
 `;

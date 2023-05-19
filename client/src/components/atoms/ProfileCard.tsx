@@ -15,6 +15,7 @@ const ProfileCard = () => {
     <Container>
       <Wrapper>
         <Squircle />
+
         <ContentContainer>
           <TextContainer>
             <Name>아이디</Name>
