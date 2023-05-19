@@ -1,15 +1,18 @@
 package com.dubu.party.domain.user.db.repository;
-
 import com.dubu.party.domain.user.db.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import java.util.List;
+import java.util.Optional;
+
 
 @Repository
+@Transactional // JPA의 모든 데이터 변경은 트랜잭션 안에서 실행되어야 한다.
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findByUserId(String userId);
-    boolean existsByUserId(String userId);
+    Optional<User> findByEmail(String email);
+
+    boolean existsByEmail(String email);
+
+//    User findByUserIdAndUserPassword(String userId, String password);
 }

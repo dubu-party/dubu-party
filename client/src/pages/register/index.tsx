@@ -6,6 +6,8 @@ import RegInput from "@/components/atoms/RegInput";
 import Router, { useRouter } from "next/router";
 import { emailRegEx, idRegEx, nameRegEx, passwordRegEx } from "@/utils/RegEx";
 import LinkText from "@/components/atoms/LinkText";
+import ImgInput from "@/components/atoms/ImgInput";
+import customAxios from "@/api/AxiosModule";
 
 interface CheckProps {
   id: boolean;
@@ -71,6 +73,14 @@ const Register = () => {
 
   const isFormValid = Object.values(isValid).every((valid) => valid);
 
+  const Example = async () => {
+    const res = await customAxios.post("/api/auth/login", {
+      email: "string",
+      password: "string",
+    });
+    console.log(res);
+  };
+
   return (
     <Container>
       <Content>
@@ -80,7 +90,9 @@ const Register = () => {
             <LinkText text="로그인" goto="login" LinkEffect={false} />
           </LinkContainer>
         </UpperContainer>
-
+        <ImgInputContainer>
+          <ImgInput />
+        </ImgInputContainer>
         <RegInput
           title="아이디"
           value={id}
@@ -109,7 +121,7 @@ const Register = () => {
         />
         <ButtonContainer>
           <BasicBtn text="취소" color="black" onClick={onClickCancel} />
-          <BasicBtn text="회원가입" disabled={!isFormValid} />
+          <BasicBtn text="회원가입" disabled={!isFormValid} onClick={Example} />
         </ButtonContainer>
       </Content>
     </Container>
@@ -120,7 +132,7 @@ export default Register;
 
 const Container = styled.div`
   width: 100%;
-  height: 100vh;
+  /* height: 100vh; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -161,4 +173,10 @@ const TitleText = styled.div`
   font-size: 40px;
   line-height: 42px;
   text-align: center;
+`;
+
+const ImgInputContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  padding-bottom: 50px;
 `;

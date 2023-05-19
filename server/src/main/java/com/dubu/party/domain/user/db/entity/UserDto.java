@@ -1,26 +1,31 @@
 package com.dubu.party.domain.user.db.entity;
-
-
-import lombok.Getter;
-import lombok.Setter;
+import com.dubu.party.common.file.Image;
+import lombok.*;
 
 @Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class UserDto {
-
-    private String id;
-    private String password;
+    private Long id;
     private String email;
     private String nickname;
-    private String phone;
+    private String phoneNumber;
 
-    public User toEntity(){
-        User user = new User();
-        user.setUserId(this.id);
-        user.setUserPassword(this.password);
-        user.setUserEmail(this.email);
-        user.setUserNickname(this.nickname);
-        user.setUserPhone(this.phone);
-        return user;
+    private String profileUrl;
+
+    public UserDto(User user){
+        this.id = user.getId();
+        this.email = user.getEmail();
+        this.nickname = user.getNickName();
+        this.phoneNumber = user.getPhoneNumber();
+        Image image = user.getProfileImage();
+        if(image != null){
+            this.profileUrl = user.getProfileImage().getFileUrl();
+        }
+
     }
+
+
 
 }
