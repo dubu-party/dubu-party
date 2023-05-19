@@ -29,7 +29,13 @@ public class ArticleController {
     @Autowired
     private JwtProvider jwtProvider;
 
-    @PostMapping("/create")
+
+    @GetMapping("")
+    @ApiOperation(value = "모든 게시글 조회")
+    public List<ArticleDto> getAllArticles() {
+        return articleService.getAllArticles();
+    }
+    @PostMapping("")
     @ApiOperation(value = "게시글 생성")
     public Long createArticle(HttpServletRequest request, ArticleForm articleForm) throws Exception {
 
@@ -45,11 +51,7 @@ public class ArticleController {
     }
 
 
-    @GetMapping("/all")
-    @ApiOperation(value = "모든 게시글 조회")
-    public List<ArticleDto> getAllArticles() {
-        return articleService.getAllArticles();
-    }
+
 
     @GetMapping("/{id}")
     @ApiOperation(value = "게시글 조회")
