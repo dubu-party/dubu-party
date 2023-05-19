@@ -7,7 +7,7 @@ const index = ({ article }: { article: Article }) => {
     <Wrapper>
       <div className="title">{article.title}</div>
       <div className="content">{article.content}</div>
-      <img src={article.fileUrl} alt="이미지" />
+      <img src={`${process.env.BASE_SERVER_URL}${article.fileUrl}`} alt="이미지" />
     </Wrapper>
   );
 };

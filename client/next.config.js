@@ -6,8 +6,8 @@ const nextConfig = {
     // 프론트엔드에서 보내는 요청을 프론트엔드에서 받아서 서버로 보내는 것 
     return [
       {
-        source: "/api/:path*", // /api/로 시작하는 모든 요청을 localhost:3333/api/로 보낸다.
-        destination: "http://localhost:3333/api/:path*",
+        source: "/api/:path*", // /api/로 시작하는 모든 요청을 heyhey.i234.me:3333/api/로 보낸다.
+        destination: "http://heyhey.i234.me:3333/api/:path*",
       },
     ];
   },

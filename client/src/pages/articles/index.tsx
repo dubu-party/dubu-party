@@ -7,7 +7,6 @@ const ArticleList = ({ articles }: { articles: Article[] }) => {
   const router = useRouter();
   return (
     <Wrapper>
-      <h1>hi</h1>
       {articles.map((article) => {
         return (
           <div
@@ -19,7 +18,10 @@ const ArticleList = ({ articles }: { articles: Article[] }) => {
           >
             <div>{article.title}</div>
             <div>{article.content}</div>
-            <img src={article.fileUrl} alt="이미지" />
+            <img
+              src={`${process.env.BASE_SERVER_URL}${article.fileUrl}`}
+              alt="이미지"
+            />
           </div>
         );
       })}
@@ -27,9 +29,8 @@ const ArticleList = ({ articles }: { articles: Article[] }) => {
   );
 };
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = async ({ req }: any) => {
   const articles = await ArticleService.list();
-  console.log("articles", articles);
   return {
     props: {
       articles,
