@@ -7,6 +7,7 @@ import Router, { useRouter } from "next/router";
 import { emailRegEx, idRegEx, nameRegEx, passwordRegEx } from "@/utils/RegEx";
 import LinkText from "@/components/atoms/LinkText";
 import ImgInput from "@/components/atoms/ImgInput";
+import customAxios from "@/api/AxiosModule";
 
 interface CheckProps {
   id: boolean;
@@ -72,6 +73,14 @@ const Register = () => {
 
   const isFormValid = Object.values(isValid).every((valid) => valid);
 
+  const Example = async () => {
+    const res = await customAxios.post("/api/auth/login", {
+      email: "string",
+      password: "string",
+    });
+    console.log(res);
+  };
+
   return (
     <Container>
       <Content>
@@ -112,7 +121,7 @@ const Register = () => {
         />
         <ButtonContainer>
           <BasicBtn text="취소" color="black" onClick={onClickCancel} />
-          <BasicBtn text="회원가입" disabled={!isFormValid} />
+          <BasicBtn text="회원가입" disabled={!isFormValid} onClick={Example} />
         </ButtonContainer>
       </Content>
     </Container>
