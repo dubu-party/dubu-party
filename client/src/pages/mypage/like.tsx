@@ -18,9 +18,10 @@ export default function like({ data }: { data: Article[] }) {
   return (
     <MypageLayout>
       <CardContainer>
-        {data.slice(0, 3).map((article) => (
+        <Card />
+        {/* {data.slice(0, 3).map((article) => (
           <Card key={article.id} data={article} />
-        ))}
+        ))} */}
       </CardContainer>
     </MypageLayout>
   );
