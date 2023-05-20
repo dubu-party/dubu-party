@@ -1,11 +1,11 @@
 import axios, { AxiosError, AxiosInstance } from "axios";
 
 // const { REACT_APP_BASE_URL } = process.env;
-const REACT_APP_BASE_URL = "";
+const REACT_APP_BASE_URL = "http://heyhey.i234.me:3333";
 
 const customAxios: AxiosInstance = axios.create({
   baseURL: REACT_APP_BASE_URL,
-  withCredentials: false,
+  withCredentials: true,
 });
 
 // 토큰 가져다 쓰기
