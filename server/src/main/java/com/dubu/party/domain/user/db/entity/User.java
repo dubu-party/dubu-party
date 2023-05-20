@@ -2,6 +2,7 @@ package com.dubu.party.domain.user.db.entity;
 
 import com.dubu.party.common.file.Image;
 import com.dubu.party.domain.article.db.entity.Article;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -30,6 +31,13 @@ public class User {
 
     @Embedded
     private Image profileImage;
+
+
+    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Follow> follower = new ArrayList<>();
+
+    @OneToMany(mappedBy = "following", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Follow> following = new ArrayList<>();
 
 
     // mappedBy : 연관관계의 주인이 아니다. DB에 컬럼을 만들지 마세요.
