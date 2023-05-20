@@ -4,30 +4,35 @@ import theme from "@/styles/theme";
 import BasicBtn from "@/components/atoms/BasicBtn";
 import RegInput from "@/components/atoms/RegInput";
 import Router, { useRouter } from "next/router";
-import { emailRegEx, idRegEx, nameRegEx, passwordRegEx } from "@/utils/RegEx";
+import {
+  emailRegEx,
+  nameRegEx,
+  passwordRegEx,
+  phoneRegEx,
+} from "@/utils/RegEx";
 import LinkText from "@/components/atoms/LinkText";
 import ImgInput from "@/components/atoms/ImgInput";
-import customAxios from "@/api/AxiosModule";
-import axios from "axios";
+import { AuthAPI, RegisterForm } from "@/api/auth";
 
 interface CheckProps {
-  //   id: boolean;
-  password: boolean;
   email: boolean;
+  password: boolean;
   name: boolean;
+  phone: boolean;
 }
 // 아이디, 비밀번호, 이메일, 닉네임 필수 입력
 // 형식이 확정되면 형식 안내 추가하기
 const Register = () => {
-  const [id, setId] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [img, setImg] = useState<File>();
   const [email, setEmail] = useState<string>("");
-  const [name, setName] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [nickname, setNickname] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [isValid, setIsValid] = useState<CheckProps>({
-    // id: false,
-    password: false,
     email: false,
+    password: false,
     name: false,
+    phone: false,
   });
 
   const onClickCancel = () => {
@@ -36,10 +41,10 @@ const Register = () => {
 
   const checkValid = (value: string, type: string) => {
     switch (type) {
-      //   case "아이디":
-      //     setId(value);
-      //     setIsValid((prev) => ({ ...prev, id: idRegEx.test(value) }));
-      //     break;
+      case "이메일":
+        setEmail(value);
+        setIsValid((prev) => ({ ...prev, email: emailRegEx.test(value) }));
+        break;
       case "비밀번호":
         setPassword(value);
         setIsValid((prev) => ({
@@ -47,20 +52,20 @@ const Register = () => {
           password: passwordRegEx.test(value),
         }));
         break;
-      case "이메일":
-        setEmail(value);
-        setIsValid((prev) => ({ ...prev, email: emailRegEx.test(value) }));
-        break;
       case "닉네임":
-        setName(value);
+        setNickname(value);
         setIsValid((prev) => ({ ...prev, name: nameRegEx.test(value) }));
+        break;
+      case "전화번호":
+        setPhoneNumber(value);
+        setIsValid((prev) => ({ ...prev, phone: phoneRegEx.test(value) }));
         break;
       default:
         setIsValid({
-          //   id: false,
-          password: false,
           email: false,
+          password: false,
           name: false,
+          phone: false,
         });
         break;
     }
@@ -74,6 +79,26 @@ const Register = () => {
 
   const isFormValid = Object.values(isValid).every((valid) => valid);
 
+  const onChangeFile = (img: File) => {
+    setImg(img);
+  };
+  const onClickRegister = async () => {
+    const data = {
+      email,
+      password,
+      nickname,
+      phoneNumber,
+      profileImage: img,
+    };
+    const res = await AuthAPI.register(data);
+    if (res?.error) {
+      // 에러 모달 만들기
+      console.log(res.error);
+    } else {
+      Router.push("/login");
+    }
+  };
+
   return (
     <Container>
       <Content>
@@ -84,18 +109,11 @@ const Register = () => {
           </LinkContainer>
         </UpperContainer>
         <ImgInputContainer>
-          <ImgInput />
+          <ImgInput onChangeFile={onChangeFile} />
         </ImgInputContainer>
-        {/* <RegInput
-          title="아이디"
-          value={id}
-          onChange={onChange}
-          warning={isValid.id}
-        /> */}
-
         <RegInput
           title="닉네임"
-          value={name}
+          value={nickname}
           onChange={onChange}
           warning={isValid.name}
         />
@@ -114,15 +132,19 @@ const Register = () => {
           warning={isValid.password}
         />
         <RegInput
-          title="핸드폰 번호"
-          value={name}
+          title="전화번호"
+          value={phoneNumber}
           onChange={onChange}
-          warning={isValid.name}
+          warning={isValid.phone}
         />
 
         <ButtonContainer>
           <BasicBtn text="취소" color="black" onClick={onClickCancel} />
-          <BasicBtn text="회원가입" disabled={!isFormValid} />
+          <BasicBtn
+            text="회원가입"
+            disabled={!isFormValid}
+            onClick={onClickRegister}
+          />
         </ButtonContainer>
       </Content>
     </Container>

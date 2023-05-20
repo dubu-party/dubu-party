@@ -4,7 +4,11 @@ import Image from "next/image";
 import React, { useRef, useState } from "react";
 
 // TODO: 디자인 추후 변경하기
-export default function ImgInput() {
+
+interface ImgInputProps {
+  onChangeFile: (img: File) => void;
+}
+export default function ImgInput({ onChangeFile }: ImgInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
@@ -12,9 +16,7 @@ export default function ImgInput() {
     const file = event.target.files?.[0];
     if (file) {
       setSelectedImage(URL.createObjectURL(file));
-      console.log("file: ", file);
-
-      // onImageUpload(file);
+      onChangeFile(file);
     }
   };
 
@@ -27,7 +29,7 @@ export default function ImgInput() {
       {/* 제목추가해주기 */}
       <ImgContainer onClick={handleClick}>
         {selectedImage ? (
-          <Image width={460} height={360} src={selectedImage} alt="Selected" />
+          <Image width={200} height={200} src={selectedImage} alt="Selected" />
         ) : (
           <NoImg>No Image</NoImg>
         )}

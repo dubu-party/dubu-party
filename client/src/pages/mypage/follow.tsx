@@ -56,7 +56,7 @@ const MenuButton = styled.div<{ active: boolean }>`
   &:hover {
     cursor: pointer;
     color: #425d52;
-    border-bottom: 3px solid #425d52; // Main color?
+    /* border-bottom: 3px solid #425d52; // Main color? */
   }
 `;
 

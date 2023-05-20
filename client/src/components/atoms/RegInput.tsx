@@ -8,10 +8,18 @@ interface RegInputProps {
   type?: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   warning?: boolean; // TODO: 어던 형식인지 알려주기 위해 스트링으로 텍스트 받기
 }
 
-const RegInput = ({ title, type, value, onChange, warning }: RegInputProps) => {
+const RegInput = ({
+  title,
+  type,
+  value,
+  onChange,
+  onKeyPress,
+  warning,
+}: RegInputProps) => {
   const placeholder = `${title}을/를 입력해주세요`; // TODO: 분리하기?
   return (
     <Container>
@@ -19,6 +27,7 @@ const RegInput = ({ title, type, value, onChange, warning }: RegInputProps) => {
       <Input
         value={value}
         onChange={onChange}
+        onKeyUp={onKeyPress}
         placeholder={placeholder}
         type={type || "text"}
         data-reg={title}

@@ -1,10 +1,9 @@
 import axios, { AxiosError, AxiosInstance } from "axios";
 
-// const { REACT_APP_BASE_URL } = process.env;
-const REACT_APP_BASE_URL = "http://heyhey.i234.me:3333";
+const { BASE_FETCH_URL } = process.env;
 
 const customAxios: AxiosInstance = axios.create({
-  baseURL: REACT_APP_BASE_URL,
+  baseURL: BASE_FETCH_URL,
   withCredentials: true,
 });
 
