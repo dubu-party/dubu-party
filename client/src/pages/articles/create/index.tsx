@@ -1,3 +1,4 @@
+
 import {
   ArticleCreateRequest,
   FONT_FAMILY,
@@ -30,7 +31,6 @@ const page = () => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     setArticleForm({ ...articleForm, [name]: files[0] });
-
     return new Promise((resolve: any) => {
       reader.onload = () => {
         setImageSrc(reader.result || null);

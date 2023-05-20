@@ -4,42 +4,24 @@ import theme from "@/styles/theme";
 import BasicBtn from "@/components/atoms/BasicBtn";
 import LinkText from "@/components/atoms/LinkText";
 import RegInput from "@/components/atoms/RegInput";
-import { AuthAPI } from "@/api/auth";
-import Router from "next/router";
 
 // TODO: 로그인 할 때도 형식 검사가 필요한가?
 const Login = () => {
-  const [email, setEmail] = useState<string>("");
+  const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     const type = e.target.dataset.reg;
     switch (type) {
-      case "이메일":
-        setEmail(newValue);
+      case "아이디":
+        setId(newValue);
         break;
       case "비밀번호":
         setPassword(newValue);
         break;
       default:
         break;
-    }
-  };
-
-  const onClickLogin = async () => {
-    const data = { email, password };
-    const res = await AuthAPI.login(data);
-    if (res?.error) {
-      // 에러 모달 만들기
-      console.log(res.error);
-    } else {
-      Router.push("/");
-    }
-  };
-  const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      onClickLogin();
     }
   };
 
@@ -56,26 +38,19 @@ const Login = () => {
               color={theme.color.fontColor}
             />
           </UpperContainer>
-          <RegInput
-            title="이메일"
-            type="email"
-            value={email}
-            onChange={onChange}
-            warning
-          />
+          <RegInput title="아이디" value={id} onChange={onChange} warning />
           <RegInput
             title="비밀번호"
             type="password"
             value={password}
             onChange={onChange}
-            onKeyPress={onKeyPress}
             warning
           />
           <LinkContainer>
             <LinkText text="비밀번호 찾기" goto="/" />
           </LinkContainer>
           <ButtonContainer>
-            <BasicBtn text="로그인" onClick={onClickLogin} />
+            <BasicBtn text="로그인" />
           </ButtonContainer>
         </InputsContainer>
         <IntroContainer>

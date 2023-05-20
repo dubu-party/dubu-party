@@ -3,13 +3,11 @@ import styled from "@emotion/styled";
 import React from "react";
 
 interface BasicInputProps {
-  disabled?: boolean;
   title: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 export default function BasicInput({
-  disabled,
   title,
   value,
   onChange,
@@ -17,7 +15,7 @@ export default function BasicInput({
   return (
     <Container>
       <Title>{title}</Title>
-      <Input disabled={disabled} value={value} onChange={onChange} />
+      <Input value={value} onChange={onChange} />
     </Container>
   );
 }

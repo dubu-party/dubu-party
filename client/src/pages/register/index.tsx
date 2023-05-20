@@ -4,35 +4,29 @@ import theme from "@/styles/theme";
 import BasicBtn from "@/components/atoms/BasicBtn";
 import RegInput from "@/components/atoms/RegInput";
 import Router, { useRouter } from "next/router";
-import {
-  emailRegEx,
-  nameRegEx,
-  passwordRegEx,
-  phoneRegEx,
-} from "@/utils/RegEx";
+import { emailRegEx, idRegEx, nameRegEx, passwordRegEx } from "@/utils/RegEx";
 import LinkText from "@/components/atoms/LinkText";
 import ImgInput from "@/components/atoms/ImgInput";
-import { AuthAPI, RegisterForm } from "@/api/auth";
+import customAxios from "@/api/AxiosModule";
 
 interface CheckProps {
-  email: boolean;
+  id: boolean;
   password: boolean;
+  email: boolean;
   name: boolean;
-  phone: boolean;
 }
 // 아이디, 비밀번호, 이메일, 닉네임 필수 입력
 // 형식이 확정되면 형식 안내 추가하기
 const Register = () => {
-  const [img, setImg] = useState<File>();
-  const [email, setEmail] = useState<string>("");
+  const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [nickname, setNickname] = useState<string>("");
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [name, setName] = useState<string>("");
   const [isValid, setIsValid] = useState<CheckProps>({
-    email: false,
+    id: false,
     password: false,
+    email: false,
     name: false,
-    phone: false,
   });
 
   const onClickCancel = () => {
@@ -41,9 +35,9 @@ const Register = () => {
 
   const checkValid = (value: string, type: string) => {
     switch (type) {
-      case "이메일":
-        setEmail(value);
-        setIsValid((prev) => ({ ...prev, email: emailRegEx.test(value) }));
+      case "아이디":
+        setId(value);
+        setIsValid((prev) => ({ ...prev, id: idRegEx.test(value) }));
         break;
       case "비밀번호":
         setPassword(value);
@@ -52,20 +46,20 @@ const Register = () => {
           password: passwordRegEx.test(value),
         }));
         break;
-      case "닉네임":
-        setNickname(value);
-        setIsValid((prev) => ({ ...prev, name: nameRegEx.test(value) }));
+      case "이메일":
+        setEmail(value);
+        setIsValid((prev) => ({ ...prev, email: emailRegEx.test(value) }));
         break;
-      case "전화번호":
-        setPhoneNumber(value);
-        setIsValid((prev) => ({ ...prev, phone: phoneRegEx.test(value) }));
+      case "닉네임":
+        setName(value);
+        setIsValid((prev) => ({ ...prev, name: nameRegEx.test(value) }));
         break;
       default:
         setIsValid({
-          email: false,
+          id: false,
           password: false,
+          email: false,
           name: false,
-          phone: false,
         });
         break;
     }
@@ -79,24 +73,12 @@ const Register = () => {
 
   const isFormValid = Object.values(isValid).every((valid) => valid);
 
-  const onChangeFile = (img: File) => {
-    setImg(img);
-  };
-  const onClickRegister = async () => {
-    const data = {
-      email,
-      password,
-      nickname,
-      phoneNumber,
-      profileImage: img,
-    };
-    const res = await AuthAPI.register(data);
-    if (res?.error) {
-      // 에러 모달 만들기
-      console.log(res.error);
-    } else {
-      Router.push("/login");
-    }
+  const Example = async () => {
+    const res = await customAxios.post("/api/auth/login", {
+      email: "string",
+      password: "string",
+    });
+    console.log(res);
   };
 
   return (
@@ -109,20 +91,13 @@ const Register = () => {
           </LinkContainer>
         </UpperContainer>
         <ImgInputContainer>
-          <ImgInput onChangeFile={onChangeFile} />
+          <ImgInput />
         </ImgInputContainer>
         <RegInput
-          title="닉네임"
-          value={nickname}
+          title="아이디"
+          value={id}
           onChange={onChange}
-          warning={isValid.name}
-        />
-        <RegInput
-          title="이메일"
-          type="email"
-          value={email}
-          onChange={onChange}
-          warning={isValid.email}
+          warning={isValid.id}
         />
         <RegInput
           title="비밀번호"
@@ -132,19 +107,21 @@ const Register = () => {
           warning={isValid.password}
         />
         <RegInput
-          title="전화번호"
-          value={phoneNumber}
+          title="이메일"
+          type="email"
+          value={email}
           onChange={onChange}
-          warning={isValid.phone}
+          warning={isValid.email}
         />
-
+        <RegInput
+          title="닉네임"
+          value={name}
+          onChange={onChange}
+          warning={isValid.name}
+        />
         <ButtonContainer>
           <BasicBtn text="취소" color="black" onClick={onClickCancel} />
-          <BasicBtn
-            text="회원가입"
-            disabled={!isFormValid}
-            onClick={onClickRegister}
-          />
+          <BasicBtn text="회원가입" disabled={!isFormValid} onClick={Example} />
         </ButtonContainer>
       </Content>
     </Container>
