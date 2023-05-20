@@ -4,6 +4,7 @@ import Menu from "../blocks/Menu";
 import styled from "@emotion/styled";
 import theme from "@/styles/theme";
 import { useRouter } from "next/router";
+import SEO from "../atoms/SEO";
 
 interface MypageLayoutProps {
   children: React.ReactNode;
@@ -24,6 +25,7 @@ export default function MypageLayout({ children }: MypageLayoutProps) {
 
   return (
     <Container>
+      <SEO title="seoseoseo" />
       <Content hasCard={hasCard}>
         <Menu list={menuArr} />
         <MainContainer>{children}</MainContainer>

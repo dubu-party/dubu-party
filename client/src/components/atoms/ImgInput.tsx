@@ -14,6 +14,7 @@ export default function ImgInput({ onChangeFile }: ImgInputProps) {
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
+
     if (file) {
       setSelectedImage(URL.createObjectURL(file));
       onChangeFile(file);

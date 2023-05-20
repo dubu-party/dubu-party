@@ -37,6 +37,11 @@ const Login = () => {
       Router.push("/");
     }
   };
+  const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      onClickLogin();
+    }
+  };
 
   return (
     <Container>
@@ -63,7 +68,7 @@ const Login = () => {
             type="password"
             value={password}
             onChange={onChange}
-            onKeyPress={onClickLogin}
+            onKeyPress={onKeyPress}
             warning
           />
           <LinkContainer>

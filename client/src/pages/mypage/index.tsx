@@ -7,7 +7,9 @@ import theme from "@/styles/theme";
 import styled from "@emotion/styled";
 import React, { Component, useMemo, useState } from "react";
 
+// TODO: 회원 탈퇴
 export default function index() {
+  const [img, setImg] = useState<File>();
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const onClickEdit = () => {
@@ -16,6 +18,7 @@ export default function index() {
   const onClickCancel = () => {
     setIsEdit(false);
   };
+
   const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     console.log(newValue);
@@ -25,10 +28,14 @@ export default function index() {
     const newValue = e.target.value;
     console.log(newValue);
   };
+
+  const onChangeFile = (img: File) => {
+    setImg(img);
+  };
   return (
     <MypageLayout>
       <Container>
-        <ImgInput />
+        <ImgInput onChangeFile={onChangeFile} />
         <BasicInput
           disabled={!isEdit}
           value="temp"

@@ -21,6 +21,7 @@ const RegInput = ({
   warning,
 }: RegInputProps) => {
   const placeholder = `${title}을/를 입력해주세요`; // TODO: 분리하기?
+
   return (
     <Container>
       <Title>{title}</Title>
