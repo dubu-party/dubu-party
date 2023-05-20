@@ -8,9 +8,10 @@ import { emailRegEx, idRegEx, nameRegEx, passwordRegEx } from "@/utils/RegEx";
 import LinkText from "@/components/atoms/LinkText";
 import ImgInput from "@/components/atoms/ImgInput";
 import customAxios from "@/api/AxiosModule";
+import axios from "axios";
 
 interface CheckProps {
-  id: boolean;
+  //   id: boolean;
   password: boolean;
   email: boolean;
   name: boolean;
@@ -23,7 +24,7 @@ const Register = () => {
   const [email, setEmail] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [isValid, setIsValid] = useState<CheckProps>({
-    id: false,
+    // id: false,
     password: false,
     email: false,
     name: false,
@@ -35,10 +36,10 @@ const Register = () => {
 
   const checkValid = (value: string, type: string) => {
     switch (type) {
-      case "아이디":
-        setId(value);
-        setIsValid((prev) => ({ ...prev, id: idRegEx.test(value) }));
-        break;
+      //   case "아이디":
+      //     setId(value);
+      //     setIsValid((prev) => ({ ...prev, id: idRegEx.test(value) }));
+      //     break;
       case "비밀번호":
         setPassword(value);
         setIsValid((prev) => ({
@@ -56,7 +57,7 @@ const Register = () => {
         break;
       default:
         setIsValid({
-          id: false,
+          //   id: false,
           password: false,
           email: false,
           name: false,
@@ -73,14 +74,6 @@ const Register = () => {
 
   const isFormValid = Object.values(isValid).every((valid) => valid);
 
-  const Example = async () => {
-    const res = await customAxios.post("/api/auth/login", {
-      email: "string",
-      password: "string",
-    });
-    console.log(res);
-  };
-
   return (
     <Container>
       <Content>
@@ -93,18 +86,18 @@ const Register = () => {
         <ImgInputContainer>
           <ImgInput />
         </ImgInputContainer>
-        <RegInput
+        {/* <RegInput
           title="아이디"
           value={id}
           onChange={onChange}
           warning={isValid.id}
-        />
+        /> */}
+
         <RegInput
-          title="비밀번호"
-          type="password"
-          value={password}
+          title="닉네임"
+          value={name}
           onChange={onChange}
-          warning={isValid.password}
+          warning={isValid.name}
         />
         <RegInput
           title="이메일"
@@ -114,14 +107,22 @@ const Register = () => {
           warning={isValid.email}
         />
         <RegInput
-          title="닉네임"
+          title="비밀번호"
+          type="password"
+          value={password}
+          onChange={onChange}
+          warning={isValid.password}
+        />
+        <RegInput
+          title="핸드폰 번호"
           value={name}
           onChange={onChange}
           warning={isValid.name}
         />
+
         <ButtonContainer>
           <BasicBtn text="취소" color="black" onClick={onClickCancel} />
-          <BasicBtn text="회원가입" disabled={!isFormValid} onClick={Example} />
+          <BasicBtn text="회원가입" disabled={!isFormValid} />
         </ButtonContainer>
       </Content>
     </Container>

@@ -15,16 +15,17 @@ const ProfileCard = () => {
     <Container>
       <Wrapper>
         <Squircle />
-
         <ContentContainer>
           <TextContainer>
-            <Name>아이디</Name>
+            <Name>닉네임</Name>
             <TextWrap>
               <Text>100</Text>
-              <SubText>점수 / 등수</SubText>
+              <SubText>팔로워</SubText>
+              <Text>100</Text>
+              <SubText>포스트</SubText>
             </TextWrap>
           </TextContainer>
-          <Button>버튼</Button>
+          <Button>follow</Button>
         </ContentContainer>
       </Wrapper>
     </Container>
@@ -36,11 +37,16 @@ export default ProfileCard;
 const Container = styled.div`
   box-sizing: border-box;
   width: 100%;
-  max-width: 380px;
+  max-width: 400px;
   height: 80px;
   background: #ffffff;
-  border: 1px solid ${theme.color.border};
+  border: 1px solid #e5e5e5;
+  /* border: 1px solid ${theme.color.border}; */
   border-radius: 10px;
+  transition: transform 0.2s;
+  &:hover {
+    transform: scale(1.01);
+  }
 `;
 
 const Wrapper = styled.div`
@@ -86,10 +92,10 @@ const Button = styled.button`
   cursor: pointer;
   border: none;
   background: none;
-  width: 38px;
+  width: 50px;
   height: 20px;
 
-  background: #4b586a;
+  background: #425d52;
   border-radius: 4px;
 
   font-family: ${theme.font.semibold};
