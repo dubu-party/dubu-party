@@ -1,5 +1,7 @@
+import customAxios from "@/api/AxiosModule";
 import { Article, ArticleService } from "@/script/@type/article";
 import styled from "@emotion/styled";
+import axios from "axios";
 import { useRouter } from "next/router";
 
 const ArticleList = ({ articles }: { articles: Article[] }) => {
@@ -31,6 +33,7 @@ const ArticleList = ({ articles }: { articles: Article[] }) => {
 
 export const getServerSideProps = async ({ req }: any) => {
   const articles = await ArticleService.list();
+
   return {
     props: {
       articles,
