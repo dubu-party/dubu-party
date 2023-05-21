@@ -1,7 +1,6 @@
 package com.dubu.party.domain.user.response;
 
-import com.dubu.party.domain.article.db.entity.Article;
-import com.dubu.party.domain.user.db.entity.Follow;
+import com.dubu.party.common.file.Image;
 import com.dubu.party.domain.user.db.entity.User;
 import com.dubu.party.domain.user.db.entity.UserDto;
 import lombok.Getter;
@@ -29,7 +28,10 @@ public class UserDetail {
         this.email = user.getEmail();
         this.nickname = user.getNickName();
         this.phoneNumber = user.getPhoneNumber();
-        this.profileUrl = user.getProfileImage().getFileUrl();
+        Image image = user.getProfileImage();
+        if(image != null){
+            this.profileUrl = user.getProfileImage().getFileUrl();
+        }
 
         this.follower = follower;
         this.following = following;

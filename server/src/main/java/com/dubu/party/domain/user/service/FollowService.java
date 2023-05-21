@@ -13,7 +13,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor // final이 선언된 모든 필드를 인자값으로 하는 생성자를 대신 생성해준다.
 public class FollowService {
-    private final UserService userService;
     private final UserRepository userRepository;
     private final FollowRepository followRepository;
 
