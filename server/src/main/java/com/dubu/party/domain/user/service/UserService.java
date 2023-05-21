@@ -5,6 +5,7 @@ import com.dubu.party.domain.user.db.entity.User;
 import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.db.repository.UserRepository;
 import com.dubu.party.domain.user.request.UpdateUserForm;
+import com.dubu.party.domain.user.response.UserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,26 @@ public class UserService {
         }
         return new UserDto(user);
     }
+
+    public UserDetail getInfo(Long userId) {
+        User user =  userRepository.findById(userId).orElse(null);
+        if(user == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다.");
+        }
+
+
+        List<UserDto> follower = user.getFollower().stream()
+                .map(follow -> new UserDto(follow.getFollowing()))
+                .collect(Collectors.toList());
+
+
+        List<UserDto> following = user.getFollowing().stream()
+                .map(follow -> new UserDto(follow.getFollower()))
+                .collect(Collectors.toList());
+
+        return new UserDetail(user,follower,following);
+    }
+
     public boolean deleteUser(Long id){
         User user =  userRepository.findById(id).orElse(null);
         if(user == null){

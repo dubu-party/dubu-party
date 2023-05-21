@@ -2,6 +2,7 @@ package com.dubu.party.domain.user.db.entity;
 
 import com.dubu.party.common.file.Image;
 import com.dubu.party.domain.article.db.entity.Article;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,7 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor // 모든 필드 값을 파라미터로 받는 생성자를 생성
 @NoArgsConstructor // 파라미터가 없는 생성자를 생성
@@ -32,6 +34,13 @@ public class User {
     private Image profileImage;
 
 
+    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Follow> follower = new ArrayList<>();
+
+    @OneToMany(mappedBy = "following", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Follow> following = new ArrayList<>();
+
+
     // mappedBy : 연관관계의 주인이 아니다. DB에 컬럼을 만들지 마세요.
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Builder.Default // builder를 사용할 때, 기본값으로 설정
@@ -41,5 +50,5 @@ public class User {
         this.roles = roles;
         roles.forEach(o -> o.setUser(this));
     }
-    
+
 }

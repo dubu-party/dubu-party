@@ -3,6 +3,7 @@ package com.dubu.party.domain.user.controller;
 import com.dubu.party.common.security.JwtProvider;
 import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.request.UpdateUserForm;
+import com.dubu.party.domain.user.response.UserDetail;
 import com.dubu.party.domain.user.service.UserService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +56,12 @@ public class UserController {
     public ResponseEntity<?> updatePassword(@PathVariable("id") Long id,@RequestBody String password) {
         userService.updatePassword(id, password);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping("/myInfo")
+    public ResponseEntity<UserDetail> getMyInfo(HttpServletRequest request) {
+        Long userId = jwtProvider.getUserInfo(request);
+        return new ResponseEntity<>(userService.getInfo(userId), HttpStatus.OK);
     }
 
 }
