@@ -1,6 +1,8 @@
 package com.dubu.party.domain.user.service;
 
 import com.dubu.party.common.file.Image;
+import com.dubu.party.domain.article.db.entity.ArticleDto;
+import com.dubu.party.domain.article.service.ArticleService;
 import com.dubu.party.domain.user.db.entity.User;
 import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.db.repository.UserRepository;
@@ -19,6 +21,13 @@ import java.util.stream.Collectors;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ArticleService articleService;
+
+
+    @Autowired
+    private FollowService followService;
 
     public Long saveUser(User user)  {
         validateDuplicate(user);
@@ -50,25 +59,13 @@ public class UserService {
         }
 
 
-        List<UserDto> follower = user.getFollower().stream()
-                .map(follow -> new UserDto(follow.getFollowing()))
-                .collect(Collectors.toList());
+        List<UserDto> follower = followService.getFollowers(userId);
 
+        List<UserDto> following = followService.getFollowings(userId);
 
-        List<UserDto> following = user.getFollowing().stream()
-                .map(follow -> new UserDto(follow.getFollower()))
-                .collect(Collectors.toList());
+        List<ArticleDto> articles = articleService.getArticlesByUser(user.getId());
 
-        return new UserDetail(user,follower,following);
-    }
-
-    public boolean deleteUser(Long id){
-        User user =  userRepository.findById(id).orElse(null);
-        if(user == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다.");
-        }
-        userRepository.deleteById(id);
-        return true;
+        return new UserDetail(user,follower,following,articles);
     }
 
     public UserDto getUserById(String userId) {

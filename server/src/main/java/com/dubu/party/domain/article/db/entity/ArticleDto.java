@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,13 +25,19 @@ public class ArticleDto {
 
     UserDto user;
 
+    List<UserDto> articleLikes ;
+
     public ArticleDto(Article article){
         this.id = article.getId();
         this.title = article.getTitle();
         this.content = article.getContent();
         this.contentSetting = article.getContentSetting();
         this.user = new UserDto(article.getUser());
-
+        List<ArticleLike> articleLikes = article.getArticleLikes();
+        this.articleLikes = new ArrayList<UserDto>();
+        if(articleLikes != null){
+            articleLikes.forEach(o -> this.articleLikes.add(new UserDto(o.getUser())));
+        }
         Image image = article.getArticleImage();
         if(image != null){
             this.fileUrl = image.getFileUrl();

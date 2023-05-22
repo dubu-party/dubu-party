@@ -2,6 +2,7 @@ package com.dubu.party.domain.user.controller;
 
 import com.dubu.party.common.security.JwtProvider;
 import com.dubu.party.domain.user.db.entity.UserDto;
+import com.dubu.party.domain.user.request.LoginForm;
 import com.dubu.party.domain.user.request.UpdateUserForm;
 import com.dubu.party.domain.user.response.UserDetail;
 import com.dubu.party.domain.user.service.UserService;
@@ -40,10 +41,7 @@ public class UserController {
                 userService.getUserById(id), HttpStatus.OK
         );
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteUser(@PathVariable("id")Long id){
-        return new ResponseEntity<>(userService.deleteUser(id), HttpStatus.OK);
-    }
+
     @PutMapping("")
     public ResponseEntity<UserDto> updateUser(HttpServletRequest request, UpdateUserForm updateUserForm)throws Exception{
         Long userId = jwtProvider.getUserInfo(request);

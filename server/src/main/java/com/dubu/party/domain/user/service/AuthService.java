@@ -10,11 +10,13 @@ import com.dubu.party.domain.user.request.LoginForm;
 import com.dubu.party.domain.user.request.CreateUserForm;
 import com.dubu.party.domain.user.response.AuthResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 
@@ -50,7 +52,6 @@ public class AuthService {
         }
     }
 
-
     public AuthResponse login(LoginForm request) throws Exception {
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(
                 () -> new BadCredentialsException("사용자를 찾을 수 없습니다.")
@@ -67,11 +68,17 @@ public class AuthService {
                 .build();
     }
 
-
-    public AuthResponse getUser(String userId) throws Exception {
-        User user = userRepository.findByEmail(userId)
-                .orElseThrow(() -> new Exception("계정을 찾을 수 없습니다."));
-        return new AuthResponse(user);
+    public boolean delete(LoginForm request){
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(
+                () -> new BadCredentialsException("사용자를 찾을 수 없습니다.")
+        );
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
+        }
+        if(user == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다.");
+        }
+        userRepository.deleteById(user.getId());
+        return true;
     }
-
 }

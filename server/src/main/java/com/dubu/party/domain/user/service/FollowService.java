@@ -2,12 +2,14 @@ package com.dubu.party.domain.user.service;
 
 import com.dubu.party.domain.user.db.entity.Follow;
 import com.dubu.party.domain.user.db.entity.User;
+import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.db.repository.FollowRepository;
 import com.dubu.party.domain.user.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -61,15 +63,27 @@ public class FollowService {
         return followRepository.existsByFollowerAndFollowing(user, followUser);
     }
 
-    public List<Follow> getFollowers(Long userId) {
+    public List<UserDto> getFollowers(Long userId) {
         User user = userRepository.findById(userId).orElse(null);
-        if(user == null) return null;
-        return followRepository.findAllByFollower(user);
+        if(user == null) {
+            throw new IllegalStateException("사용자를 찾을 수 없습니다.");
+        };
+        List<UserDto> followers = new ArrayList<UserDto>();
+        for(Follow follow : user.getFollowing()) {
+            followers.add(new UserDto(follow.getFollower()));
+        }
+        return followers;
     }
 
-    public List<Follow> getFollowings(Long userId) {
+    public List<UserDto> getFollowings(Long userId) {
         User user = userRepository.findById(userId).orElse(null);
-        if(user == null) return null;
-        return followRepository.findAllByFollowing(user);
+        if(user == null) {
+            throw new IllegalStateException("사용자를 찾을 수 없습니다.");
+        };
+        List<UserDto> followings = new ArrayList<UserDto>();
+        for(Follow follow : user.getFollower()) {
+            followings.add(new UserDto(follow.getFollowing()));
+        }
+        return followings;
     }
 }

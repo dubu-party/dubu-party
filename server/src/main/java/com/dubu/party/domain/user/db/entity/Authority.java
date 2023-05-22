@@ -18,7 +18,7 @@ public class Authority {
 
     private String authorityName;
 
-    @JoinColumn(name = "userPkId")
+    @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private User user;

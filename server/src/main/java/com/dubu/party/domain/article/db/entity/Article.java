@@ -7,12 +7,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter @Setter
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor // 모든 필드 값을 파라미터로 받는 생성자를 생성
+@NoArgsConstructor // 파라미터가 없는 생성자를 생성
 public class Article {
 
     @Id
@@ -29,8 +30,13 @@ public class Article {
     @Embedded
     private Image articleImage;
 
+
+    @OneToMany
+    @JoinColumn(name="article_id") //
+    private List<ArticleLike> articleLikes;
+
     @ManyToOne
-    @JoinColumn(name="user_pk_id")
+    @JoinColumn(name="user_id")
     @JsonIgnore
     private User user;
 
