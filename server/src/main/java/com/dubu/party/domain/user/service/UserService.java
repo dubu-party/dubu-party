@@ -50,25 +50,16 @@ public class UserService {
         }
 
 
-        List<UserDto> follower = user.getFollower().stream()
-                .map(follow -> new UserDto(follow.getFollowing()))
-                .collect(Collectors.toList());
-
-
-        List<UserDto> following = user.getFollowing().stream()
+        List<UserDto> follower = user.getFollowing().stream()
                 .map(follow -> new UserDto(follow.getFollower()))
                 .collect(Collectors.toList());
 
-        return new UserDetail(user,follower,following);
-    }
 
-    public boolean deleteUser(Long id){
-        User user =  userRepository.findById(id).orElse(null);
-        if(user == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다.");
-        }
-        userRepository.deleteById(id);
-        return true;
+        List<UserDto> following = user.getFollower().stream()
+                .map(follow -> new UserDto(follow.getFollowing()))
+                .collect(Collectors.toList());
+
+        return new UserDetail(user,follower,following);
     }
 
     public UserDto getUserById(String userId) {

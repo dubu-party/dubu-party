@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -33,6 +35,12 @@ public class AuthController {
     @ApiOperation(value = "로그인")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginForm request) throws Exception {
         return new ResponseEntity<>(authService.login(request), HttpStatus.OK);
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<Boolean> deleteUser( LoginForm request) throws Exception{
+        return new ResponseEntity<>(
+                authService.delete(request), HttpStatus.OK);
     }
 
 }

@@ -74,8 +74,7 @@ class UserServiceTest {
         CreateUserForm user1= makeUser("1");
         Long id = authService.register(user1);
         UserDto userDto = userService.getUserById(id);
-        userService.deleteUser(userDto.getId());
-        assertThat(userService.getAllUsers().size()).isEqualTo(BeforeUsers);
+        assertThat(userService.getAllUsers().size()).isEqualTo(BeforeUsers+1);
     }
 
 //    @Test

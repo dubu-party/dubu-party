@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -29,8 +30,13 @@ public class Article {
     @Embedded
     private Image articleImage;
 
+
+    @OneToMany
+    @JoinColumn(name="article_id") //
+    private List<ArticleLike> articleLikes;
+
     @ManyToOne
-    @JoinColumn(name="user_pk_id")
+    @JoinColumn(name="user_id")
     @JsonIgnore
     private User user;
 

@@ -35,9 +35,11 @@ public class User {
 
 
     @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default // builder를 사용할 때, 기본값으로 설정
     private List<Follow> follower = new ArrayList<>();
 
     @OneToMany(mappedBy = "following", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default // builder를 사용할 때, 기본값으로 설정
     private List<Follow> following = new ArrayList<>();
 
 
