@@ -9,10 +9,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Getter
-@Setter
-@Builder
+@Builder @Entity
+@Getter @Setter
 @AllArgsConstructor // 모든 필드 값을 파라미터로 받는 생성자를 생성
 @NoArgsConstructor // 파라미터가 없는 생성자를 생성
 public class User {
@@ -52,5 +50,8 @@ public class User {
         this.roles = roles;
         roles.forEach(o -> o.setUser(this));
     }
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default // builder를 사용할 때, 기본값으로 설정
+    @JsonIgnore
+    private List<Article> articles = new ArrayList<>();
 }
