@@ -1,5 +1,6 @@
 package com.dubu.party.domain.article.service;
 
+import com.dubu.party.domain.article.db.data.article.ArticleDto;
 import com.dubu.party.domain.article.db.entity.Article;
 import com.dubu.party.domain.article.db.entity.Comment;
 import com.dubu.party.domain.article.db.data.comment.CommentDto;
@@ -27,7 +28,7 @@ public class CommentService {
     @Autowired
     private final UserRepository userRepository;
 
-    public CommentDetail createComment(Long userId, Long articleId, String content) {
+    public ArticleDto createComment(Long userId, Long articleId, String content) {
         User user = userRepository.getById(userId);
         if (user == null) {
             throw new IllegalStateException("사용자를 찾을 수 없습니다.");
@@ -42,7 +43,7 @@ public class CommentService {
         comment.setContent(content);
         comment.setArticle(article);
         commentRepository.save(comment);
-        return new CommentDetail(comment);
+        return new ArticleDto(article);
     }
 
     public boolean deleteComment(Long userId, Long commentId) {
@@ -57,7 +58,7 @@ public class CommentService {
         return true;
     }
 
-    public CommentDetail updateComment(Long userId, Long commentId, String content) {
+    public ArticleDto updateComment( Long commentId,Long userId,Long articleId ,String content) {
 
         Comment comment = commentRepository.findById(commentId).orElse(null);
         if(comment == null){
@@ -66,10 +67,10 @@ public class CommentService {
         if (comment.getUser().getId() != userId) {
             throw new IllegalStateException("댓글을 수정할 권한이 없습니다.");
         }
-
+        Article article = articleRepository.getById(articleId);
         comment.setContent(content);
         commentRepository.save(comment);
-        return new CommentDetail(comment);
+        return new ArticleDto(article);
     }
 
 
