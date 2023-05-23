@@ -1,4 +1,4 @@
-package com.dubu.party.domain.article.db.entity;
+package com.dubu.party.domain.article.db.data.article;
 
 
 import com.dubu.party.domain.article.request.ArticleForm;

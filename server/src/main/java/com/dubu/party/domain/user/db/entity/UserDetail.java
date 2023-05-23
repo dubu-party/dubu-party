@@ -1,17 +1,12 @@
-package com.dubu.party.domain.user.response;
+package com.dubu.party.domain.user.db.entity;
 
 import com.dubu.party.common.file.Image;
-import com.dubu.party.domain.article.db.entity.ArticleDto;
-import com.dubu.party.domain.article.service.ArticleService;
-import com.dubu.party.domain.user.db.entity.User;
-import com.dubu.party.domain.user.db.entity.UserDto;
+import com.dubu.party.domain.article.db.data.article.ArticleDto;
+import com.dubu.party.domain.article.db.data.article.ArticleWithLike;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
