@@ -2,6 +2,7 @@ package com.dubu.party.domain.article.controller;
 
 
 import com.dubu.party.common.security.JwtProvider;
+import com.dubu.party.domain.article.db.data.article.ArticleDto;
 import com.dubu.party.domain.article.db.data.comment.CommentDto;
 import com.dubu.party.domain.article.db.data.comment.CommentDetail;
 import com.dubu.party.domain.article.request.CommentForm;
@@ -32,16 +33,16 @@ public class CommentController {
 
     @PostMapping("")
     @ApiOperation(value = "댓글 생성")
-    public CommentDetail create(HttpServletRequest request, @RequestBody CommentForm commentForm) {
+    public ArticleDto create(HttpServletRequest request, @RequestBody CommentForm commentForm) {
         Long userId = jwtProvider.getUserInfo(request);
         return commentService.createComment(userId, commentForm.getArticleId(), commentForm.getContent());
     }
 
     @PutMapping("/{id}")
     @ApiOperation(value = "댓글 수정")
-    public CommentDetail update(HttpServletRequest request, @PathVariable Long id,  @RequestBody CommentForm commentForm) {
+    public ArticleDto update(HttpServletRequest request, @PathVariable Long id,  @RequestBody CommentForm commentForm) {
         Long userId = jwtProvider.getUserInfo(request);
-        return commentService.updateComment(userId, id, commentForm.getContent());
+        return commentService.updateComment(id,userId,commentForm.getArticleId(),  commentForm.getContent());
     }
 
     @DeleteMapping("/{id}")
