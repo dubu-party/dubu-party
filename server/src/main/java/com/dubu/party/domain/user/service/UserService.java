@@ -1,13 +1,14 @@
 package com.dubu.party.domain.user.service;
 
 import com.dubu.party.common.file.Image;
-import com.dubu.party.domain.article.db.entity.ArticleDto;
+import com.dubu.party.domain.article.db.data.article.ArticleDto;
+import com.dubu.party.domain.article.db.data.article.ArticleWithLike;
 import com.dubu.party.domain.article.service.ArticleService;
 import com.dubu.party.domain.user.db.entity.User;
 import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.db.repository.UserRepository;
 import com.dubu.party.domain.user.request.UpdateUserForm;
-import com.dubu.party.domain.user.response.UserDetail;
+import com.dubu.party.domain.user.db.entity.UserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

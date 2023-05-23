@@ -1,10 +1,7 @@
-package com.dubu.party.domain.article.db.response;
+package com.dubu.party.domain.article.db.data.article;
 
 import com.dubu.party.common.file.Image;
 import com.dubu.party.domain.article.db.entity.Article;
-import com.dubu.party.domain.article.db.entity.ArticleLike;
-import com.dubu.party.domain.article.db.entity.ContentSetting;
-import com.dubu.party.domain.user.db.entity.User;
 import com.dubu.party.domain.user.db.entity.UserDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

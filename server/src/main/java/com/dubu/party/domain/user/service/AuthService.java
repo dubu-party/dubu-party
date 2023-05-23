@@ -8,7 +8,7 @@ import com.dubu.party.domain.user.db.entity.User;
 import com.dubu.party.domain.user.db.repository.UserRepository;
 import com.dubu.party.domain.user.request.LoginForm;
 import com.dubu.party.domain.user.request.CreateUserForm;
-import com.dubu.party.domain.user.response.AuthResponse;
+import com.dubu.party.domain.user.db.entity.AuthDetail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -52,14 +52,14 @@ public class AuthService {
         }
     }
 
-    public AuthResponse login(LoginForm request) throws Exception {
+    public AuthDetail login(LoginForm request) throws Exception {
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(
                 () -> new BadCredentialsException("사용자를 찾을 수 없습니다.")
         );
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
         }
-        return AuthResponse.builder()
+        return AuthDetail.builder()
                 .id(user.getId())
                 .email(user.getEmail())
                 .nickName(user.getNickName())

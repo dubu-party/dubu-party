@@ -3,7 +3,7 @@ package com.dubu.party.domain.user.controller;
 import com.dubu.party.domain.user.db.repository.UserRepository;
 import com.dubu.party.domain.user.request.LoginForm;
 import com.dubu.party.domain.user.request.CreateUserForm;
-import com.dubu.party.domain.user.response.AuthResponse;
+import com.dubu.party.domain.user.db.entity.AuthDetail;
 import com.dubu.party.domain.user.service.AuthService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,7 +31,7 @@ public class AuthController {
     }
     @PostMapping(value = "/login")
     @ApiOperation(value = "로그인")
-    public ResponseEntity<AuthResponse> login(@RequestBody LoginForm request) throws Exception {
+    public ResponseEntity<AuthDetail> login(@RequestBody LoginForm request) throws Exception {
         return new ResponseEntity<>(authService.login(request), HttpStatus.OK);
     }
 

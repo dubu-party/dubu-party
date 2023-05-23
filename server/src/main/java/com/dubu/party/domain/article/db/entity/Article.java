@@ -1,17 +1,14 @@
 package com.dubu.party.domain.article.db.entity;
-
-
 import com.dubu.party.common.file.Image;
+import com.dubu.party.domain.article.db.data.article.ContentSetting;
 import com.dubu.party.domain.user.db.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Getter @Setter
-@Builder
 @AllArgsConstructor // 모든 필드 값을 파라미터로 받는 생성자를 생성
 @NoArgsConstructor // 파라미터가 없는 생성자를 생성
 public class Article {
@@ -33,6 +30,7 @@ public class Article {
 
     @OneToMany
     @JoinColumn(name="article_id") //
+    // 기본값 []로 설정 하는 법
     private List<ArticleLike> articleLikes;
 
     @ManyToOne
@@ -40,7 +38,8 @@ public class Article {
     @JsonIgnore
     private User user;
 
-
+    @OneToMany(mappedBy = "article") // mappedBy는 양방향 관계에서 반대쪽 엔티티의 필드명을 지정합니다.
+    private List<Comment> comments;
 
 
 }

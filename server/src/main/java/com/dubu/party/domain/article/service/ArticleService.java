@@ -3,9 +3,10 @@ package com.dubu.party.domain.article.service;
 
 import com.dubu.party.common.file.Image;
 import com.dubu.party.common.security.JwtProvider;
+import com.dubu.party.domain.article.db.data.article.ArticleDto;
 import com.dubu.party.domain.article.db.entity.Article;
-import com.dubu.party.domain.article.db.entity.ArticleDto;
-import com.dubu.party.domain.article.db.entity.ContentSetting;
+import com.dubu.party.domain.article.db.data.article.ArticleWithLike;
+import com.dubu.party.domain.article.db.data.article.ContentSetting;
 import com.dubu.party.domain.article.db.repository.ArticleRepository;
 import com.dubu.party.domain.article.request.ArticleForm;
 import com.dubu.party.domain.user.db.entity.User;
@@ -16,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ArticleService {
@@ -29,11 +29,12 @@ public class ArticleService {
     @Autowired
     private JwtProvider jwtProvider;
 
-    public Long createArticle(Long userId, ArticleForm articleForm) throws Exception{
+    public ArticleDto createArticle(Long userId, ArticleForm articleForm) throws Exception{
 
-        User user =  userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("해당 유저를 찾을 수 없습니다."));
-
+        User user =  userRepository.findById(userId).orElse(null);
+        if(user == null){
+            throw new RuntimeException("해당 유저를 찾을 수 없습니다.");
+        }
 
         Article article = new Article();
         article.setUser(user);
@@ -47,22 +48,16 @@ public class ArticleService {
         /** File **/
         MultipartFile file = articleForm.getFile();
         if (file != null) {
-            Image image = new Image(file);
-            article.setArticleImage(image);
+            article.setArticleImage(new Image(file));
         }
 
         articleRepository.save(article);
-        return article.getId();
+        return new ArticleDto(article);
     }
 
     public List<ArticleDto> getAllArticles(){
         List<Article> articles = articleRepository.findAll();
-
-        List<ArticleDto> newArticles = articles.stream()
-                .map(article -> new ArticleDto(article))
-                .collect(Collectors.toList());
-
-        return newArticles;
+        return ArticleDto.listOf(articles);
     }
 
     public ArticleDto getArticleById(Long id) {
@@ -85,7 +80,7 @@ public class ArticleService {
         return true;
     }
 
-    public ArticleDto updateArticleById(Long userId,Long id, ArticleForm articleForm){
+    public ArticleDto updateArticleById(Long userId, Long id, ArticleForm articleForm){
 
         Article article =  articleRepository.findById(id).orElse(null);
         if(article == null){
@@ -107,15 +102,11 @@ public class ArticleService {
 
     public  List<ArticleDto> getArticlesByUser(Long userId){
 
-        User user =  userRepository.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("해당 유저를 찾을 수 없습니다."));
 
         List<Article> articles = articleRepository.findByUser(user);
 
-        List<ArticleDto> newArticles = articles.stream()
-                .map(article -> new ArticleDto(article))
-                .collect(Collectors.toList());
-
-        return newArticles;
+        return ArticleDto.listOf(articles);
     }
 }

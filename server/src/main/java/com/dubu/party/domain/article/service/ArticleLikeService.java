@@ -29,6 +29,7 @@ public class ArticleLikeService {
         }
         if (articleLikeRepository.existsByUserIdAndArticleId(userId, articleId)) {
             throw new IllegalStateException("이미 좋아요가 눌려있습니다.");
+//            throw new BadCredentialsException("이미 좋아요가 눌려있습니다.");
         }
         Article article = articleRepository.findById(articleId).orElse(null);
         if (article == null) {

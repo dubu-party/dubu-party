@@ -2,9 +2,8 @@ package com.dubu.party.domain.user.controller;
 
 import com.dubu.party.common.security.JwtProvider;
 import com.dubu.party.domain.user.db.entity.UserDto;
-import com.dubu.party.domain.user.request.LoginForm;
 import com.dubu.party.domain.user.request.UpdateUserForm;
-import com.dubu.party.domain.user.response.UserDetail;
+import com.dubu.party.domain.user.db.entity.UserDetail;
 import com.dubu.party.domain.user.service.UserService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;

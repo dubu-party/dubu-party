@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
-@Api(value = "게시글 API", tags = {"article"})
+@Api(value = "게시글 좋아요 API", tags = {"like it"})
 @RestController
 @RequestMapping("/api/likes")
 public class ArticleLikeController {
