@@ -2,6 +2,9 @@ package com.dubu.party.domain.user.controller;
 
 
 import com.dubu.party.common.security.JwtProvider;
+import com.dubu.party.domain.user.db.entity.Follow;
+import com.dubu.party.domain.user.db.entity.UserDetail;
+import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.service.FollowService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Slf4j
 @Api(value = "팔로우 API", tags = {"follow"})
@@ -24,7 +28,7 @@ public class FollowController {
     private JwtProvider jwtProvider;
 
     @PostMapping("/{id}") // 팔로우
-    public ResponseEntity<Boolean> follow( HttpServletRequest request,@PathVariable("id") Long id) {
+    public ResponseEntity<Boolean> follow(HttpServletRequest request, @PathVariable("id") Long id) {
         Long userId = jwtProvider.getUserInfo(request);
         return new ResponseEntity<>(followService.follow(userId, id), HttpStatus.OK);
     }

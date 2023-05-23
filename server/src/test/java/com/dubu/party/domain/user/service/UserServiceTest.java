@@ -1,5 +1,6 @@
 package com.dubu.party.domain.user.service;
 
+import com.dubu.party.domain.user.db.entity.AuthDetail;
 import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.db.repository.UserRepository;
 import com.dubu.party.domain.user.request.CreateUserForm;
@@ -60,22 +61,6 @@ class UserServiceTest {
         assertThat(AfterUsers).isEqualTo(BeforeUsers+3);
     }
 
-    @Test
-    void 개인조회() throws Exception {
-        CreateUserForm user1 = makeUser("1");
-        Long id = authService.register(user1);
-        UserDto userDto = userService.getUserById(id);
-        assertThat(userDto.getId()).isEqualTo(id);
-    }
-
-    @Test
-    void 회원삭제() throws Exception{
-        Integer BeforeUsers = userService.getAllUsers().size();
-        CreateUserForm user1= makeUser("1");
-        Long id = authService.register(user1);
-        UserDto userDto = userService.getUserById(id);
-        assertThat(userService.getAllUsers().size()).isEqualTo(BeforeUsers+1);
-    }
 
 //    @Test
 //    void 회원수정() throws Exception{

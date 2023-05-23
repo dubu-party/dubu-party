@@ -30,7 +30,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
-    public Long register(CreateUserForm createUserForm) throws Exception{
+    public AuthDetail register(CreateUserForm createUserForm) throws Exception{
         try{
             User user = new User();
             user.setEmail(createUserForm.getEmail());

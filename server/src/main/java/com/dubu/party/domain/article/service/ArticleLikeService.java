@@ -23,7 +23,7 @@ public class ArticleLikeService {
     private final UserRepository userRepository;
 
     public boolean like(Long userId, Long articleId) {
-        User user = userRepository.findById(userId).orElse(null);
+        User user = userRepository.getById(userId);
         if (user == null) {
             throw new IllegalStateException("사용자를 찾을 수 없습니다.");
         }
@@ -44,7 +44,7 @@ public class ArticleLikeService {
 
 
     public boolean unlike(Long userId, Long articleId) {
-        ArticleLike like = articleLikeRepository.findByUserIdAndArticleId(userId, articleId);
+        ArticleLike like = articleLikeRepository.getByUserIdAndArticleId(userId, articleId);
         if (like == null) {
             throw new IllegalStateException("좋아요가 눌려있지 않습니다.");
         }

@@ -23,10 +23,7 @@ public class AuthController {
 
     @PostMapping(value="/register")
     @ApiOperation(value = "회원가입")
-    public ResponseEntity<Long> register( CreateUserForm request) throws Exception {
-
-
-
+    public ResponseEntity<AuthDetail> register( CreateUserForm request) throws Exception {
         return new ResponseEntity<>(authService.register(request), HttpStatus.OK);
     }
     @PostMapping(value = "/login")

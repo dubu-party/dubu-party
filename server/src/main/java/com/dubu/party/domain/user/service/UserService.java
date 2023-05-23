@@ -4,6 +4,7 @@ import com.dubu.party.common.file.Image;
 import com.dubu.party.domain.article.db.data.article.ArticleDto;
 import com.dubu.party.domain.article.db.data.article.ArticleWithLike;
 import com.dubu.party.domain.article.service.ArticleService;
+import com.dubu.party.domain.user.db.entity.AuthDetail;
 import com.dubu.party.domain.user.db.entity.User;
 import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.db.repository.UserRepository;
@@ -30,10 +31,18 @@ public class UserService {
     @Autowired
     private FollowService followService;
 
-    public Long saveUser(User user)  {
+    public AuthDetail saveUser(User user)  {
         validateDuplicate(user);
         userRepository.save(user);
-        return user.getId();
+        return new AuthDetail(user);
+    }
+
+    public UserDetail getUserDetail (Long id) {
+        User user =  userRepository.findById(id).orElse(null);
+        if(user == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다.");
+        }
+        return new UserDetail(user,followService.getFollowers(id),followService.getFollowings(id),articleService.getArticlesByUser(id));
     }
 
     public List<UserDto> getAllUsers(){

@@ -2,10 +2,12 @@ package com.dubu.party.domain.user.service;
 
 import com.dubu.party.domain.user.db.entity.Follow;
 import com.dubu.party.domain.user.db.entity.User;
+import com.dubu.party.domain.user.db.entity.UserDetail;
 import com.dubu.party.domain.user.db.entity.UserDto;
 import com.dubu.party.domain.user.db.repository.FollowRepository;
 import com.dubu.party.domain.user.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +17,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor // final이 선언된 모든 필드를 인자값으로 하는 생성자를 대신 생성해준다.
 public class FollowService {
+    @Autowired
     private final UserRepository userRepository;
+    @Autowired
     private final FollowRepository followRepository;
 
 
@@ -37,6 +41,7 @@ public class FollowService {
         follow.setFollower(user);
         follow.setFollowing(followUser);
         followRepository.save(follow);
+
         return true;
 
     }
@@ -55,8 +60,8 @@ public class FollowService {
         }
 
         followRepository.delete(follow);
-        return true;
 
+        return true;
     }
 
     private boolean isFollowing(User user, User followUser) {

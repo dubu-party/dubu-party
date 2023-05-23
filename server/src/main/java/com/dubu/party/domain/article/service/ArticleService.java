@@ -71,10 +71,10 @@ public class ArticleService {
     public boolean deleteArticleById(Long userId,Long id){
         Article article =  articleRepository.findById(id).orElse(null);
         if(article == null){
-            throw new ResponseStatusException(org.springframework.http.HttpStatus.NOT_FOUND, "해당 게시글을 찾을 수 없습니다.");
+            throw new IllegalStateException("해당 게시글을 찾을 수 없습니다.");
         }
         if(article.getUser().getId() != userId){
-            throw new ResponseStatusException(org.springframework.http.HttpStatus.FORBIDDEN, "해당 게시글을 삭제할 권한이 없습니다.");
+            throw new IllegalStateException("해당 게시글을 수정할 권한이 없습니다.");
         }
         articleRepository.deleteById(id);
         return true;
@@ -84,10 +84,10 @@ public class ArticleService {
 
         Article article =  articleRepository.findById(id).orElse(null);
         if(article == null){
-            throw new ResponseStatusException(org.springframework.http.HttpStatus.NOT_FOUND, "해당 게시글을 찾을 수 없습니다.");
+            throw new IllegalStateException("해당 게시글을 찾을 수 없습니다.");
         }
         if(article.getUser().getId() != userId){
-            throw new ResponseStatusException(org.springframework.http.HttpStatus.FORBIDDEN, "해당 게시글을 수정할 권한이 없습니다.");
+            throw new IllegalStateException("해당 게시글을 수정할 권한이 없습니다.");
         }
 
         ContentSetting contentSetting = new ContentSetting(articleForm);
