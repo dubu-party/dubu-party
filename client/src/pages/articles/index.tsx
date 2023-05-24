@@ -1,7 +1,5 @@
-import customAxios from "@/api/AxiosModule";
-import { Article, ArticleService } from "@/script/@type/article/article";
+import { Article, ArticleAPI } from "@/script/@type/article/article";
 import styled from "@emotion/styled";
-import axios from "axios";
 import { useRouter } from "next/router";
 
 const ArticleList = ({ articles }: { articles: Article[] }) => {
@@ -12,14 +10,12 @@ const ArticleList = ({ articles }: { articles: Article[] }) => {
       {articles.map((article) => {
         return (
           <div
-            onClick={() => {
-              router.push(`/articles/${article.id}`);
-            }}
+            onClick={() => router.push(`/articles/${article.id}`)}
             className="article"
             key={article.id}
           >
-            <div>{article.title}</div>
-            <div>{article.content}</div>
+            <div>{article.title.content}</div>
+            <div>{article.footer.content}</div>
             <img
               src={`${process.env.BASE_SERVER_URL}${article.fileUrl}`}
               alt="이미지"
@@ -27,13 +23,14 @@ const ArticleList = ({ articles }: { articles: Article[] }) => {
           </div>
         );
       })}
+      <button onClick={() => router.push("/articles/create")}>글쓰기</button>
     </Wrapper>
   );
 };
 
 export const getServerSideProps = async ({ req }: any) => {
-  const articles = await ArticleService.list();
-
+  const articles = await ArticleAPI.list();
+  console.log("hihihih",articles);
   return {
     props: {
       articles,

@@ -1,19 +1,22 @@
-import { Article, ArticleService } from "@/script/@type/article/article";
+import { Article, ArticleAPI } from "@/script/@type/article/article";
 import styled from "@emotion/styled";
-import React, { useEffect } from "react";
+import React from "react";
 
 const index = ({ article }: { article: Article }) => {
   return (
     <Wrapper>
-      <div className="title">{article.title}</div>
-      <div className="content">{article.content}</div>
-      <img src={`${process.env.BASE_SERVER_URL}${article.fileUrl}`} alt="이미지" />
+      <div className="title">{article.title.content}</div>
+      <div className="content">{article.footer.content}</div>
+      <img
+        src={`${process.env.BASE_SERVER_URL}${article.fileUrl}`}
+        alt="이미지"
+      />
     </Wrapper>
   );
 };
 
 export const getServerSideProps = async ({ params }: any) => {
-  const article = await ArticleService.get(Number(params.id));
+  const article = await ArticleAPI.get(Number(params.id));
   console.log(article.title, "article");
   return {
     props: {
