@@ -1,7 +1,7 @@
-package com.dubu.party.domain.article.db.data.comment;
-import com.dubu.party.domain.article.db.data.article.ArticleSimple;
-import com.dubu.party.domain.article.db.entity.Comment;
-import com.dubu.party.domain.user.db.entity.UserDto;
+package com.dubu.party.domain.article.data.comment;
+import com.dubu.party.domain.article.data.article.ArticleSimple;
+import com.dubu.party.domain.article.entity.Comment;
+import com.dubu.party.domain.user.data.UserSimplify;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,12 +12,12 @@ public class CommentDetail {
     private Long id;
     private String content;
     private ArticleSimple article;
-    private UserDto user;
+    private UserSimplify user;
 
     public CommentDetail(Comment comment){
         this.id = comment.getId();
         this.content = comment.getContent();
-        this.user = new UserDto(comment.getUser());
+        this.user = new UserSimplify(comment.getUser());
         this.article = new ArticleSimple(comment.getArticle());
     }
 }

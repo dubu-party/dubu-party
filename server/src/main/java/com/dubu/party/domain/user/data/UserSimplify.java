@@ -1,5 +1,6 @@
-package com.dubu.party.domain.user.db.entity;
+package com.dubu.party.domain.user.data;
 import com.dubu.party.common.file.Image;
+import com.dubu.party.domain.user.entity.User;
 import lombok.*;
 
 import java.util.List;
@@ -8,28 +9,24 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserDto {
+public class UserSimplify {
     private Long id;
-    private String email;
     private String nickname;
-    private String phoneNumber;
 
     private String profileUrl;
 
-    public UserDto(User user){
+    public UserSimplify(User user){
         this.id = user.getId();
-        this.email = user.getEmail();
         this.nickname = user.getNickName();
-        this.phoneNumber = user.getPhoneNumber();
         Image image = user.getProfileImage();
         if(image != null){
             this.profileUrl = user.getProfileImage().getFileUrl();
         }
     }
 
-    public static List<UserDto> listOf(List<User> users){
-        List<UserDto> userDtos = new java.util.ArrayList<>();
-        users.forEach(o -> userDtos.add(new UserDto(o)));
-        return userDtos;
+    public static List<UserSimplify> listOf(List<User> users){
+        List<UserSimplify> userSimplifies = new java.util.ArrayList<>();
+        users.forEach(o -> userSimplifies.add(new UserSimplify(o)));
+        return userSimplifies;
     }
 }

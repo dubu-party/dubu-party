@@ -1,8 +1,7 @@
-package com.dubu.party.domain.article.db.data.comment;
+package com.dubu.party.domain.article.data.comment;
 
-import com.dubu.party.domain.article.db.data.article.ArticleWithLike;
-import com.dubu.party.domain.article.db.entity.Comment;
-import com.dubu.party.domain.user.db.entity.UserDto;
+import com.dubu.party.domain.article.entity.Comment;
+import com.dubu.party.domain.user.data.UserSimplify;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,12 +15,12 @@ public class CommentDto {
     private Long id;
     private String content;
 //    private ArticleWithLike article;
-    private UserDto user;
+    private UserSimplify user;
 
     public CommentDto(Comment comment){
         this.id = comment.getId();
         this.content = comment.getContent();
-        this.user = new UserDto(comment.getUser());
+        this.user = new UserSimplify(comment.getUser());
     }
     public static List<CommentDto> listOf(List<Comment> comments){
         List<CommentDto> commentDtos = new ArrayList<>();

@@ -1,6 +1,6 @@
-package com.dubu.party.domain.user.db.entity;
+package com.dubu.party.domain.user.data;
 
-import com.dubu.party.domain.user.db.entity.User;
+import com.dubu.party.domain.user.entity.User;
 import lombok.*;
 
 @Getter @Setter

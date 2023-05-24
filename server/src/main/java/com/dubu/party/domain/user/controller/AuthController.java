@@ -1,9 +1,9 @@
 package com.dubu.party.domain.user.controller;
 
-import com.dubu.party.domain.user.db.repository.UserRepository;
+import com.dubu.party.domain.user.repository.UserRepository;
 import com.dubu.party.domain.user.request.LoginForm;
 import com.dubu.party.domain.user.request.CreateUserForm;
-import com.dubu.party.domain.user.db.entity.AuthDetail;
+import com.dubu.party.domain.user.data.AuthDetail;
 import com.dubu.party.domain.user.service.AuthService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package com.dubu.party.domain.article.request;
 
 
-import com.dubu.party.domain.article.db.data.article.TextAlign;
+import com.dubu.party.domain.article.data.article.TextAlign;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;

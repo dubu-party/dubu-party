@@ -1,14 +1,14 @@
 package com.dubu.party.domain.article.service;
 
-import com.dubu.party.domain.article.db.data.article.ArticleDto;
-import com.dubu.party.domain.article.db.entity.Article;
-import com.dubu.party.domain.article.db.entity.Comment;
-import com.dubu.party.domain.article.db.data.comment.CommentDto;
-import com.dubu.party.domain.article.db.repository.ArticleRepository;
-import com.dubu.party.domain.article.db.repository.CommentRepository;
-import com.dubu.party.domain.article.db.data.comment.CommentDetail;
-import com.dubu.party.domain.user.db.entity.User;
-import com.dubu.party.domain.user.db.repository.UserRepository;
+import com.dubu.party.domain.article.data.article.ArticleDto;
+import com.dubu.party.domain.article.entity.Article;
+import com.dubu.party.domain.article.entity.Comment;
+import com.dubu.party.domain.article.data.comment.CommentDto;
+import com.dubu.party.domain.article.repository.ArticleRepository;
+import com.dubu.party.domain.article.repository.CommentRepository;
+import com.dubu.party.domain.article.data.comment.CommentDetail;
+import com.dubu.party.domain.user.entity.User;
+import com.dubu.party.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

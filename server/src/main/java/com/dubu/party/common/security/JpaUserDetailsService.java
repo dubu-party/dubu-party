@@ -1,7 +1,7 @@
 package com.dubu.party.common.security;
 
-import com.dubu.party.domain.user.db.entity.User;
-import com.dubu.party.domain.user.db.repository.UserRepository;
+import com.dubu.party.domain.user.entity.User;
+import com.dubu.party.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

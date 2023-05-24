@@ -1,7 +1,5 @@
-package com.dubu.party.domain.user.db.entity;
+package com.dubu.party.domain.user.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

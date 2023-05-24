@@ -1,11 +1,11 @@
 package com.dubu.party.domain.article.service;
 
-import com.dubu.party.domain.article.db.entity.Article;
-import com.dubu.party.domain.article.db.entity.ArticleLike;
-import com.dubu.party.domain.article.db.repository.ArticleRepository;
-import com.dubu.party.domain.article.db.repository.ArticleLikeRepository;
-import com.dubu.party.domain.user.db.entity.User;
-import com.dubu.party.domain.user.db.repository.UserRepository;
+import com.dubu.party.domain.article.entity.Article;
+import com.dubu.party.domain.article.entity.ArticleLike;
+import com.dubu.party.domain.article.repository.ArticleRepository;
+import com.dubu.party.domain.article.repository.ArticleLikeRepository;
+import com.dubu.party.domain.user.entity.User;
+import com.dubu.party.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

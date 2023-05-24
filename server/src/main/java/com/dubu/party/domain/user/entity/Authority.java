@@ -1,4 +1,4 @@
-package com.dubu.party.domain.user.db.entity;
+package com.dubu.party.domain.user.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;

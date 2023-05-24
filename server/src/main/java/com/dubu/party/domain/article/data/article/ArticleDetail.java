@@ -1,8 +1,8 @@
-package com.dubu.party.domain.article.db.data.article;
+package com.dubu.party.domain.article.data.article;
 
 import com.dubu.party.common.file.Image;
-import com.dubu.party.domain.article.db.entity.Article;
-import com.dubu.party.domain.user.db.entity.UserDto;
+import com.dubu.party.domain.article.entity.Article;
+import com.dubu.party.domain.user.data.UserSimplify;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,16 +19,16 @@ public class ArticleDetail {
 
     private String fileUrl;
 
-    private UserDto user;
+    private UserSimplify user;
 
-    private List<UserDto> likeUserList;
+    private List<UserSimplify> likeUserList;
 
     public ArticleDetail(Article article){
         this.id = article.getId();
         this.title = article.getTitle();
         this.content = article.getContent();
         this.contentSetting = article.getContentSetting();
-        this.user = new UserDto(article.getUser());
+        this.user = new UserSimplify(article.getUser());
 
 //        List<ArticleLike> articleLikes = article.getArticleLikes();
 //        for(User user : users){

@@ -1,9 +1,9 @@
 package com.dubu.party.domain.user.controller;
 
 import com.dubu.party.common.security.JwtProvider;
-import com.dubu.party.domain.user.db.entity.UserDto;
+import com.dubu.party.domain.user.data.UserSimplify;
 import com.dubu.party.domain.user.request.UpdateUserForm;
-import com.dubu.party.domain.user.db.entity.UserDetail;
+import com.dubu.party.domain.user.data.UserDetail;
 import com.dubu.party.domain.user.service.UserService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ public class UserController {
     private JwtProvider jwtProvider;
 
     @GetMapping("/all")
-    public ResponseEntity<List<UserDto>> getAllUsers() {
+    public ResponseEntity<List<UserSimplify>> getAllUsers() {
         return new ResponseEntity<>(
                 userService.getAllUsers(), HttpStatus.OK
         );
@@ -42,7 +42,7 @@ public class UserController {
     }
 
     @PutMapping("")
-    public ResponseEntity<UserDto> updateUser(HttpServletRequest request, UpdateUserForm updateUserForm)throws Exception{
+    public ResponseEntity<UserSimplify> updateUser(HttpServletRequest request, UpdateUserForm updateUserForm)throws Exception{
         Long userId = jwtProvider.getUserInfo(request);
 
         return new ResponseEntity<>(

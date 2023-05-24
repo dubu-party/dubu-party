@@ -1,14 +1,12 @@
 package com.dubu.party.domain.user.service;
 
-import com.dubu.party.domain.user.db.entity.Follow;
-import com.dubu.party.domain.user.db.entity.User;
-import com.dubu.party.domain.user.db.entity.UserDetail;
-import com.dubu.party.domain.user.db.entity.UserDto;
-import com.dubu.party.domain.user.db.repository.FollowRepository;
-import com.dubu.party.domain.user.db.repository.UserRepository;
+import com.dubu.party.domain.user.entity.Follow;
+import com.dubu.party.domain.user.entity.User;
+import com.dubu.party.domain.user.data.UserSimplify;
+import com.dubu.party.domain.user.repository.FollowRepository;
+import com.dubu.party.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -68,26 +66,26 @@ public class FollowService {
         return followRepository.existsByFollowerAndFollowing(user, followUser);
     }
 
-    public List<UserDto> getFollowers(Long userId) {
+    public List<UserSimplify> getFollowers(Long userId) {
         User user = userRepository.findById(userId).orElse(null);
         if(user == null) {
             throw new IllegalStateException("사용자를 찾을 수 없습니다.");
         };
-        List<UserDto> followers = new ArrayList<UserDto>();
+        List<UserSimplify> followers = new ArrayList<UserSimplify>();
         for(Follow follow : user.getFollowing()) {
-            followers.add(new UserDto(follow.getFollower()));
+            followers.add(new UserSimplify(follow.getFollower()));
         }
         return followers;
     }
 
-    public List<UserDto> getFollowings(Long userId) {
+    public List<UserSimplify> getFollowings(Long userId) {
         User user = userRepository.findById(userId).orElse(null);
         if(user == null) {
             throw new IllegalStateException("사용자를 찾을 수 없습니다.");
         };
-        List<UserDto> followings = new ArrayList<UserDto>();
+        List<UserSimplify> followings = new ArrayList<UserSimplify>();
         for(Follow follow : user.getFollower()) {
-            followings.add(new UserDto(follow.getFollowing()));
+            followings.add(new UserSimplify(follow.getFollowing()));
         }
         return followings;
     }

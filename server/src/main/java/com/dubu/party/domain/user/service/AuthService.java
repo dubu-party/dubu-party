@@ -3,12 +3,12 @@ package com.dubu.party.domain.user.service;
 
 import com.dubu.party.common.file.Image;
 import com.dubu.party.common.security.JwtProvider;
-import com.dubu.party.domain.user.db.entity.Authority;
-import com.dubu.party.domain.user.db.entity.User;
-import com.dubu.party.domain.user.db.repository.UserRepository;
+import com.dubu.party.domain.user.entity.Authority;
+import com.dubu.party.domain.user.entity.User;
+import com.dubu.party.domain.user.repository.UserRepository;
 import com.dubu.party.domain.user.request.LoginForm;
 import com.dubu.party.domain.user.request.CreateUserForm;
-import com.dubu.party.domain.user.db.entity.AuthDetail;
+import com.dubu.party.domain.user.data.AuthDetail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;

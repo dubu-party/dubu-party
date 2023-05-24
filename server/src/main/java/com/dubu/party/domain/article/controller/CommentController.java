@@ -2,9 +2,9 @@ package com.dubu.party.domain.article.controller;
 
 
 import com.dubu.party.common.security.JwtProvider;
-import com.dubu.party.domain.article.db.data.article.ArticleDto;
-import com.dubu.party.domain.article.db.data.comment.CommentDto;
-import com.dubu.party.domain.article.db.data.comment.CommentDetail;
+import com.dubu.party.domain.article.data.article.ArticleDto;
+import com.dubu.party.domain.article.data.comment.CommentDto;
+import com.dubu.party.domain.article.data.comment.CommentDetail;
 import com.dubu.party.domain.article.request.CommentForm;
 import com.dubu.party.domain.article.service.CommentService;
 import com.dubu.party.domain.user.service.UserService;

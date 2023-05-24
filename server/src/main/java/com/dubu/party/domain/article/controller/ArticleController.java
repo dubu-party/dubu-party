@@ -2,8 +2,7 @@ package com.dubu.party.domain.article.controller;
 
 
 import com.dubu.party.common.security.JwtProvider;
-import com.dubu.party.domain.article.db.data.article.ArticleDto;
-import com.dubu.party.domain.article.db.data.article.ArticleWithLike;
+import com.dubu.party.domain.article.data.article.ArticleDto;
 import com.dubu.party.domain.article.request.ArticleForm;
 import com.dubu.party.domain.article.service.ArticleService;
 import com.dubu.party.domain.user.service.UserService;

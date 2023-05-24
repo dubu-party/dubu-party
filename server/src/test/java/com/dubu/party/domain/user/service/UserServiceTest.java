@@ -1,8 +1,6 @@
 package com.dubu.party.domain.user.service;
 
-import com.dubu.party.domain.user.db.entity.AuthDetail;
-import com.dubu.party.domain.user.db.entity.UserDto;
-import com.dubu.party.domain.user.db.repository.UserRepository;
+import com.dubu.party.domain.user.repository.UserRepository;
 import com.dubu.party.domain.user.request.CreateUserForm;
 import com.dubu.party.domain.user.request.UpdateUserForm;
 import org.junit.jupiter.api.Test;

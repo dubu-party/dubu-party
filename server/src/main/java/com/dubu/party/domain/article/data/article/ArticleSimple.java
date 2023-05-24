@@ -1,7 +1,7 @@
-package com.dubu.party.domain.article.db.data.article;
+package com.dubu.party.domain.article.data.article;
 
 
-import com.dubu.party.domain.article.db.entity.Article;
+import com.dubu.party.domain.article.entity.Article;
 import lombok.*;
 
 @Getter @Setter

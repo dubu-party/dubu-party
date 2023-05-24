@@ -1,8 +1,8 @@
-package com.dubu.party.domain.user.db.entity;
+package com.dubu.party.domain.user.data;
 
 import com.dubu.party.common.file.Image;
-import com.dubu.party.domain.article.db.data.article.ArticleDto;
-import com.dubu.party.domain.article.db.data.article.ArticleWithLike;
+import com.dubu.party.domain.article.data.article.ArticleDto;
+import com.dubu.party.domain.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,15 +19,15 @@ public class UserDetail {
 
     private String profileUrl;
 
-    private List<UserDto> follower;
+    private List<UserSimplify> follower;
 
-    private List<UserDto> following;
+    private List<UserSimplify> following;
 
     private List<ArticleDto> articles;
 
 
 
-    public UserDetail(User user, List<UserDto> follower, List<UserDto> following,List<ArticleDto> articles){
+    public UserDetail(User user, List<UserSimplify> follower, List<UserSimplify> following, List<ArticleDto> articles){
         this.id = user.getId();
         this.email = user.getEmail();
         this.nickname = user.getNickName();

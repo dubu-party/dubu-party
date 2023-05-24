@@ -1,11 +1,11 @@
-package com.dubu.party.domain.article.db.data.article;
+package com.dubu.party.domain.article.data.article;
 
 import com.dubu.party.common.file.Image;
-import com.dubu.party.domain.article.db.data.comment.CommentDto;
-import com.dubu.party.domain.article.db.entity.Article;
-import com.dubu.party.domain.article.db.entity.ArticleLike;
-import com.dubu.party.domain.article.db.entity.Comment;
-import com.dubu.party.domain.user.db.entity.UserDto;
+import com.dubu.party.domain.article.data.comment.CommentDto;
+import com.dubu.party.domain.article.entity.Article;
+import com.dubu.party.domain.article.entity.ArticleLike;
+import com.dubu.party.domain.article.entity.Comment;
+import com.dubu.party.domain.user.data.UserSimplify;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,11 +27,11 @@ public class ArticleDto {
 
     String fileUrl;
 
-    UserDto user;
+    UserSimplify user;
 
     Integer likeCount;
 
-    List<UserDto> likeUsers;
+    List<UserSimplify> likeUsers;
 
     List<CommentDto> comments;
 
@@ -40,12 +40,12 @@ public class ArticleDto {
         this.title = article.getTitle();
         this.content = article.getContent();
         this.contentSetting = article.getContentSetting();
-        this.user = new UserDto(article.getUser());
+        this.user = new UserSimplify(article.getUser());
 
         List<ArticleLike> articleLikes = article.getArticleLikes();
-        this.likeUsers = new ArrayList<UserDto>();
+        this.likeUsers = new ArrayList<UserSimplify>();
         if(articleLikes != null){
-            articleLikes.forEach(o -> this.likeUsers.add(new UserDto(o.getUser())));
+            articleLikes.forEach(o -> this.likeUsers.add(new UserSimplify(o.getUser())));
         }
         Image image = article.getArticleImage();
         if(image != null){
