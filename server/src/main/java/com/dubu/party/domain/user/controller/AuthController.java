@@ -1,9 +1,9 @@
 package com.dubu.party.domain.user.controller;
 
-import com.dubu.party.domain.user.db.repository.UserRepository;
+import com.dubu.party.domain.user.repository.UserRepository;
 import com.dubu.party.domain.user.request.LoginForm;
 import com.dubu.party.domain.user.request.CreateUserForm;
-import com.dubu.party.domain.user.response.AuthResponse;
+import com.dubu.party.domain.user.data.AuthDetail;
 import com.dubu.party.domain.user.service.AuthService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -23,13 +23,19 @@ public class AuthController {
 
     @PostMapping(value="/register")
     @ApiOperation(value = "회원가입")
-    public ResponseEntity<Long> register( CreateUserForm request) throws Exception {
+    public ResponseEntity<AuthDetail> register( CreateUserForm request) throws Exception {
         return new ResponseEntity<>(authService.register(request), HttpStatus.OK);
     }
     @PostMapping(value = "/login")
     @ApiOperation(value = "로그인")
-    public ResponseEntity<AuthResponse> login(@RequestBody LoginForm request) throws Exception {
+    public ResponseEntity<AuthDetail> login(@RequestBody LoginForm request) throws Exception {
         return new ResponseEntity<>(authService.login(request), HttpStatus.OK);
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<Boolean> deleteUser( LoginForm request) throws Exception{
+        return new ResponseEntity<>(
+                authService.delete(request), HttpStatus.OK);
     }
 
 }

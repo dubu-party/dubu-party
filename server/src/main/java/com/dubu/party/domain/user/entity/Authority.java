@@ -1,4 +1,4 @@
-package com.dubu.party.domain.user.db.entity;
+package com.dubu.party.domain.user.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -18,7 +18,7 @@ public class Authority {
 
     private String authorityName;
 
-    @JoinColumn(name = "userPkId")
+    @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private User user;

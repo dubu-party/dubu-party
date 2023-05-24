@@ -33,13 +33,13 @@ public class SecurityConfig {
 
     private static final String[] AUTH_LIST = {
             "/api/auth/**",
+            "/api/articles/**",
             "/swagger-resources/**",
             "/swagger-ui/**",
             "/swagger-ui.html",
             "/v3/api-docs/**",
             "/webjars/**",
             "/files/**",
-            "/api/articles/**",
     };
 
 

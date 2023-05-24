@@ -1,6 +1,6 @@
-package com.dubu.party.domain.article.db.repository;
-import com.dubu.party.domain.article.db.entity.Article;
-import com.dubu.party.domain.user.db.entity.User;
+package com.dubu.party.domain.article.repository;
+import com.dubu.party.domain.article.entity.Article;
+import com.dubu.party.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

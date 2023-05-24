@@ -9,7 +9,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
         String message = e.getMessage();
-        if (message.contains("Cannot deserialize value of type `com.dubu.party.domain.article.db.entity.TextAlign`")) {
+        if (message.contains("Cannot deserialize value of type `com.dubu.party.domain.article.db.entity.article.TextAlign`")) {
             return ResponseEntity.badRequest().body("TextAlign 형식을 확인해주세요(TOP,BOTTOM,CENTER)");
         }
         return ResponseEntity.badRequest().body("형식을 확인해주세요");

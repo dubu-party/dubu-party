@@ -3,18 +3,21 @@ package com.dubu.party.domain.user.service;
 
 import com.dubu.party.common.file.Image;
 import com.dubu.party.common.security.JwtProvider;
-import com.dubu.party.domain.user.db.entity.Authority;
-import com.dubu.party.domain.user.db.entity.User;
-import com.dubu.party.domain.user.db.repository.UserRepository;
+import com.dubu.party.domain.user.entity.Authority;
+import com.dubu.party.domain.user.entity.User;
+import com.dubu.party.domain.user.entity.data.Setting;
+import com.dubu.party.domain.user.repository.UserRepository;
 import com.dubu.party.domain.user.request.LoginForm;
 import com.dubu.party.domain.user.request.CreateUserForm;
-import com.dubu.party.domain.user.response.AuthResponse;
+import com.dubu.party.domain.user.data.AuthDetail;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 
@@ -28,13 +31,14 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
 
-    public Long register(CreateUserForm createUserForm) throws Exception{
+    public AuthDetail register(CreateUserForm createUserForm) throws Exception{
         try{
             User user = new User();
             user.setEmail(createUserForm.getEmail());
             user.setPassword(passwordEncoder.encode(createUserForm.getPassword()));
             user.setNickName(createUserForm.getNickname());
-            user.setPhoneNumber(createUserForm.getPhoneNumber());
+            user.setInstagram(createUserForm.getInstagram());
+            user.setSetting(new Setting());
 
             MultipartFile file = createUserForm.getProfileImage();
             if (file != null) {
@@ -50,28 +54,29 @@ public class AuthService {
         }
     }
 
-
-    public AuthResponse login(LoginForm request) throws Exception {
+    public AuthDetail login(LoginForm request) throws Exception {
         User user = userRepository.findByEmail(request.getEmail()).orElseThrow(
                 () -> new BadCredentialsException("사용자를 찾을 수 없습니다.")
         );
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
         }
-        return AuthResponse.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .nickName(user.getNickName())
-                .phoneNumber(user.getPhoneNumber())
-                .token(jwtProvider.createToken(user, user.getRoles()))
-                .build();
+        AuthDetail authDetail = new AuthDetail(user);
+        authDetail.setToken(jwtProvider.createToken(user, user.getRoles()));
+        return authDetail;
     }
 
-
-    public AuthResponse getUser(String userId) throws Exception {
-        User user = userRepository.findByEmail(userId)
-                .orElseThrow(() -> new Exception("계정을 찾을 수 없습니다."));
-        return new AuthResponse(user);
+    public boolean delete(LoginForm request){
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(
+                () -> new BadCredentialsException("사용자를 찾을 수 없습니다.")
+        );
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
+        }
+        if(user == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다.");
+        }
+        userRepository.deleteById(user.getId());
+        return true;
     }
-
 }
