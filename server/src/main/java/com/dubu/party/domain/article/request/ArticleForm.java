@@ -2,7 +2,6 @@ package com.dubu.party.domain.article.request;
 
 
 import com.dubu.party.domain.article.entity.data.Footer;
-import com.dubu.party.domain.article.entity.data.TextAlign;
 import com.dubu.party.domain.article.entity.data.Title;
 import lombok.Getter;
 import lombok.Setter;

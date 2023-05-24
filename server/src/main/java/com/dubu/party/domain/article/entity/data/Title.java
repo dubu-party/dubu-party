@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Enumerated;
 
 @Getter @Setter
 @NoArgsConstructor
@@ -29,12 +30,11 @@ public class Title {
 
     @Column(name = "title_font_family")
     public String fontFamily; // "Noto Sans KR",
-
+    @Enumerated
     @Column(name = "title_height_sort")
-    public String heightSort; // TOP MID BOTTOM
+    public HeightSort heightSort; // TOP, CENTER, BOTTOM
 
+    @Enumerated
     @Column(name = "title_width_sort")
-    public String widthSort; // LEFT CENTER RIGHT
-
-
+    public WidthSort widthSort; // LEFT CENTER RIGHT
 }
