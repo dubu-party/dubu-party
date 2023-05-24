@@ -27,7 +27,7 @@ public class User {
 
     private String nickName;
 
-    private String phoneNumber;
+    private String instagram;
 
     @Embedded
     private Setting setting;

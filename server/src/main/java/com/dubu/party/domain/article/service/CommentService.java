@@ -28,7 +28,7 @@ public class CommentService {
     @Autowired
     private final UserRepository userRepository;
 
-    public ArticleDto createComment(Long userId, Long articleId, String content) {
+    public List<CommentDto> createComment(Long userId, Long articleId, String content) {
         User user = userRepository.getById(userId);
         if (user == null) {
             throw new IllegalStateException("사용자를 찾을 수 없습니다.");
@@ -43,7 +43,7 @@ public class CommentService {
         comment.setContent(content);
         comment.setArticle(article);
         commentRepository.save(comment);
-        return new ArticleDto(article);
+        return CommentDto.listOf(article.getComments());
     }
 
     public boolean deleteComment(Long userId, Long commentId) {
@@ -58,7 +58,7 @@ public class CommentService {
         return true;
     }
 
-    public ArticleDto updateComment( Long commentId,Long userId,Long articleId ,String content) {
+    public List<CommentDto> updateComment( Long commentId,Long userId,Long articleId ,String content) {
 
         Comment comment = commentRepository.findById(commentId).orElse(null);
         if(comment == null){
@@ -70,7 +70,7 @@ public class CommentService {
         Article article = articleRepository.getById(articleId);
         comment.setContent(content);
         commentRepository.save(comment);
-        return new ArticleDto(article);
+        return CommentDto.listOf(article.getComments());
     }
 
 

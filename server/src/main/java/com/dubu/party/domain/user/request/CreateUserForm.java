@@ -17,7 +17,7 @@ public class CreateUserForm {
     private String nickname;
 
 
-    private String phoneNumber;
+    private String instagram;
     private MultipartFile profileImage;
 
 }

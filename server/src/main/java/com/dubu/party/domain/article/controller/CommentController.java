@@ -33,14 +33,14 @@ public class CommentController {
 
     @PostMapping("")
     @ApiOperation(value = "댓글 생성")
-    public ArticleDto create(HttpServletRequest request, @RequestBody CommentForm commentForm) {
+    public List<CommentDto> create(HttpServletRequest request, @RequestBody CommentForm commentForm) {
         Long userId = jwtProvider.getUserInfo(request);
         return commentService.createComment(userId, commentForm.getArticleId(), commentForm.getContent());
     }
 
     @PutMapping("/{id}")
     @ApiOperation(value = "댓글 수정")
-    public ArticleDto update(HttpServletRequest request, @PathVariable Long id,  @RequestBody CommentForm commentForm) {
+    public List<CommentDto> update(HttpServletRequest request, @PathVariable Long id,  @RequestBody CommentForm commentForm) {
         Long userId = jwtProvider.getUserInfo(request);
         return commentService.updateComment(id,userId,commentForm.getArticleId(),  commentForm.getContent());
     }

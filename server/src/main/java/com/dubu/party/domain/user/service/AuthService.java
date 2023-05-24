@@ -37,7 +37,7 @@ public class AuthService {
             user.setEmail(createUserForm.getEmail());
             user.setPassword(passwordEncoder.encode(createUserForm.getPassword()));
             user.setNickName(createUserForm.getNickname());
-            user.setPhoneNumber(createUserForm.getPhoneNumber());
+            user.setInstagram(createUserForm.getInstagram());
             user.setSetting(new Setting());
 
             MultipartFile file = createUserForm.getProfileImage();
