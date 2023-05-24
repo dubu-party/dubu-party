@@ -1,6 +1,6 @@
 package com.dubu.party.domain.article.entity;
 import com.dubu.party.common.file.Image;
-import com.dubu.party.domain.article.data.article.ContentSetting;
+import com.dubu.party.domain.article.entity.data.ContentSetting;
 import com.dubu.party.domain.user.entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;

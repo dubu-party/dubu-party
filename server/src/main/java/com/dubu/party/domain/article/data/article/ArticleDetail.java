@@ -2,6 +2,7 @@ package com.dubu.party.domain.article.data.article;
 
 import com.dubu.party.common.file.Image;
 import com.dubu.party.domain.article.entity.Article;
+import com.dubu.party.domain.article.entity.data.ContentSetting;
 import com.dubu.party.domain.user.data.UserSimplify;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

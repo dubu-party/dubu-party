@@ -5,7 +5,7 @@ import com.dubu.party.common.file.Image;
 import com.dubu.party.common.security.JwtProvider;
 import com.dubu.party.domain.article.data.article.ArticleDto;
 import com.dubu.party.domain.article.entity.Article;
-import com.dubu.party.domain.article.data.article.ContentSetting;
+import com.dubu.party.domain.article.entity.data.ContentSetting;
 import com.dubu.party.domain.article.repository.ArticleRepository;
 import com.dubu.party.domain.article.request.ArticleForm;
 import com.dubu.party.domain.user.entity.User;

@@ -1,6 +1,7 @@
-package com.dubu.party.domain.article.data.article;
+package com.dubu.party.domain.article.entity.data;
 
 
+import com.dubu.party.domain.article.entity.data.TextAlign;
 import com.dubu.party.domain.article.request.ArticleForm;
 import lombok.*;
 

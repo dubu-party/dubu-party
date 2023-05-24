@@ -5,6 +5,7 @@ import com.dubu.party.domain.article.data.comment.CommentDto;
 import com.dubu.party.domain.article.entity.Article;
 import com.dubu.party.domain.article.entity.ArticleLike;
 import com.dubu.party.domain.article.entity.Comment;
+import com.dubu.party.domain.article.entity.data.ContentSetting;
 import com.dubu.party.domain.user.data.UserSimplify;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
