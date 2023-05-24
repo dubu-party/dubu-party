@@ -1,8 +1,10 @@
 package com.dubu.party.domain.user.data;
 import com.dubu.party.common.file.Image;
+import com.dubu.party.domain.article.entity.ArticleLike;
 import com.dubu.party.domain.user.entity.User;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
@@ -27,6 +29,14 @@ public class UserSimplify {
     public static List<UserSimplify> listOf(List<User> users){
         List<UserSimplify> userSimplifies = new java.util.ArrayList<>();
         users.forEach(o -> userSimplifies.add(new UserSimplify(o)));
+        return userSimplifies;
+    }
+
+    public static List<UserSimplify> listOfWithArticleLike(List<ArticleLike> users){
+        List<UserSimplify> userSimplifies = new ArrayList<UserSimplify>();
+        if(users != null){
+            users.forEach(o -> userSimplifies.add(new UserSimplify(o.getUser())));
+        }
         return userSimplifies;
     }
 }

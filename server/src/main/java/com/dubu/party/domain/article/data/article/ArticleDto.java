@@ -1,11 +1,11 @@
 package com.dubu.party.domain.article.data.article;
 
 import com.dubu.party.common.file.Image;
-import com.dubu.party.domain.article.data.comment.CommentDto;
 import com.dubu.party.domain.article.entity.Article;
 import com.dubu.party.domain.article.entity.ArticleLike;
 import com.dubu.party.domain.article.entity.Comment;
-import com.dubu.party.domain.article.entity.data.ContentSetting;
+import com.dubu.party.domain.article.entity.data.Footer;
+import com.dubu.party.domain.article.entity.data.Title;
 import com.dubu.party.domain.user.data.UserSimplify;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,47 +22,47 @@ public class ArticleDto {
     // ARTICLE + likes + comments
 
     Long id;
-    String title;
-    String content;
-    ContentSetting contentSetting;
+    private Title title;
+    private Footer footer;
 
-    String fileUrl;
+    private String fileUrl;
 
-    UserSimplify user;
+    private UserSimplify user;
 
-    Integer likeCount;
+    private Integer likeCount;
+    private Integer commentCount;
 
-    List<UserSimplify> likeUsers;
 
-    List<CommentDto> comments;
+    // 좋아요 누른 유저 목록 => 내가 좋아요 했는지 확인
+    private List<UserSimplify> likeUserList;
+
+    // TODO: 좋아요 누른 유저 목록 => 내가 좋아요 했는지 확인
+
+    //    private boolean isLike;
+
 
     public ArticleDto(Article article){
         this.id = article.getId();
         this.title = article.getTitle();
-        this.content = article.getContent();
-        this.contentSetting = article.getContentSetting();
+        this.footer = article.getFooter();
         this.user = new UserSimplify(article.getUser());
 
-        List<ArticleLike> articleLikes = article.getArticleLikes();
-        this.likeUsers = new ArrayList<UserSimplify>();
-        if(articleLikes != null){
-            articleLikes.forEach(o -> this.likeUsers.add(new UserSimplify(o.getUser())));
-        }
         Image image = article.getArticleImage();
         if(image != null){
             this.fileUrl = image.getFileUrl();
         }
-
-        this.likeCount = likeUsers.size();
-
+        List<ArticleLike> articleLikes = article.getArticleLikes();
+        if(articleLikes == null) {
+            articleLikes = new ArrayList<>();
+        }
+        this.likeUserList = UserSimplify.listOfWithArticleLike(articleLikes);
+        this.likeCount = articleLikes.size();
 
         List<Comment> comments = article.getComments();
-        if (comments != null) {
-            this.comments = CommentDto.listOf(comments);
+        if(comments == null) {
+            comments = new ArrayList<>();
         }
-        else{
-            this.comments = new ArrayList<>();
-        }
+        this.commentCount = comments.size();
     }
     public static List<ArticleDto> listOf(List<Article> articles){
         List<ArticleDto> articleWithLikes = new ArrayList<>();

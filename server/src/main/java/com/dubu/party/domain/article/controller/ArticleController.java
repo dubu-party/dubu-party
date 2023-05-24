@@ -2,6 +2,7 @@ package com.dubu.party.domain.article.controller;
 
 
 import com.dubu.party.common.security.JwtProvider;
+import com.dubu.party.domain.article.data.article.ArticleDetail;
 import com.dubu.party.domain.article.data.article.ArticleDto;
 import com.dubu.party.domain.article.request.ArticleForm;
 import com.dubu.party.domain.article.service.ArticleService;
@@ -37,15 +38,16 @@ public class ArticleController {
     }
     @PostMapping("")
     @ApiOperation(value = "게시글 생성")
-    public ArticleDto createArticle(HttpServletRequest request, ArticleForm articleForm) throws Exception {
-
+    public ArticleDto createArticle(HttpServletRequest request,
+                                     ArticleForm articleForm) throws Exception {
         Long userId = jwtProvider.getUserInfo(request);
         return articleService.createArticle(userId,articleForm);
     }
 
     @PutMapping("/{id}")
     @ApiOperation(value = "게시글 수정")
-    public ArticleDto updateArticle(HttpServletRequest request, @PathVariable Long id, ArticleForm articleForm) throws Exception{
+    public ArticleDto updateArticle(HttpServletRequest request, @PathVariable Long id,
+                                    @RequestBody ArticleForm articleForm) throws Exception{
         Long userId = jwtProvider.getUserInfo(request);
         return articleService.updateArticleById(userId,id, articleForm);
     }
@@ -55,7 +57,7 @@ public class ArticleController {
 
     @GetMapping("/{id}")
     @ApiOperation(value = "게시글 조회")
-    public ArticleDto getArticleById(@PathVariable Long id) {
+    public ArticleDetail getArticleById(@PathVariable Long id) {
         return articleService.getArticleById(id);
     }
 
