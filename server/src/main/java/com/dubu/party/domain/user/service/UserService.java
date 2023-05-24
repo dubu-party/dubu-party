@@ -1,15 +1,15 @@
 package com.dubu.party.domain.user.service;
 
 import com.dubu.party.common.file.Image;
-import com.dubu.party.domain.article.db.data.article.ArticleDto;
-import com.dubu.party.domain.article.db.data.article.ArticleWithLike;
+import com.dubu.party.domain.article.data.article.ArticleDto;
 import com.dubu.party.domain.article.service.ArticleService;
-import com.dubu.party.domain.user.db.entity.AuthDetail;
-import com.dubu.party.domain.user.db.entity.User;
-import com.dubu.party.domain.user.db.entity.UserDto;
-import com.dubu.party.domain.user.db.repository.UserRepository;
+import com.dubu.party.domain.user.data.AuthDetail;
+import com.dubu.party.domain.user.entity.User;
+import com.dubu.party.domain.user.data.UserSimplify;
+import com.dubu.party.domain.user.entity.data.Setting;
+import com.dubu.party.domain.user.repository.UserRepository;
 import com.dubu.party.domain.user.request.UpdateUserForm;
-import com.dubu.party.domain.user.db.entity.UserDetail;
+import com.dubu.party.domain.user.data.UserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -45,21 +45,21 @@ public class UserService {
         return new UserDetail(user,followService.getFollowers(id),followService.getFollowings(id),articleService.getArticlesByUser(id));
     }
 
-    public List<UserDto> getAllUsers(){
+    public List<UserSimplify> getAllUsers(){
         List<User> users = userRepository.findAll();
 
-        List<UserDto> userDtos = users.stream()
-                .map(user -> new UserDto(user))
+        List<UserSimplify> userSimplifies = users.stream()
+                .map(user -> new UserSimplify(user))
                 .collect(Collectors.toList());
 
-        return userDtos;
+        return userSimplifies;
     }
-    public UserDto getUserById(Long id) {
+    public UserSimplify getUserById(Long id) {
         User user =  userRepository.findById(id).orElse(null);
         if(user == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다.");
         }
-        return new UserDto(user);
+        return new UserSimplify(user);
     }
 
     public UserDetail getInfo(Long userId) {
@@ -69,31 +69,31 @@ public class UserService {
         }
 
 
-        List<UserDto> follower = followService.getFollowers(userId);
+        List<UserSimplify> follower = followService.getFollowers(userId);
 
-        List<UserDto> following = followService.getFollowings(userId);
+        List<UserSimplify> following = followService.getFollowings(userId);
 
         List<ArticleDto> articles = articleService.getArticlesByUser(user.getId());
 
         return new UserDetail(user,follower,following,articles);
     }
 
-    public UserDto getUserById(String userId) {
+    public UserSimplify getUserById(String userId) {
         User user =  userRepository.findByEmail(userId).orElse(null);
         if(user == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다.");
         }
-        return new UserDto(user);
+        return new UserSimplify(user);
     }
 
 
-    public UserDto updateUser(Long id, UpdateUserForm updateUserForm)throws Exception{
+    public UserSimplify updateUser(Long id, UpdateUserForm updateUserForm)throws Exception{
         User user =userRepository.findById(id).orElse(null);
         if(user == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다.");
         }
         user.setNickName(updateUserForm.getNickname());
-        user.setPhoneNumber(updateUserForm.getPhoneNumber());
+        user.setInstagram(updateUserForm.getInstagram());
 
 
         MultipartFile file = updateUserForm.getProfileImage();
@@ -120,6 +120,14 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 존재하는 ID입니다.");
         }
     }
-
+    public boolean updateSetting(Long id, Setting setting){
+        User user = userRepository.getById(id);
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다.");
+        }
+        user.setSetting(setting);
+        userRepository.save(user);
+        return true;
+    }
 
 }

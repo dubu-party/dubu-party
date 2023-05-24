@@ -1,6 +1,6 @@
 package com.dubu.party.common.security;
 
-import com.dubu.party.domain.user.db.entity.User;
+import com.dubu.party.domain.user.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
