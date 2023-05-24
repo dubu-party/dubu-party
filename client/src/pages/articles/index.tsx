@@ -1,13 +1,16 @@
 import { Article, ArticleAPI } from "@/script/@type/article/article";
 import styled from "@emotion/styled";
+import Image from "next/image";
 import { useRouter } from "next/router";
 
 const ArticleList = ({ articles }: { articles: Article[] }) => {
   // 페이지를 이동하고 싶을 때는 useRouter를 사용합니다.
   const router = useRouter();
+  const baseServerUrl = process.env.BASE_SERVER_URL;
   return (
     <Wrapper>
       {articles.map((article) => {
+        console.log(article);
         return (
           <div
             onClick={() => router.push(`/articles/${article.id}`)}
@@ -16,10 +19,14 @@ const ArticleList = ({ articles }: { articles: Article[] }) => {
           >
             <div>{article.title.content}</div>
             <div>{article.footer.content}</div>
-            <img
-              src={`${process.env.BASE_SERVER_URL}${article.fileUrl}`}
-              alt="이미지"
-            />
+            {article.fileUrl && (
+              <Image
+                src={`${baseServerUrl}${article.fileUrl}`}
+                alt="이미지"
+                width={200}
+                height={200}
+              />
+            )}
           </div>
         );
       })}
@@ -30,7 +37,6 @@ const ArticleList = ({ articles }: { articles: Article[] }) => {
 
 export const getServerSideProps = async ({ req }: any) => {
   const articles = await ArticleAPI.list();
-  console.log("hihihih",articles);
   return {
     props: {
       articles,
@@ -39,12 +45,13 @@ export const getServerSideProps = async ({ req }: any) => {
 };
 
 const Wrapper = styled.section`
-  width: 100%;
+  width: 300px;
   height: 100%;
   padding: 20px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  margin: auto;
   gap: 20px;
   .article {
     cursor: pointer;

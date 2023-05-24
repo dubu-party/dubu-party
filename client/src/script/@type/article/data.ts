@@ -18,16 +18,16 @@ export class ArticleTitle {
   weight: 1 | 2 | 3 | 4 | 5;
   color: string;
   fontFamily: string;
-  heightSort: HeightSort;
-  widthSort: WidthSort;
+  heightSort: "TOP" | "CENTER" | "BOTTOM";
+  widthSort: "LEFT" | "CENTER" | "RIGHT";
   constructor() {
     this.content = "";
-    this.size = 0;
+    this.size = TITLE_FONT_SIZE[0];
     this.weight = 1;
-    this.color = "";
-    this.fontFamily = "";
-    this.heightSort = HeightSort.TOP;
-    this.widthSort = WidthSort.LEFT;
+    this.color = "#fff";
+    this.fontFamily = FONT_FAMILY[0];
+    this.heightSort = "TOP";
+    this.widthSort = "LEFT";
   }
 }
 export class ArticleFooter {
@@ -38,36 +38,15 @@ export class ArticleFooter {
   fontFamily: string;
   constructor() {
     this.content = "";
-    this.size = 0;
+    this.size = FOOTER_FONT_SIZE[0];
     this.weight = 1;
-    this.color = "";
-    this.fontFamily = "";
+    this.color = "#333";
+    this.fontFamily = FONT_FAMILY[0];
   }
 }
 
-enum HeightSort {
-  TOP,
-  CENTER,
-  BOTTOM,
-}
-enum WidthSort {
-  LEFT,
-  CENTER,
-  RIGHT,
-}
 export interface ArticleForm {
   title: ArticleTitle;
   footer: ArticleFooter;
   file?: File;
-}
-
-export class ArticleCreateRequest implements ArticleForm {
-  title: ArticleTitle;
-  footer: ArticleFooter;
-  file?: File;
-
-  constructor() {
-    this.title = new ArticleTitle();
-    this.footer = new ArticleFooter();
-  }
 }

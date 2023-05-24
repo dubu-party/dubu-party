@@ -1,5 +1,6 @@
 import { Article, ArticleAPI } from "@/script/@type/article/article";
 import styled from "@emotion/styled";
+import Image from "next/image";
 import React from "react";
 
 const index = ({ article }: { article: Article }) => {
@@ -7,10 +8,27 @@ const index = ({ article }: { article: Article }) => {
     <Wrapper>
       <div className="title">{article.title.content}</div>
       <div className="content">{article.footer.content}</div>
-      <img
+
+      <Image
         src={`${process.env.BASE_SERVER_URL}${article.fileUrl}`}
-        alt="이미지"
+        alt={article.title.content}
+        width={200}
+        height={200}
       />
+      <h1>TITLE</h1>
+      {Object.keys(article.title).map((key) => (
+        <div key={key}>
+          {key}: {article.title[key as keyof typeof article.title]}
+        </div>
+      ))}
+      <hr />
+      <br />
+      <h1>FOOTER</h1>
+      {Object.keys(article.footer).map((key) => (
+        <div key={key}>
+          {key}: {article.footer[key as keyof typeof article.footer]}
+        </div>
+      ))}
     </Wrapper>
   );
 };

@@ -31,6 +31,7 @@ export const ArticleAPI = {
   },
   create: async (articleForm: ArticleForm) => {
     const formData = ArticleAPI.toFormData(articleForm);
+    customAxios.defaults.headers["Content-Type"] = "multipart/form-data";
     const result = await customAxios
       .post("/api/articles", formData)
       .then((res) => {
@@ -54,8 +55,15 @@ export const ArticleAPI = {
 
   toFormData: (articleForm: ArticleForm) => {
     const formData = new FormData();
-    formData.append("title", JSON.stringify(articleForm.title));
-    formData.append("footer", JSON.stringify(articleForm.footer));
+
+    Object.entries(articleForm.title).forEach(([key, value]) => {
+      formData.append(`title.${key}`, value);
+    });
+
+    Object.entries(articleForm.footer).forEach(([key, value]) => {
+      formData.append(`footer.${key}`, value);
+    });
+
     if (articleForm.file) {
       formData.append("file", articleForm.file);
     }
