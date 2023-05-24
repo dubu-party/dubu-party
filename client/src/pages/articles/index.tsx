@@ -1,5 +1,5 @@
 import customAxios from "@/api/AxiosModule";
-import { Article, ArticleService } from "@/script/@type/article";
+import { Article, ArticleService } from "@/script/@type/article/article";
 import styled from "@emotion/styled";
 import axios from "axios";
 import { useRouter } from "next/router";

@@ -4,7 +4,7 @@ import {
   FONT_SIZE,
   TEXT_ALIGN,
   ArticleService,
-} from "@/script/@type/article";
+} from "@/script/@type/article/article";
 import styled from "@emotion/styled";
 import React, { useState } from "react";
 

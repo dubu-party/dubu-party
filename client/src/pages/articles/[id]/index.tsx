@@ -1,4 +1,4 @@
-import { Article, ArticleService } from "@/script/@type/article";
+import { Article, ArticleService } from "@/script/@type/article/article";
 import styled from "@emotion/styled";
 import React, { useEffect } from "react";
 

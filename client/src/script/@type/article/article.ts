@@ -1,31 +1,19 @@
-import { User } from "./user";
+import { User } from "../user";
+import { ArticleFooter, ArticleTitle } from "./data";
 
 export class Article {
   id: number;
-  title: string;
-  content: string;
   fileUrl?: string;
+  title: ArticleTitle;
+  footer: ArticleFooter;
   user: User;
-  contentSetting: ContentSetting;
   constructor() {
     this.id = 0;
-    this.title = "";
-    this.content = "";
+    this.fileUrl = "";
+    this.title = new ArticleTitle();
+    this.footer = new ArticleFooter();
     this.user = new User();
-    this.contentSetting = {
-      fontSize: 0,
-      fontColor: "",
-      fontFamily: "",
-      textAlign: "TOP",
-    };
   }
-}
-
-export interface ContentSetting {
-  fontSize: number;
-  fontColor: string;
-  fontFamily: string;
-  textAlign: "TOP" | "CENTER" | "BOTTOM";
 }
 
 export const FONT_FAMILY = [
@@ -83,6 +71,7 @@ export class ArticleService {
           "Content-Type": "application/json",
         },
       });
+      console.log(res);
 
       if (res.status === 200) {
         return await res.json();
