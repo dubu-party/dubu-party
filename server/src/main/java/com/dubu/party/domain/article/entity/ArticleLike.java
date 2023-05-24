@@ -19,12 +19,10 @@ public class ArticleLike {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
-    @JsonIgnore
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="article_id")
-    @JsonIgnore
     private Article article;
 
 }
