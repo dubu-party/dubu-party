@@ -3,6 +3,7 @@ package com.dubu.party.domain.user.data;
 import com.dubu.party.common.file.Image;
 import com.dubu.party.domain.article.data.article.ArticleDto;
 import com.dubu.party.domain.user.entity.User;
+import com.dubu.party.domain.user.entity.data.Setting;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,6 +26,7 @@ public class UserDetail {
 
     private List<ArticleDto> articles;
 
+    private Setting setting;
 
 
     public UserDetail(User user, List<UserSimplify> follower, List<UserSimplify> following, List<ArticleDto> articles){
@@ -32,6 +34,9 @@ public class UserDetail {
         this.email = user.getEmail();
         this.nickname = user.getNickName();
         this.phoneNumber = user.getPhoneNumber();
+        this.setting = user.getSetting();
+
+        // 이미지 처리
         Image image = user.getProfileImage();
         if(image != null){
             this.profileUrl = user.getProfileImage().getFileUrl();

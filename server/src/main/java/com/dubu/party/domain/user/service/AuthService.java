@@ -5,6 +5,7 @@ import com.dubu.party.common.file.Image;
 import com.dubu.party.common.security.JwtProvider;
 import com.dubu.party.domain.user.entity.Authority;
 import com.dubu.party.domain.user.entity.User;
+import com.dubu.party.domain.user.entity.data.Setting;
 import com.dubu.party.domain.user.repository.UserRepository;
 import com.dubu.party.domain.user.request.LoginForm;
 import com.dubu.party.domain.user.request.CreateUserForm;
@@ -37,6 +38,7 @@ public class AuthService {
             user.setPassword(passwordEncoder.encode(createUserForm.getPassword()));
             user.setNickName(createUserForm.getNickname());
             user.setPhoneNumber(createUserForm.getPhoneNumber());
+            user.setSetting(new Setting());
 
             MultipartFile file = createUserForm.getProfileImage();
             if (file != null) {
@@ -59,13 +61,9 @@ public class AuthService {
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
         }
-        return AuthDetail.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .nickName(user.getNickName())
-                .phoneNumber(user.getPhoneNumber())
-                .token(jwtProvider.createToken(user, user.getRoles()))
-                .build();
+        AuthDetail authDetail = new AuthDetail(user);
+        authDetail.setToken(jwtProvider.createToken(user, user.getRoles()));
+        return authDetail;
     }
 
     public boolean delete(LoginForm request){

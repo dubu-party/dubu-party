@@ -2,6 +2,7 @@ package com.dubu.party.domain.user.entity;
 
 import com.dubu.party.common.file.Image;
 import com.dubu.party.domain.article.entity.Article;
+import com.dubu.party.domain.user.entity.data.Setting;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -29,15 +30,20 @@ public class User {
     private String phoneNumber;
 
     @Embedded
+    private Setting setting;
+
+    @Embedded
     private Image profileImage;
 
 
     @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default // builder를 사용할 때, 기본값으로 설정
+    @JsonIgnore
     private List<Follow> follower = new ArrayList<>();
 
     @OneToMany(mappedBy = "following", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default // builder를 사용할 때, 기본값으로 설정
+    @JsonIgnore
     private List<Follow> following = new ArrayList<>();
 
 

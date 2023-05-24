@@ -2,6 +2,7 @@ package com.dubu.party.domain.user.controller;
 
 import com.dubu.party.common.security.JwtProvider;
 import com.dubu.party.domain.user.data.UserSimplify;
+import com.dubu.party.domain.user.request.UpdateSettingForm;
 import com.dubu.party.domain.user.request.UpdateUserForm;
 import com.dubu.party.domain.user.data.UserDetail;
 import com.dubu.party.domain.user.service.UserService;
@@ -61,4 +62,9 @@ public class UserController {
         return new ResponseEntity<>(userService.getInfo(userId), HttpStatus.OK);
     }
 
+    @PutMapping("/setting")
+    public ResponseEntity<Boolean> updateSetting(HttpServletRequest request, @RequestBody UpdateSettingForm settingForm) {
+        Long userId = jwtProvider.getUserInfo(request);
+        return new ResponseEntity<>(userService.updateSetting(userId,settingForm.toSetting()), HttpStatus.OK);
+    }
 }

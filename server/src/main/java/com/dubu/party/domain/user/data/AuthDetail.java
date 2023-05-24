@@ -1,6 +1,8 @@
 package com.dubu.party.domain.user.data;
 
+import com.dubu.party.common.file.Image;
 import com.dubu.party.domain.user.entity.User;
+import com.dubu.party.domain.user.entity.data.Setting;
 import lombok.*;
 
 @Getter @Setter
@@ -13,12 +15,21 @@ public class AuthDetail {
     private String email;
     private String nickName;
     private String phoneNumber;
+
+    private Setting setting;
     private String token;
+
+    private String profileUrl;
 
     public AuthDetail(User user) {
         this.id = user.getId();
         this.email = user.getEmail();
         this.nickName = user.getNickName();
         this.phoneNumber = user.getPhoneNumber();
+        this.setting = user.getSetting();
+        Image image = user.getProfileImage();
+        if(image != null){
+            this.profileUrl = user.getProfileImage().getFileUrl();
+        }
     }
 }
