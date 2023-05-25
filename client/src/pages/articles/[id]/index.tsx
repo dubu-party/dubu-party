@@ -8,13 +8,14 @@ const index = ({ article }: { article: Article }) => {
     <Wrapper>
       <div className="title">{article.title.content}</div>
       <div className="content">{article.footer.content}</div>
-
-      <Image
-        src={`${process.env.BASE_SERVER_URL}${article.fileUrl}`}
-        alt={article.title.content}
-        width={200}
-        height={200}
-      />
+      <div className="image_box">
+        <Image
+          src={`${process.env.BASE_SERVER_URL}${article.fileUrl}`}
+          alt={article.title.content}
+          width={200}
+          height={200}
+        />
+      </div>
       <h1>TITLE</h1>
       {Object.keys(article.title).map((key) => (
         <div key={key}>
@@ -56,7 +57,10 @@ const Wrapper = styled.section`
     font-size: 20px;
     font-weight: bold;
   }
-
+  .image_box {
+    width: 200px;
+    height: 200px;
+  }
   .content {
     font-size: 16px;
   }
