@@ -10,6 +10,9 @@ import {
 } from "@/script/@type/article/data";
 import styled from "@emotion/styled";
 import React, { useState } from "react";
+import HeightAlign from "./height-align";
+import WidthAlign from "./width-align";
+import ImageCard from "./Image-card";
 
 const page = () => {
   const [title, setTitle] = useState(new ArticleTitle());
@@ -61,164 +64,225 @@ const page = () => {
   };
 
   return (
-    <>
+    <FlexBox>
       <Wrapper>
         <div className="form">
-          <>
-            <h1>제목</h1>
-            <div className="input_box">
-              <label htmlFor="content">제목</label>
-              <input
-                value={title.content}
-                onChange={handleTitleChange}
-                type="text"
-                id="content"
-                name="content"
-              />
-            </div>
+          <TitleInput
+            value={title.content}
+            placeholder="제목을 입력해주세요."
+            onChange={handleTitleChange}
+            type="text"
+            id="content"
+            name="content"
+          />
+          <div className="separation" />
 
-            <div className="font_box">
-              <div className="input_box">
-                <label htmlFor="size">글자 크기</label>
-                <select
-                  onChange={handleTitleChange}
-                  value={title.size}
-                  id="size"
-                  name="size"
-                >
-                  {TITLE_FONT_SIZE.map((fontSize, index) => (
-                    <option key={index} value={fontSize}>
-                      {fontSize}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="input_box">
-                <label htmlFor="fontFamily">글꼴</label>
-                <select
-                  onChange={handleTitleChange}
-                  value={title.fontFamily}
-                  id="fontFamily"
-                  name="fontFamily"
-                >
-                  {FONT_FAMILY.map((fontFamily, index) => (
-                    <option key={index} value={fontFamily}>
-                      {fontFamily}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="input_box">
-                <label htmlFor="fontColor">글자 색상</label>
-                <input
-                  value={title.color}
-                  onChange={handleTitleChange}
-                  type="color"
-                  id="color"
-                  name="color"
-                />
-              </div>
-            </div>
+          <div className="flex_box">
+            <ColorInput
+              value={title.color}
+              onChange={handleTitleChange}
+              type="color"
+              id="color"
+              name="color"
+            />
+            <div className="color_label">{title.color.split("#")[1]}</div>
 
-            <div className="input_box">
-              <label htmlFor="heightAlign">세로 정렬</label>
-              <select
-                onChange={handleTitleChange}
-                value={title.heightSort}
-                id="heightSort"
-                name="heightSort"
-              >
-                {HEIGHT_SORT.map((heightAlign, index) => (
-                  <option key={index} value={heightAlign}>
-                    {heightAlign}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </>
-          <>
-            <h1>내용</h1>
-            <div className="input_box">
-              <label htmlFor="content">내용</label>
-              <textarea
-                onChange={handleFooterChange}
-                value={footer.content}
-                id="content"
-                name="content"
-              />
-            </div>
-            <div className="font_box">
-              <div className="input_box">
-                <label htmlFor="fontSize">글자 크기</label>
-                <select
-                  onChange={handleFooterChange}
-                  value={footer.size}
-                  id="size"
-                  name="size"
-                >
-                  {FOOTER_FONT_SIZE.map((fontSize, index) => (
-                    <option key={index} value={fontSize}>
-                      {fontSize}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="input_box">
-                <label htmlFor="fontFamily">글꼴</label>
-                <select
-                  onChange={handleFooterChange}
-                  value={footer.fontFamily}
-                  id="fontFamily"
-                  name="fontFamily"
-                >
-                  {FONT_FAMILY.map((fontFamily, index) => (
-                    <option key={index} value={fontFamily}>
-                      {fontFamily}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="input_box">
-                <label htmlFor="color">글자 색상</label>
-                <input
-                  value={footer.color}
-                  onChange={handleFooterChange}
-                  type="color"
-                  id="color"
-                  name="color"
-                />
-              </div>
-            </div>
-          </>
-          <div className="input_box">
-            <label htmlFor="file">파일</label>
-            <input onChange={handleFile} type="file" id="file" name="file" />
+            <Select
+              onChange={handleTitleChange}
+              value={title.size}
+              id="size"
+              name="size"
+            >
+              {TITLE_FONT_SIZE.map((fontSize, index) => (
+                <option key={index} value={fontSize}>
+                  {fontSize}
+                </option>
+              ))}
+            </Select>
+
+            <Select
+              onChange={handleTitleChange}
+              value={title.fontFamily}
+              id="fontFamily"
+              name="fontFamily"
+            >
+              {FONT_FAMILY.map((fontFamily, index) => (
+                <option key={index} value={fontFamily}>
+                  {fontFamily}
+                </option>
+              ))}
+            </Select>
           </div>
+          <div className="flex_box">
+            <WidthAlign title={title} setTitle={setTitle} />
+            <HeightAlign title={title} setTitle={setTitle} />
+          </div>
+          <FooterInput
+            value={footer.content}
+            placeholder="내용을 입력해주세요."
+            onChange={handleFooterChange}
+            id="content"
+            name="content"
+          />
+          <div className="separation" />
+          <div className="flex_box">
+            <ColorInput
+              value={footer.color}
+              onChange={handleFooterChange}
+              type="color"
+              id="color"
+              name="color"
+            />
+            <div className="color_label">{title.color.split("#")[1]}</div>
+            <Select
+              onChange={handleFooterChange}
+              value={footer.size}
+              id="size"
+              name="size"
+            >
+              {FOOTER_FONT_SIZE.map((fontSize, index) => (
+                <option key={index} value={fontSize}>
+                  {fontSize}
+                </option>
+              ))}
+            </Select>
+            <Select
+              onChange={handleFooterChange}
+              value={footer.fontFamily}
+              id="fontFamily"
+              name="fontFamily"
+            >
+              {FONT_FAMILY.map((fontFamily, index) => (
+                <option key={index} value={fontFamily}>
+                  {fontFamily}
+                </option>
+              ))}
+            </Select>
+            <label htmlFor="background">배경</label>
+            <input
+              checked={footer.background}
+              onChange={() =>
+                setFooter({ ...footer, background: !footer.background })
+              }
+              type="checkbox"
+              id="background"
+              name="background"
+            />
+          </div>
+          <FileInput>
+            <label htmlFor="file">
+              <div className="btn-upload">사진 등록</div>
+            </label>
+            <input onChange={handleFile} type="file" id="file" name="file" />
+          </FileInput>
           <button onClick={() => obSubmit()}>등록</button>
         </div>
       </Wrapper>
       <ImgPreviewWrapper>
-        <img src={imageSrc} alt={imageSrc} />
+        <ImageCard fileUrl={imageSrc} title={title} footer={footer} />
       </ImgPreviewWrapper>
-    </>
+    </FlexBox>
   );
 };
 
 export default page;
 
-const Wrapper = styled.article`
+const FlexBox = styled.div`
+  display: flex;
   width: 100%;
-  max-width: 380px;
+  height: 100vh;
+  background-color: #1a4524;
+  align-items: center;
+`;
+
+const TitleInput = styled.input`
+  height: 50px;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  padding-left: 15px;
+  background-color: #fff;
+
+  &:focus {
+    outline: none;
+    background-color: #f9f9f9;
+  }
+
+  &::placeholder {
+    font-size: 20px;
+    font-weight: bold;
+    color: #c1c1c1;
+  }
+`;
+const FooterInput = styled.textarea`
+  height: 100px;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  padding: 15px;
+  background-color: #f5f5f5;
+  resize: none;
+  &:focus {
+    outline: none;
+    background-color: #f9f9f9;
+  }
+
+  &::placeholder {
+    font-size: 20px;
+    font-weight: bold;
+    color: #c1c1c1;
+  }
+`;
+const ColorInput = styled.input`
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-color: #fff;
+  cursor: pointer;
+  &:focus {
+    outline: none;
+    background-color: #f9f9f9;
+  }
+`;
+const Select = styled.select`
+  min-width: 60px;
+  padding: 0 10px;
+  height: 30px;
+  border: none;
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  &:hover {
+    background-color: #f7f7f7;
+  }
+`;
+
+const Wrapper = styled.article`
+  width: 45%;
+  height: 90%;
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ddd;
-  border-radius: 5px;
-  box-sizing: border-box;
-
-  .font_box {
+  background-color: #fff;
+  overflow-y: auto;
+  .separation {
+    margin: 20px 0;
+    width: 200px;
+    height: 10px;
+    background-color: #1a4524;
+  }
+  .input_box {
     display: flex;
-    justify-content: space-between;
+  }
+  .flex_box {
+    margin-top: 20px;
+    display: flex;
     gap: 10px;
+    align-items: center;
+    .color_label {
+      width: 80px;
+      font-size: 18px;
+    }
   }
 
   .form {
@@ -248,25 +312,36 @@ const Wrapper = styled.article`
       }
     }
   }
-  input,
-  textarea,
-  select {
-    padding: 5px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-  }
 `;
 
 const ImgPreviewWrapper = styled.div`
-  width: 100%;
-  max-width: 380px;
+  width: 45%;
+  height: 90%;
   margin: 0 auto;
-  padding: 20px;
   border: 1px solid #ddd;
-  border-radius: 5px;
+  background-color: #fff;
+`;
 
-  img {
+const FileInput = styled.div`
+  margin-top: 20px;
+  width: 100px;
+  height: 30px;
+  input[type="file"] {
+    display: none;
+  }
+  .btn-upload {
     width: 100%;
+    height: 100%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    &:hover {
+      background-color: #f5f5f5;
+      transition: background-color 0.3s;
+    }
   }
 `;

@@ -30,6 +30,8 @@ const index = ({ article }: { article: Article }) => {
           {key}: {article.footer[key as keyof typeof article.footer]}
         </div>
       ))}
+      background:
+      {article.footer.background ? "true" : "false"}
     </Wrapper>
   );
 };

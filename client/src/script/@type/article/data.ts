@@ -24,7 +24,7 @@ export class ArticleTitle {
     this.content = "";
     this.size = TITLE_FONT_SIZE[0];
     this.weight = 1;
-    this.color = "#fff";
+    this.color = "#333";
     this.fontFamily = FONT_FAMILY[0];
     this.heightSort = "TOP";
     this.widthSort = "LEFT";
@@ -36,12 +36,14 @@ export class ArticleFooter {
   weight: 1 | 2 | 3 | 4 | 5;
   color: string;
   fontFamily: string;
+  background: boolean;
   constructor() {
     this.content = "";
     this.size = FOOTER_FONT_SIZE[0];
     this.weight = 1;
     this.color = "#333";
     this.fontFamily = FONT_FAMILY[0];
+    this.background = true;
   }
 }
 
