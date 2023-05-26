@@ -3,16 +3,13 @@ import {
   ArticleFooter,
   ArticleForm,
   ArticleTitle,
-  FONT_FAMILY,
-  FOOTER_FONT_SIZE,
-  HEIGHT_SORT,
-  TITLE_FONT_SIZE,
 } from "@/script/@type/article/data";
 import styled from "@emotion/styled";
 import React, { useState } from "react";
 import HeightAlign from "./height-align";
 import WidthAlign from "./width-align";
 import ImageCard from "./Image-card";
+import { FONT } from "@/script/@type/article/variable";
 
 const page = () => {
   const [title, setTitle] = useState(new ArticleTitle());
@@ -71,8 +68,6 @@ const page = () => {
             value={title.content}
             placeholder="제목을 입력해주세요."
             onChange={handleTitleChange}
-            type="text"
-            id="content"
             name="content"
           />
           <div className="separation" />
@@ -93,7 +88,7 @@ const page = () => {
               id="size"
               name="size"
             >
-              {TITLE_FONT_SIZE.map((fontSize, index) => (
+              {FONT.TITLE_SIZE_LIST.map((fontSize, index) => (
                 <option key={index} value={fontSize}>
                   {fontSize}
                 </option>
@@ -106,9 +101,21 @@ const page = () => {
               id="fontFamily"
               name="fontFamily"
             >
-              {FONT_FAMILY.map((fontFamily, index) => (
+              {FONT.FAMILY_LIST.map((fontFamily, index) => (
                 <option key={index} value={fontFamily}>
                   {fontFamily}
+                </option>
+              ))}
+            </Select>
+            <Select
+              onChange={handleTitleChange}
+              value={title.weight}
+              id="weight"
+              name="weight"
+            >
+              {FONT.WEIGHT_LIST.map((weight, index) => (
+                <option key={index} value={weight}>
+                  {weight}
                 </option>
               ))}
             </Select>
@@ -133,14 +140,14 @@ const page = () => {
               id="color"
               name="color"
             />
-            <div className="color_label">{title.color.split("#")[1]}</div>
+            <div className="color_label">{footer.color.split("#")[1]}</div>
             <Select
               onChange={handleFooterChange}
               value={footer.size}
               id="size"
               name="size"
             >
-              {FOOTER_FONT_SIZE.map((fontSize, index) => (
+              {FONT.FOOTER_SIZE_LIST.map((fontSize, index) => (
                 <option key={index} value={fontSize}>
                   {fontSize}
                 </option>
@@ -152,9 +159,21 @@ const page = () => {
               id="fontFamily"
               name="fontFamily"
             >
-              {FONT_FAMILY.map((fontFamily, index) => (
+              {FONT.FAMILY_LIST.map((fontFamily, index) => (
                 <option key={index} value={fontFamily}>
                   {fontFamily}
+                </option>
+              ))}
+            </Select>
+            <Select
+              onChange={handleFooterChange}
+              value={footer.weight}
+              id="weight"
+              name="weight"
+            >
+              {FONT.WEIGHT_LIST.map((weight, index) => (
+                <option key={index} value={weight}>
+                  {weight}
                 </option>
               ))}
             </Select>

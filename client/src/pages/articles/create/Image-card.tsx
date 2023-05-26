@@ -1,5 +1,6 @@
 import { Article } from "@/script/@type/article/article";
 import { ArticleFooter, ArticleTitle } from "@/script/@type/article/data";
+import { FONT, SORT } from "@/script/@type/article/variable";
 import styled from "@emotion/styled";
 import React, { use, useEffect, useState } from "react";
 interface Props {
@@ -8,17 +9,25 @@ interface Props {
   footer: ArticleFooter;
 }
 
-interface StyleProps {
-  heightSort: "flex-start" | "center" | "flex-end";
-  widthSort: "flex-start" | "center" | "flex-end";
-  textAlign: "start" | "center" | "end";
+interface TitleStyle {
+  heightSort: string;
+  widthSort: string;
+  textAlign: string;
   size: number;
-  weight: 300 | 400 | 500 | 600 | 700;
+  weight: number;
   color: string;
 }
 
+interface FooterStyle {
+  size: number;
+  weight: number;
+  color: string;
+  background: boolean;
+  backgroundColor: string;
+}
+
 const ImageCard = ({ fileUrl, title, footer }: Props) => {
-  const [styleProps, setStyleProps] = useState<StyleProps>({
+  const [titleStyle, setTitleStyle] = useState<TitleStyle>({
     heightSort: "flex-start",
     widthSort: "flex-start",
     textAlign: "start",
@@ -26,70 +35,47 @@ const ImageCard = ({ fileUrl, title, footer }: Props) => {
     weight: 400,
     color: "#000000",
   });
-
-  const getHeigthSort = () => {
-    switch (title.heightSort) {
-      case "TOP":
-        return "flex-start";
-      case "CENTER":
-        return "center";
-      case "BOTTOM":
-        return "flex-end";
-    }
-  };
-  const getWidthSort = () => {
-    switch (title.widthSort) {
-      case "LEFT":
-        return "flex-start";
-      case "CENTER":
-        return "center";
-      case "RIGHT":
-        return "flex-end";
-    }
-  };
-  const getWeight = () => {
-    switch (footer.weight) {
-      case 1:
-        return 300;
-      case 2:
-        return 400;
-      case 3:
-        return 500;
-      case 4:
-        return 600;
-      case 5:
-        return 700;
-      default:
-        return 400;
-    }
-  };
-  const getTextAlign = () => {
-    switch (title.widthSort) {
-      case "LEFT":
-        return "start";
-      case "CENTER":
-        return "center";
-      case "RIGHT":
-        return "end";
-    }
-  };
+  const [footerStyle, setFooterStyle] = useState<FooterStyle>({
+    size: 20,
+    weight: 400,
+    color: "#000000",
+    background: false,
+    backgroundColor: "#ffffff",
+  });
 
   useEffect(() => {
-    setStyleProps({
-      heightSort: getHeigthSort(),
-      widthSort: getWidthSort(),
-      weight: getWeight(),
-      textAlign: getTextAlign(),
+    setTitleStyle({
+      heightSort: SORT.HEIGHT_VALUE[title.heightSort],
+      widthSort: SORT.WIDTH_VALUE[title.widthSort],
+      weight: FONT.WEIGHT_VALUE[title.weight],
+      textAlign: SORT.TEXT_ALIGN_VALUE[title.widthSort],
       size: title.size,
       color: title.color,
     });
+    setFooterStyle({
+      ...footerStyle,
+      backgroundColor: title.color,
+    });
   }, [title]);
+
+  useEffect(() => {
+    setFooterStyle({
+      weight: FONT.WEIGHT_VALUE[footer.weight],
+      size: footer.size,
+      color: footer.color,
+      background: footer.background,
+      backgroundColor: title.color,
+    });
+  }, [footer]);
 
   return (
     <Wrapper>
-      <Title data={styleProps}>
+      <Title data={titleStyle}>
         <h1>{title.content}</h1>
       </Title>
+      <Footer data={footerStyle}>
+        <p>{footer.content}</p>
+      </Footer>
       <img src={fileUrl} alt={fileUrl} />
     </Wrapper>
   );
@@ -110,16 +96,15 @@ const Wrapper = styled.div`
   }
 `;
 
-interface SProps {
-  data: StyleProps;
+interface TitleProps {
+  data: TitleStyle;
 }
 
-const Title = styled.div<SProps>`
+const Title = styled.div<TitleProps>`
   position: absolute;
   top: 0;
   left: 0;
   z-index: 2;
-
   display: flex;
   padding: 50px;
   justify-content: ${({ data }) => data.widthSort};
@@ -129,9 +114,31 @@ const Title = styled.div<SProps>`
   font-weight: ${({ data }) => data.weight};
   color: ${({ data }) => data.color};
   width: 100%;
-  height: 100%;
+  height: 85%;
   h1 {
     margin: 0;
+  }
+`;
+
+interface FooterProps {
+  data: FooterStyle;
+}
+
+const Footer = styled.div<FooterProps>`
+  height: 15%;
+  width: 100%;
+  background-color: ${({ data }) =>
+    data.background ? data.backgroundColor : "none"};
+  color: ${({ data }) => data.color};
+  font-size: ${({ data }) => data.size}px;
+  font-weight: ${({ data }) => data.weight};
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  z-index: 2;
+  p {
+    padding: 20px;
+    white-space: pre-wrap;
   }
 `;
 
