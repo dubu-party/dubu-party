@@ -8,7 +8,7 @@ import styled from "@emotion/styled";
 import React, { useState } from "react";
 import HeightAlign from "./height-align";
 import WidthAlign from "./width-align";
-import ImageCard from "./Image-card";
+import ImageCard from "../components/edit-card";
 import { FONT } from "@/script/@type/article/variable";
 
 const page = () => {
@@ -70,18 +70,9 @@ const page = () => {
             onChange={handleTitleChange}
             name="content"
           />
-          <div className="separation" />
+          <Separator />
 
           <div className="flex_box">
-            <ColorInput
-              value={title.color}
-              onChange={handleTitleChange}
-              type="color"
-              id="color"
-              name="color"
-            />
-            <div className="color_label">{title.color.split("#")[1]}</div>
-
             <Select
               onChange={handleTitleChange}
               value={title.size}
@@ -119,6 +110,16 @@ const page = () => {
                 </option>
               ))}
             </Select>
+            <div className="flex-box">
+              <ColorInput
+                value={title.color}
+                onChange={handleTitleChange}
+                type="color"
+                id="color"
+                name="color"
+              />
+              <div className="color_label">{title.color.split("#")[1]}</div>
+            </div>
           </div>
           <div className="flex_box">
             <WidthAlign title={title} setTitle={setTitle} />
@@ -131,16 +132,8 @@ const page = () => {
             id="content"
             name="content"
           />
-          <div className="separation" />
+          <Separator />
           <div className="flex_box">
-            <ColorInput
-              value={footer.color}
-              onChange={handleFooterChange}
-              type="color"
-              id="color"
-              name="color"
-            />
-            <div className="color_label">{footer.color.split("#")[1]}</div>
             <Select
               onChange={handleFooterChange}
               value={footer.size}
@@ -153,6 +146,7 @@ const page = () => {
                 </option>
               ))}
             </Select>
+
             <Select
               onChange={handleFooterChange}
               value={footer.fontFamily}
@@ -177,16 +171,31 @@ const page = () => {
                 </option>
               ))}
             </Select>
-            <label htmlFor="background">배경</label>
-            <input
-              checked={footer.background}
-              onChange={() =>
-                setFooter({ ...footer, background: !footer.background })
-              }
-              type="checkbox"
-              id="background"
-              name="background"
-            />
+
+            <div className="flex-box">
+              <ColorInput
+                value={footer.color}
+                onChange={handleFooterChange}
+                type="color"
+                id="color"
+                name="color"
+              />
+              <label className="color_label">
+                {footer.color.split("#")[1]}
+              </label>
+            </div>
+            <div className="flex-box">
+              <label htmlFor="background">배경</label>
+              <input
+                checked={footer.background}
+                onChange={() =>
+                  setFooter({ ...footer, background: !footer.background })
+                }
+                type="checkbox"
+                id="background"
+                name="background"
+              />
+            </div>
           </div>
           <FileInput>
             <label htmlFor="file">
@@ -194,12 +203,14 @@ const page = () => {
             </label>
             <input onChange={handleFile} type="file" id="file" name="file" />
           </FileInput>
-          <button onClick={() => obSubmit()}>등록</button>
+          <button className="submit_btn" onClick={() => obSubmit()}>
+            등록
+          </button>
         </div>
       </Wrapper>
-      <ImgPreviewWrapper>
-        <ImageCard fileUrl={imageSrc} title={title} footer={footer} />
-      </ImgPreviewWrapper>
+      {/* <ImgPreviewWrapper> */}
+      <ImageCard fileUrl={imageSrc} title={title} footer={footer} />
+      {/* </ImgPreviewWrapper> */}
     </FlexBox>
   );
 };
@@ -209,9 +220,82 @@ export default page;
 const FlexBox = styled.div`
   display: flex;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   background-color: #1a4524;
   align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  @media screen and (min-width: 1024px) {
+    flex-direction: row;
+  }
+`;
+const Wrapper = styled.article`
+  width: 510px;
+  min-height: 680px;
+  margin: 50px 10px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  overflow-y: auto;
+  .flex-box {
+    display: flex;
+    align-items: center;
+  }
+  .input_box {
+    display: flex;
+  }
+  .flex_box {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    .color_label {
+      width: 80px;
+      font-size: 14px;
+    }
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .input_box {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .submit_btn {
+      padding: 5px;
+      height: 30px;
+      border: 1px solid #ddd;
+      background-color: #1a4524;
+      color: #fff;
+      border-radius: 5px;
+      box-sizing: border-box;
+      &:hover {
+        background-color: #0f2715;
+        transition: background-color 0.3s;
+      }
+    }
+  }
+  @media screen and (min-width: 1024px) {
+    .flex_box {
+      flex-wrap: nowrap;
+    }
+    .color_label {
+      font-size: 16px;
+    }
+  }
 `;
 
 const TitleInput = styled.input`
@@ -220,7 +304,7 @@ const TitleInput = styled.input`
   font-weight: bold;
   border: none;
   padding-left: 15px;
-  background-color: #fff;
+  background-color: #f5f5f5;
 
   &:focus {
     outline: none;
@@ -253,14 +337,18 @@ const FooterInput = styled.textarea`
   }
 `;
 const ColorInput = styled.input`
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   border: none;
   background-color: #fff;
   cursor: pointer;
   &:focus {
     outline: none;
     background-color: #f9f9f9;
+  }
+  @media screen and (min-width: 1024px) {
+    width: 30px;
+    height: 30px;
   }
 `;
 const Select = styled.select`
@@ -270,75 +358,24 @@ const Select = styled.select`
   border: none;
   background-color: #fff;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   &:hover {
     background-color: #f7f7f7;
   }
+  @media screen and (min-width: 1024px) {
+    font-size: 16px;
+    min-width: 60px;
+  }
 `;
 
-const Wrapper = styled.article`
-  width: 45%;
-  height: 90%;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  background-color: #fff;
-  overflow-y: auto;
-  .separation {
-    margin: 20px 0;
+const Separator = styled.div`
+  margin: 20px 0;
+  width: 90%;
+  height: 10px;
+  background-color: #1a4524;
+  @media screen and (min-width: 1024px) {
     width: 200px;
-    height: 10px;
-    background-color: #1a4524;
   }
-  .input_box {
-    display: flex;
-  }
-  .flex_box {
-    margin-top: 20px;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    .color_label {
-      width: 80px;
-      font-size: 18px;
-    }
-  }
-
-  .form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-    .input_box {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    label {
-      font-size: 14px;
-      font-weight: bold;
-    }
-
-    button {
-      padding: 5px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      box-sizing: border-box;
-      &:hover {
-        background-color: #ddd;
-        transition: background-color 0.3s;
-      }
-    }
-  }
-`;
-
-const ImgPreviewWrapper = styled.div`
-  width: 45%;
-  height: 90%;
-  margin: 0 auto;
-  border: 1px solid #ddd;
-  background-color: #fff;
 `;
 
 const FileInput = styled.div`

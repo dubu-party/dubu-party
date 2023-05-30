@@ -1,4 +1,4 @@
-import { ArticleTitle, WIDTH_SORT } from "@/script/@type/article/data";
+import { ArticleTitle } from "@/script/@type/article/data";
 import styled from "@emotion/styled";
 import Image from "next/image";
 import React from "react";

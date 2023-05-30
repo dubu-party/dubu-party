@@ -2,34 +2,18 @@ import { Article, ArticleAPI } from "@/script/@type/article/article";
 import styled from "@emotion/styled";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import MainImageCard from "./components/main-card";
 
 const ArticleList = ({ articles }: { articles: Article[] }) => {
   // 페이지를 이동하고 싶을 때는 useRouter를 사용합니다.
-  const router = useRouter();
   const baseServerUrl = process.env.BASE_SERVER_URL;
+  const router = useRouter();
+
   return (
     <Wrapper>
-      {articles.map((article) => {
-        console.log(article);
-        return (
-          <div
-            onClick={() => router.push(`/articles/${article.id}`)}
-            className="article"
-            key={article.id}
-          >
-            <div>{article.title.content}</div>
-            <div>{article.footer.content}</div>
-            {article.fileUrl && (
-              <Image
-                src={`${baseServerUrl}${article.fileUrl}`}
-                alt="이미지"
-                width={200}
-                height={200}
-              />
-            )}
-          </div>
-        );
-      })}
+      {articles.map((article) => (
+        <MainImageCard article={article} key={article.id} />
+      ))}
       <button onClick={() => router.push("/articles/create")}>글쓰기</button>
     </Wrapper>
   );

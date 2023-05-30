@@ -2,11 +2,11 @@ import { Article } from "@/script/@type/article/article";
 import { ArticleFooter, ArticleTitle } from "@/script/@type/article/data";
 import { FONT, SORT } from "@/script/@type/article/variable";
 import styled from "@emotion/styled";
+import Image from "next/image";
+import { useRouter } from "next/router";
 import React, { use, useEffect, useState } from "react";
 interface Props {
-  fileUrl?: string;
-  title: ArticleTitle;
-  footer: ArticleFooter;
+  article: Article;
 }
 
 interface TitleStyle {
@@ -26,7 +26,8 @@ interface FooterStyle {
   backgroundColor: string;
 }
 
-const ImageCard = ({ fileUrl, title, footer }: Props) => {
+const MainImageCard = ({ article }: Props) => {
+  const { fileUrl, title, footer } = article;
   const [titleStyle, setTitleStyle] = useState<TitleStyle>({
     heightSort: "flex-start",
     widthSort: "flex-start",
@@ -49,7 +50,7 @@ const ImageCard = ({ fileUrl, title, footer }: Props) => {
       widthSort: SORT.WIDTH_VALUE[title.widthSort],
       weight: FONT.WEIGHT_VALUE[title.weight],
       textAlign: SORT.TEXT_ALIGN_VALUE[title.widthSort],
-      size: title.size,
+      size: title.size / 2,
       color: title.color,
     });
     setFooterStyle({
@@ -57,11 +58,12 @@ const ImageCard = ({ fileUrl, title, footer }: Props) => {
       backgroundColor: title.color,
     });
   }, [title]);
+  const router = useRouter();
 
   useEffect(() => {
     setFooterStyle({
       weight: FONT.WEIGHT_VALUE[footer.weight],
-      size: footer.size,
+      size: footer.size / 2,
       color: footer.color,
       background: footer.background,
       backgroundColor: title.color,
@@ -69,22 +71,31 @@ const ImageCard = ({ fileUrl, title, footer }: Props) => {
   }, [footer]);
 
   return (
-    <Wrapper>
+    <Wrapper onClick={() => router.push(`/articles/${article.id}`)}>
       <Title data={titleStyle}>
         <h1>{title.content}</h1>
       </Title>
       <Footer data={footerStyle}>
         <p>{footer.content}</p>
       </Footer>
-      <img src={fileUrl} alt={fileUrl} />
+      <Image
+        height={400}
+        width={300}
+        src={`${process.env.BASE_SERVER_URL}${article.fileUrl}`}
+        alt={fileUrl || ""}
+      />
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  width: 100%;
-  height: 100%;
+  // 사진의 황금 비율 : 3:4
+  width: 300;
+  height: 400px;
+  margin: 0 10px;
   position: relative;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
   img {
     position: absolute;
     width: 100%;
@@ -142,4 +153,4 @@ const Footer = styled.div<FooterProps>`
   }
 `;
 
-export default ImageCard;
+export default MainImageCard;

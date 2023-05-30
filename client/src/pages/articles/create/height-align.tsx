@@ -1,4 +1,4 @@
-import { ArticleTitle, HEIGHT_SORT } from "@/script/@type/article/data";
+import { ArticleTitle } from "@/script/@type/article/data";
 import styled from "@emotion/styled";
 import Image from "next/image";
 import React from "react";
@@ -19,8 +19,8 @@ const HeightAlign = ({ title, setTitle }: Props) => {
         <Image
           src="/assets/icon/align-top.png"
           alt="align-top"
-          width={25}
-          height={25}
+          width={20}
+          height={20}
           onClick={() => setTitle({ ...title, heightSort: "TOP" })}
         />
       </div>
@@ -28,8 +28,8 @@ const HeightAlign = ({ title, setTitle }: Props) => {
         <Image
           src="/assets/icon/align-center.png"
           alt="align-center"
-          width={25}
-          height={25}
+          width={20}
+          height={20}
           onClick={() => setTitle({ ...title, heightSort: "CENTER" })}
         />
       </div>
@@ -37,8 +37,8 @@ const HeightAlign = ({ title, setTitle }: Props) => {
         <Image
           src="/assets/icon/align-bottom.png"
           alt="align-bottom"
-          width={25}
-          height={25}
+          width={20}
+          height={20}
           onClick={() => setTitle({ ...title, heightSort: "BOTTOM" })}
         />
       </div>
@@ -46,7 +46,7 @@ const HeightAlign = ({ title, setTitle }: Props) => {
   );
 };
 const Wrapper = styled.div`
-  width: 150px;
+  width: 120px;
   height: 50px;
   display: flex;
   justify-content: space-between;
@@ -62,6 +62,5 @@ const Wrapper = styled.div`
   #selected {
     background-color: #a9a9a959;
   }
-  margin-left: 50px;
 `;
 export default HeightAlign;
