@@ -2,14 +2,31 @@ import { User } from "./user";
 
 export class Article {
   id: number;
-  title: string;
+  title: Title;
   content: string;
   fileUrl?: string;
+  footer: Footer;
   user: User;
   contentSetting: ContentSetting;
   constructor() {
     this.id = 0;
-    this.title = "";
+    this.title = {
+      color: "",
+      content: "",
+      fontFamily: "",
+      heightSort: "",
+      size: 0,
+      weight: 500,
+      widthSort: "",
+    };
+    this.footer = {
+      background: true,
+      color: "",
+      content: "",
+      fontFamily: "",
+      size: 0,
+      weight: 500,
+    };
     this.content = "";
     this.user = new User();
     this.contentSetting = {
@@ -19,6 +36,25 @@ export class Article {
       textAlign: "TOP",
     };
   }
+}
+
+export interface Title {
+  color: string;
+  content: string;
+  fontFamily: string;
+  heightSort: string;
+  size: number;
+  weight: number;
+  widthSort: string;
+}
+
+export interface Footer {
+  background: boolean;
+  color: string;
+  content: string;
+  fontFamily: string;
+  size: number;
+  weight: number;
 }
 
 export interface ContentSetting {

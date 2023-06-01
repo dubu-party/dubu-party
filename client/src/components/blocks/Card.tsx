@@ -10,19 +10,23 @@ export default function Card({ data }: { data?: Article }) {
     <Container bgColor={setting?.fontColor || "#000"}>
       <ImgContainer>
         {/* TODO: 추후 디테일을 잡아야할듯  -> 위치 가로 세로 다 변경해야하는거 아닐까..?*/}
-        <Img src="" textAlign={setting?.textAlign || "center"}>
+        <Img
+          src={`${process.env.BASE_SERVER_URL}${data?.fileUrl}`}
+          textAlign={setting?.textAlign || "center"}
+        >
           <Title
             fontColor={setting?.fontColor || "#000"}
             fontSize={setting?.fontSize || 20}
             fontFamily={setting?.fontFamily || theme.font.extraBold}
           >
-            Title
+            {data?.title?.content}
           </Title>
         </Img>
 
         {/* <Image width={200} height={200} src={""} alt="Selected" /> */}
       </ImgContainer>
-      <Content>content</Content>
+      <Content>{data?.footer?.content}</Content>
+      <Content>{data?.user.nickname}</Content>
     </Container>
   );
 }
@@ -33,10 +37,11 @@ interface ContainerProps {
 const Container = styled.div<ContainerProps>`
   width: 100%;
   max-width: 310px;
-  height: 480px;
+  height: 100%;
   background-color: ${({ bgColor }) => bgColor};
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+  margin-bottom: calc(100vh * 0.05);
   &:hover {
     transform: scale(1.01);
   }
@@ -51,7 +56,7 @@ interface ImgProps {
 }
 const Img = styled.div<ImgProps>`
   width: 100%;
-  height: 400px;
+  height: calc(100vh * 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -77,6 +82,7 @@ const Title = styled.div<TitleProps>`
   font-size: ${({ fontSize }) => fontSize}px;
   font-family: ${({ fontFamily }) => fontFamily};
   font-weight: bold;
+  padding: 10px;
 `;
 
 const Content = styled.div<TitleProps>`
@@ -84,5 +90,5 @@ const Content = styled.div<TitleProps>`
   color: white;
   font-family: ${({ fontFamily }) => fontFamily};
   font-size: 20px;
-  padding: 4px;
+  padding: 10px;
 `;
