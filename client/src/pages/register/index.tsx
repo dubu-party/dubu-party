@@ -13,6 +13,7 @@ import {
 import LinkText from "@/components/atoms/LinkText";
 import ImgInput from "@/components/atoms/ImgInput";
 import { AuthAPI, RegisterForm } from "@/api/auth";
+import SEO from "@/components/atoms/SEO";
 
 interface CheckProps {
   email: boolean;
@@ -101,6 +102,7 @@ const Register = () => {
 
   return (
     <Container>
+      <SEO title="Join us" />
       <Content>
         <UpperContainer>
           <TitleText>Title</TitleText>

@@ -6,6 +6,7 @@ import LinkText from "@/components/atoms/LinkText";
 import RegInput from "@/components/atoms/RegInput";
 import { AuthAPI } from "@/api/auth";
 import Router from "next/router";
+import SEO from "@/components/atoms/SEO";
 
 // TODO: 로그인 할 때도 형식 검사가 필요한가?
 const Login = () => {
@@ -45,6 +46,7 @@ const Login = () => {
 
   return (
     <Container>
+      <SEO title="Login" />
       <Content>
         <TitleText>Title</TitleText>
         <InputsContainer>
