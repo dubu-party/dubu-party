@@ -1,4 +1,4 @@
-import { Article } from "@/script/@type/article";
+import { Article } from "@/script/@type/article/article";
 import theme from "@/styles/theme";
 import styled from "@emotion/styled";
 import Image from "next/image";

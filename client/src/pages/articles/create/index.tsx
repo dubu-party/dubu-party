@@ -1,153 +1,261 @@
+import { ArticleAPI } from "@/script/@type/article/article";
 import {
-  ArticleCreateRequest,
-  FONT_FAMILY,
-  FONT_SIZE,
-  TEXT_ALIGN,
-  ArticleService,
-} from "@/script/@type/article";
+  ArticleFooter,
+  ArticleForm,
+  ArticleTitle,
+} from "@/script/@type/article/data";
 import styled from "@emotion/styled";
 import React, { useState } from "react";
+import HeightAlign from "./height-align";
+import WidthAlign from "./width-align";
+import ImageCard from "../components/edit-card";
+import { FONT } from "@/script/@type/article/variable";
 
 const page = () => {
-  const [articleForm, setArticleForm] = useState(new ArticleCreateRequest());
-  const [imageSrc, setImageSrc] = useState<any>(null);
+  const [title, setTitle] = useState(new ArticleTitle());
+  const [footer, setFooter] = useState(new ArticleFooter());
+  const [file, setFile] = useState<File | undefined>();
+  const [imageSrc, setImageSrc] = useState<string | undefined>();
 
-  const obSubmit = () => ArticleService.create(articleForm);
+  const obSubmit = () => {
+    const articleForm: ArticleForm = {
+      title,
+      footer,
+      file,
+    };
+    ArticleAPI.create(articleForm);
+  };
 
-  const handleChange = (
+  const handleTitleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >,
   ) => {
     const { name, value } = e.target;
-    setArticleForm({ ...articleForm, [name]: value });
+    setTitle({ ...title, [name]: value });
+  };
+
+  const handleFooterChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
+    const { name, value } = e.target;
+    setFooter({ ...footer, [name]: value });
   };
 
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, files } = e.target;
     if (!files) return;
-    const file = files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    setArticleForm({ ...articleForm, [name]: files[0] });
+    const file = files[0]; // 파일은 여러개가 들어올 수 있기 때문에 배열
+    const reader = new FileReader(); // 파일을 읽어오는 객체
+    reader.readAsDataURL(file); // 파일을 읽어오는 메서드
+    setFile(files[0]);
 
     return new Promise((resolve: any) => {
       reader.onload = () => {
-        setImageSrc(reader.result || null);
+        setImageSrc(reader.result as string);
         resolve();
       };
     });
   };
 
   return (
-    <>
+    <FlexBox>
       <Wrapper>
         <div className="form">
-          <div className="input_box">
-            <label htmlFor="title">제목</label>
-            <input
-              value={articleForm.title}
-              onChange={handleChange}
-              type="text"
-              id="title"
-              name="title"
-            />
-          </div>
-          <div className="input_box">
-            <label htmlFor="content">내용</label>
-            <textarea
-              onChange={handleChange}
-              value={articleForm.content}
-              id="content"
-              name="content"
-            />
-          </div>
-          <div className="font_box">
-            <div className="input_box">
-              <label htmlFor="fontSize">글자 크기</label>
-              <select
-                onChange={handleChange}
-                value={articleForm.fontSize}
-                id="fontSize"
-                name="fontSize"
-              >
-                {FONT_SIZE.map((fontSize, index) => (
-                  <option key={index} value={fontSize}>
-                    {fontSize}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="input_box">
-              <label htmlFor="fontFamily">글꼴</label>
-              <select
-                onChange={handleChange}
-                value={articleForm.fontFamily}
-                id="fontFamily"
-                name="fontFamily"
-              >
-                {FONT_FAMILY.map((fontFamily, index) => (
-                  <option key={index} value={fontFamily}>
-                    {fontFamily}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="input_box">
-              <label htmlFor="fontColor">글자 색상</label>
-              <input
-                value={articleForm.fontColor}
-                onChange={handleChange}
+          <TitleInput
+            value={title.content}
+            placeholder="제목을 입력해주세요."
+            onChange={handleTitleChange}
+            name="content"
+          />
+          <Separator />
+
+          <div className="flex_box">
+            <Select
+              onChange={handleTitleChange}
+              value={title.size}
+              id="size"
+              name="size"
+            >
+              {FONT.TITLE_SIZE_LIST.map((fontSize, index) => (
+                <option key={index} value={fontSize}>
+                  {fontSize}
+                </option>
+              ))}
+            </Select>
+
+            <Select
+              onChange={handleTitleChange}
+              value={title.fontFamily}
+              id="fontFamily"
+              name="fontFamily"
+            >
+              {FONT.FAMILY_LIST.map((fontFamily, index) => (
+                <option key={index} value={fontFamily}>
+                  {fontFamily}
+                </option>
+              ))}
+            </Select>
+            <Select
+              onChange={handleTitleChange}
+              value={title.weight}
+              id="weight"
+              name="weight"
+            >
+              {FONT.WEIGHT_LIST.map((weight, index) => (
+                <option key={index} value={weight}>
+                  {weight}
+                </option>
+              ))}
+            </Select>
+            <div className="flex-box">
+              <ColorInput
+                value={title.color}
+                onChange={handleTitleChange}
                 type="color"
-                id="fontColor"
-                name="fontColor"
+                id="color"
+                name="color"
+              />
+              <div className="color_label">{title.color.split("#")[1]}</div>
+            </div>
+          </div>
+          <div className="flex_box">
+            <WidthAlign title={title} setTitle={setTitle} />
+            <HeightAlign title={title} setTitle={setTitle} />
+          </div>
+          <FooterInput
+            value={footer.content}
+            placeholder="내용을 입력해주세요."
+            onChange={handleFooterChange}
+            id="content"
+            name="content"
+          />
+          <Separator />
+          <div className="flex_box">
+            <Select
+              onChange={handleFooterChange}
+              value={footer.size}
+              id="size"
+              name="size"
+            >
+              {FONT.FOOTER_SIZE_LIST.map((fontSize, index) => (
+                <option key={index} value={fontSize}>
+                  {fontSize}
+                </option>
+              ))}
+            </Select>
+
+            <Select
+              onChange={handleFooterChange}
+              value={footer.fontFamily}
+              id="fontFamily"
+              name="fontFamily"
+            >
+              {FONT.FAMILY_LIST.map((fontFamily, index) => (
+                <option key={index} value={fontFamily}>
+                  {fontFamily}
+                </option>
+              ))}
+            </Select>
+            <Select
+              onChange={handleFooterChange}
+              value={footer.weight}
+              id="weight"
+              name="weight"
+            >
+              {FONT.WEIGHT_LIST.map((weight, index) => (
+                <option key={index} value={weight}>
+                  {weight}
+                </option>
+              ))}
+            </Select>
+
+            <div className="flex-box">
+              <ColorInput
+                value={footer.color}
+                onChange={handleFooterChange}
+                type="color"
+                id="color"
+                name="color"
+              />
+              <label className="color_label">
+                {footer.color.split("#")[1]}
+              </label>
+            </div>
+            <div className="flex-box">
+              <label htmlFor="background">배경</label>
+              <input
+                checked={footer.background}
+                onChange={() =>
+                  setFooter({ ...footer, background: !footer.background })
+                }
+                type="checkbox"
+                id="background"
+                name="background"
               />
             </div>
           </div>
-          <div className="input_box">
-            <label htmlFor="textAlign">정렬</label>
-            <select
-              onChange={handleChange}
-              value={articleForm.textAlign}
-              id="textAlign"
-              name="textAlign"
-            >
-              {TEXT_ALIGN.map((textAlign, index) => (
-                <option key={index} value={textAlign}>
-                  {textAlign}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="input_box">
-            <label htmlFor="file">파일</label>
+          <FileInput>
+            <label htmlFor="file">
+              <div className="btn-upload">사진 등록</div>
+            </label>
             <input onChange={handleFile} type="file" id="file" name="file" />
-          </div>
-          <button onClick={() => obSubmit()}>등록</button>
+          </FileInput>
+          <button className="submit_btn" onClick={() => obSubmit()}>
+            등록
+          </button>
         </div>
       </Wrapper>
-      <ImgPreviewWrapper>
-        <img src={imageSrc} alt={imageSrc} />
-      </ImgPreviewWrapper>
-    </>
+      {/* <ImgPreviewWrapper> */}
+      <ImageCard fileUrl={imageSrc} title={title} footer={footer} />
+      {/* </ImgPreviewWrapper> */}
+    </FlexBox>
   );
 };
 
 export default page;
 
-const Wrapper = styled.article`
+const FlexBox = styled.div`
+  display: flex;
   width: 100%;
-  max-width: 380px;
-  margin: 0 auto;
+  min-height: 100vh;
+  height: 100%;
+  background-color: #1a4524;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  @media screen and (min-width: 1024px) {
+    flex-direction: row;
+  }
+`;
+const Wrapper = styled.article`
+  width: 510px;
+  min-height: 680px;
+  margin: 50px 10px;
   padding: 20px;
   border: 1px solid #ddd;
-  border-radius: 5px;
-  box-sizing: border-box;
-
-  .font_box {
+  background-color: #fff;
+  overflow-y: auto;
+  .flex-box {
     display: flex;
+    align-items: center;
+  }
+  .input_box {
+    display: flex;
+  }
+  .flex_box {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
     gap: 10px;
+    .color_label {
+      width: 80px;
+      font-size: 14px;
+    }
   }
 
   .form {
@@ -166,36 +274,130 @@ const Wrapper = styled.article`
       font-weight: bold;
     }
 
-    button {
+    .submit_btn {
       padding: 5px;
+      height: 30px;
       border: 1px solid #ddd;
+      background-color: #1a4524;
+      color: #fff;
       border-radius: 5px;
       box-sizing: border-box;
       &:hover {
-        background-color: #ddd;
+        background-color: #0f2715;
         transition: background-color 0.3s;
       }
     }
   }
-  input,
-  textarea,
-  select {
-    padding: 5px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
+  @media screen and (min-width: 1024px) {
+    .flex_box {
+      flex-wrap: nowrap;
+    }
+    .color_label {
+      font-size: 16px;
+    }
   }
 `;
 
-const ImgPreviewWrapper = styled.div`
-  width: 100%;
-  max-width: 380px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+const TitleInput = styled.input`
+  height: 50px;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  padding-left: 15px;
+  background-color: #f5f5f5;
 
-  img {
+  &:focus {
+    outline: none;
+    background-color: #f9f9f9;
+  }
+
+  &::placeholder {
+    font-size: 20px;
+    font-weight: bold;
+    color: #c1c1c1;
+  }
+`;
+const FooterInput = styled.textarea`
+  height: 100px;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  padding: 15px;
+  background-color: #f5f5f5;
+  resize: none;
+  &:focus {
+    outline: none;
+    background-color: #f9f9f9;
+  }
+
+  &::placeholder {
+    font-size: 20px;
+    font-weight: bold;
+    color: #c1c1c1;
+  }
+`;
+const ColorInput = styled.input`
+  width: 25px;
+  height: 25px;
+  border: none;
+  background-color: #fff;
+  cursor: pointer;
+  &:focus {
+    outline: none;
+    background-color: #f9f9f9;
+  }
+  @media screen and (min-width: 1024px) {
+    width: 30px;
+    height: 30px;
+  }
+`;
+const Select = styled.select`
+  min-width: 60px;
+  padding: 0 10px;
+  height: 30px;
+  border: none;
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  &:hover {
+    background-color: #f7f7f7;
+  }
+  @media screen and (min-width: 1024px) {
+    font-size: 16px;
+    min-width: 60px;
+  }
+`;
+
+const Separator = styled.div`
+  margin: 20px 0;
+  width: 90%;
+  height: 10px;
+  background-color: #1a4524;
+  @media screen and (min-width: 1024px) {
+    width: 200px;
+  }
+`;
+
+const FileInput = styled.div`
+  margin-top: 20px;
+  width: 100px;
+  height: 30px;
+  input[type="file"] {
+    display: none;
+  }
+  .btn-upload {
     width: 100%;
+    height: 100%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    &:hover {
+      background-color: #f5f5f5;
+      transition: background-color 0.3s;
+    }
   }
 `;
