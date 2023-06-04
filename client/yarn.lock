@@ -1197,6 +1197,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.56.0
     "@yarnpkg/sdks": ^3.0.0-rc.40
     axios: ^1.4.0
+    dotenv: ^16.1.3
     eslint: ^8.36.0
     eslint-config-airbnb: ^19.0.4
     eslint-config-next: 13.2.4
@@ -1214,6 +1215,7 @@ __metadata:
     react: 18.2.0
     react-dom: 18.2.0
     recoil: ^0.7.7
+    recoil-persist: ^4.2.0
     typescript: ^4.4.4
   languageName: unknown
   linkType: soft
@@ -1481,6 +1483,13 @@ __metadata:
   dependencies:
     esutils: ^2.0.2
   checksum: fd7673ca77fe26cd5cba38d816bc72d641f500f1f9b25b83e8ce28827fe2da7ad583a8da26ab6af85f834138cf8dae9f69b0cd6ab925f52ddab1754db44d99ce
+  languageName: node
+  linkType: hard
+
+"dotenv@npm:^16.1.3":
+  version: 16.1.3
+  resolution: "dotenv@npm:16.1.3"
+  checksum: 8f73bae720161cf365b679de162fe79a05f5b7a21d0d2b8bf9fb0601a2ed30f7e9dc49fa8b752d93206e4b7d427eccea2f383a1622cd5da4a1824f43bf8f780b
   languageName: node
   linkType: hard
 
@@ -3532,6 +3541,15 @@ __metadata:
   dependencies:
     loose-envify: ^1.1.0
   checksum: 88e38092da8839b830cda6feef2e8505dec8ace60579e46aa5490fc3dc9bba0bd50336507dc166f43e3afc1c42939c09fe33b25fae889d6f402721dcd78fca1b
+  languageName: node
+  linkType: hard
+
+"recoil-persist@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "recoil-persist@npm:4.2.0"
+  peerDependencies:
+    recoil: ^0.7.2
+  checksum: 1c8a6be4bb914b383429603e910aba80734311d8657ddf9f94a39513da0eb41fd6a2b74439f93658daf465d2e66a2d890e9f6b2f8a047e4fb99dc5b31f301515
   languageName: node
   linkType: hard
 

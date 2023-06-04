@@ -4,11 +4,12 @@ import { useRouter } from "next/router";
 import React from "react";
 
 // TODO: 메뉴 디자인 추후 변경하기
-interface MenuProps {
+interface MyPageMenuProps {
   list: { title: string; goto: string }[];
 }
-export default function Menu({ list }: MenuProps) {
+export default function MyPageMenu({ list }: MyPageMenuProps) {
   const router = useRouter();
+
   const onHandleGoto = (goto: string) => () => {
     router.push(goto);
   };

@@ -1,33 +1,42 @@
-import Link from "next/link";
-import React, { useMemo } from "react";
-import Menu from "../blocks/Menu";
+import React, { createContext, useEffect, useMemo, useState } from "react";
 import styled from "@emotion/styled";
 import theme from "@/styles/theme";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import { useRecoilValue } from "recoil";
+import { userIdState } from "@/atoms/userState";
+import { MypageAPI } from "@/api/myPage";
 import SEO from "../atoms/SEO";
-
+import Menu from "../blocks/MyPageMenu";
+import MyPageMenu from "../blocks/MyPageMenu";
+import { Article } from "@/script/@type/article";
 interface MypageLayoutProps {
   children: React.ReactNode;
 }
-// TODO: 이름은 추후 변경하기
+
 const menuArr = [
   { title: "정보수정", goto: "/mypage" },
   { title: "팔로우", goto: "/mypage/follow" },
   { title: "좋아요 관리", goto: "/mypage/like" },
   { title: "내가 작성한 글", goto: "/mypage/myPosts" },
 ];
+
 export default function MypageLayout({ children }: MypageLayoutProps) {
   const router = useRouter();
-  const { pathname } = router;
-  const hasCard = useMemo(() => {
-    return pathname === "/mypage/like" || pathname === "/mypage/myPosts";
-  }, []);
+  const userId = useRecoilValue(userIdState);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.replace("/login");
+    }
+  }, [router]);
 
   return (
     <Container>
-      <SEO title="seoseoseo" />
-      <Content hasCard={hasCard}>
-        <Menu list={menuArr} />
+      <SEO title="MyPage" />
+      <Content>
+        <MyPageMenu list={menuArr} />
         <MainContainer>{children}</MainContainer>
       </Content>
     </Container>
@@ -41,7 +50,7 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const Content = styled.div<{ hasCard: boolean }>`
+const Content = styled.div`
   width: 100%;
   max-width: 500px;
   display: flex;

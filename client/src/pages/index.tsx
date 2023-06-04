@@ -5,9 +5,8 @@ import styles from "@/styles/Home.module.css";
 import axios from "axios";
 import styled from "@emotion/styled";
 import Card from "@/components/blocks/Card";
-import Menu from "@/components/blocks/Menu";
 import { useEffect, useState } from "react";
-import { Article, ArticleService } from "@/script/@type/article";
+import { Article, ArticleAPI } from "@/script/@type/article/article";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,12 +24,12 @@ export default function Home({ article }: { article: Array<Article> }) {
   return (
     <Container>
       <Section>
-        <Menu list={list} />
+        {/* <Menu list={list} /> */}
         <Logo>DUBU</Logo>
       </Section>
       <Section>
         <ContentWrap>
-          {article?.map((item: Article | undefined, index: number) => {
+          {article.map((item: Article | undefined, index: number) => {
             return <Card data={item} key={index} />;
           })}
         </ContentWrap>
@@ -40,7 +39,7 @@ export default function Home({ article }: { article: Array<Article> }) {
 }
 
 export const getServerSideProps = async ({ params }: any) => {
-  const article = await ArticleService.list();
+  const article = await ArticleAPI.list();
 
   return {
     props: {
