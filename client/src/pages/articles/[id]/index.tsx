@@ -4,12 +4,14 @@ import EditImageCard from "../components/edit-card";
 
 const index = ({ article }: { article: Article }) => {
   return (
-    <EditImageCard
-      fileUrl={`
+    <>
+      <EditImageCard
+        fileUrl={`
       ${process.env.BASE_SERVER_URL}${article.fileUrl}`}
-      title={article.title}
-      footer={article.footer}
-    />
+        title={article.title}
+        footer={article.footer}
+      />
+    </>
   );
 };
 
