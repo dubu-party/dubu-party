@@ -1,3 +1,4 @@
+import { UserState } from "./../atoms/userState";
 // 로그인, 로그아웃, 회원가입
 import customAxios from "./AxiosModule";
 
@@ -34,13 +35,26 @@ export const AuthAPI = {
   // TODO: api 수정 후 수정 필요
   login: async (data: LoginForm) => {
     try {
-      await customAxios
-        .post("/api/auth/login", data)
-        .then((res) => localStorage.setItem("token", res.data.token));
+      const result = await customAxios.post("/api/auth/login", data);
+      localStorage.setItem("token", result.data.token);
+
+      const user = {
+        email: result.data.email,
+        id: result.data.id,
+        instagram: result.data.instagram,
+        nickName: result.data.nickName,
+        profileUrl: result.data.profileUrl,
+        setting: {
+          bgColor: result.data.setting.bgColor,
+        },
+      } as UserState;
+      return { data: user };
     } catch (err) {
-      return { error: err };
+      if (typeof err === "string") return { error: err as string };
+      else return { error: "로그인에 실패했습니다." };
     }
   },
+
   logout: () => {
     localStorage.removeItem("token");
   },

@@ -20,7 +20,8 @@
     "next": "13.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "recoil": "^0.7.7"
+    "recoil": "^0.7.7",
+    "recoil-persist": "^4.2.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.56.0",

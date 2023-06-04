@@ -5,6 +5,7 @@ import Image from "next/image";
 import React from "react";
 
 export default function Card({ data }: { data?: Article }) {
+  // 여기 뭔지 확인해보기
   const setting = data?.contentSetting;
   return (
     <Container bgColor={setting?.fontColor || "#000"}>

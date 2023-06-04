@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import theme from "@/styles/theme";
 import BasicBtn from "@/components/atoms/BasicBtn";
@@ -7,11 +7,26 @@ import RegInput from "@/components/atoms/RegInput";
 import { AuthAPI } from "@/api/auth";
 import Router from "next/router";
 import SEO from "@/components/atoms/SEO";
+import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
+import { userIdState, userState, UserState } from "@/atoms/userState";
+import useErrorModal from "@/hooks/useErrorModal";
+import ErrorModal from "@/components/blocks/ErrorModal";
 
-// TODO: 로그인 할 때도 형식 검사가 필요한가?
 const Login = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const { isOpen, openModal, closeModal } = useErrorModal();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errMsg, setErrMsg] = useState("");
+  const [, setUser] = useRecoilState(userState);
+  const [, setId] = useRecoilState(userIdState);
+
+  // 토근이 저장되어 있다면 메인페이지로 이동
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      Router.push("/");
+    }
+  }, []);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
@@ -31,13 +46,20 @@ const Login = () => {
   const onClickLogin = async () => {
     const data = { email, password };
     const res = await AuthAPI.login(data);
-    if (res?.error) {
-      // 에러 모달 만들기
-      console.log(res.error);
-    } else {
+    const { data: resData, error } = res;
+
+    if (error) {
+      openModal();
+      setErrMsg(error);
+    }
+    if (resData) {
+      // 둘 중 하나만 쓰기
+      setUser(resData as UserState);
+      setId(resData.id as number);
       Router.push("/");
     }
   };
+
   const onKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       onClickLogin();
@@ -88,6 +110,7 @@ const Login = () => {
           />
         </IntroContainer>
       </Content>
+      {isOpen && <ErrorModal errMsg={errMsg} onClose={closeModal} />}
     </Container>
   );
 };

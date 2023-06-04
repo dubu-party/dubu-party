@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import theme from "@/styles/theme";
 import BasicBtn from "@/components/atoms/BasicBtn";
@@ -14,6 +14,8 @@ import LinkText from "@/components/atoms/LinkText";
 import ImgInput from "@/components/atoms/ImgInput";
 import { AuthAPI, RegisterForm } from "@/api/auth";
 import SEO from "@/components/atoms/SEO";
+import useErrorModal from "@/hooks/useErrorModal";
+import ErrorModal from "@/components/blocks/ErrorModal";
 
 interface CheckProps {
   email: boolean;
@@ -24,6 +26,7 @@ interface CheckProps {
 // 아이디, 비밀번호, 이메일, 닉네임 필수 입력
 // 형식이 확정되면 형식 안내 추가하기
 const Register = () => {
+  const { isOpen, openModal, closeModal } = useErrorModal();
   const [img, setImg] = useState<File>();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -35,6 +38,14 @@ const Register = () => {
     name: false,
     phone: false,
   });
+  const [errMsg, setErrMsg] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      Router.push("/");
+    }
+  }, []);
 
   const onClickCancel = () => {
     Router.push("/");
@@ -93,8 +104,8 @@ const Register = () => {
     };
     const res = await AuthAPI.register(data);
     if (res?.error) {
-      // 에러 모달 만들기
-      console.log(res.error);
+      openModal();
+      setErrMsg(res.error as string);
     } else {
       Router.push("/login");
     }
@@ -149,6 +160,7 @@ const Register = () => {
           />
         </ButtonContainer>
       </Content>
+      {isOpen && <ErrorModal errMsg={errMsg} onClose={closeModal} />}
     </Container>
   );
 };
