@@ -5,7 +5,6 @@ import React, { useState, useEffect } from "react";
 
 export default function Card({ data }: { data?: Article }) {
   // 여기 뭔지 확인해보기
-  const setting = data?.contentSetting;
   const [vertical, setVertical] = useState<string>("center");
 
   useEffect(() => {
