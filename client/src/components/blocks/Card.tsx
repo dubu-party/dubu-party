@@ -1,32 +1,61 @@
 import { Article } from "@/script/@type/article";
 import theme from "@/styles/theme";
 import styled from "@emotion/styled";
-import Image from "next/image";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 export default function Card({ data }: { data?: Article }) {
   const setting = data?.contentSetting;
+  const [vertical, setVertical] = useState<string>("center");
+
+  useEffect(() => {
+    switch (data?.title.heightSort) {
+      case "TOP":
+        setVertical("left");
+        return;
+      case "BOTTOM":
+        setVertical("right");
+        return;
+      default:
+        setVertical("center");
+    }
+  }, []);
+
   return (
-    <Container bgColor={setting?.fontColor || "#000"}>
+    <Container bgColor={data?.footer.background ? data?.title.color : "#000"}>
       <ImgContainer>
         {/* TODO: 추후 디테일을 잡아야할듯  -> 위치 가로 세로 다 변경해야하는거 아닐까..?*/}
         <Img
           src={`${process.env.BASE_SERVER_URL}${data?.fileUrl}`}
-          textAlign={setting?.textAlign || "center"}
+          textAlign={data?.title?.widthSort || "center"}
+          justifyContent={vertical}
         >
           <Title
-            fontColor={setting?.fontColor || "#000"}
-            fontSize={setting?.fontSize || 20}
-            fontFamily={setting?.fontFamily || theme.font.extraBold}
+            fontColor={data?.title?.color || "#000"}
+            fontSize={data?.title?.size || 20}
+            fontFamily={data?.title?.fontFamily || theme.font.extraBold}
           >
-            {data?.title?.content}
+            {data?.title.content}
           </Title>
         </Img>
 
         {/* <Image width={200} height={200} src={""} alt="Selected" /> */}
       </ImgContainer>
-      <Content>{data?.footer?.content}</Content>
-      <Content>{data?.user.nickname}</Content>
+      <FooterContainer>
+        <Content
+          fontColor={data?.footer?.color || "#000"}
+          fontSize={data?.footer?.size || 20}
+          fontFamily={data?.footer?.fontFamily || theme.font.extraBold}
+        >
+          {data?.footer.content}
+        </Content>
+        <Content
+          fontColor={data?.footer?.color || "#000"}
+          fontSize={data?.footer?.size || 20}
+          fontFamily={data?.footer?.fontFamily || theme.font.extraBold}
+        >
+          {data?.user.nickname}
+        </Content>
+      </FooterContainer>
     </Container>
   );
 }
@@ -36,7 +65,8 @@ interface ContainerProps {
 }
 const Container = styled.div<ContainerProps>`
   width: 100%;
-  max-width: 310px;
+  min-width: 310px;
+  // max-width: 310px;
   height: 100%;
   background-color: ${({ bgColor }) => bgColor};
   cursor: pointer;
@@ -53,23 +83,25 @@ const ImgContainer = styled.div`
 interface ImgProps {
   src: string;
   textAlign?: string;
+  justifyContent?: string;
 }
 const Img = styled.div<ImgProps>`
   width: 100%;
   height: calc(100vh * 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background-color: #e0e0e0;
+  display: flex;
 
   background-image: ${({ src }) => `url(${src})`};
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 
-  display: flex;
+  align-items: ${({ justifyContent }) => justifyContent};
   justify-content: ${({ textAlign }) => textAlign};
-  align-items: flex-start;
+`;
+
+const FooterContainer = styled.div`
+  width: 100%;
 `;
 
 interface TitleProps {
@@ -87,8 +119,8 @@ const Title = styled.div<TitleProps>`
 
 const Content = styled.div<TitleProps>`
   flex: 1;
-  color: white;
+  color: ${({ fontColor }) => fontColor};
+  font-size: ${({ fontSize }) => fontSize}px;
   font-family: ${({ fontFamily }) => fontFamily};
-  font-size: 20px;
   padding: 10px;
 `;

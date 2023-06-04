@@ -5,9 +5,12 @@ import React, { useEffect } from "react";
 const index = ({ article }: { article: Article }) => {
   return (
     <Wrapper>
-      <div className="title">{article.title}</div>
+      <div className="title">{article.title.content}</div>
       <div className="content">{article.content}</div>
-      <img src={`${process.env.BASE_SERVER_URL}${article.fileUrl}`} alt="이미지" />
+      <img
+        src={`${process.env.BASE_SERVER_URL}${article.fileUrl}`}
+        alt="이미지"
+      />
     </Wrapper>
   );
 };
