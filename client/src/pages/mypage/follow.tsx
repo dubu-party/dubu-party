@@ -1,11 +1,27 @@
+import { MypageAPI } from "@/api/myPage";
+import { userIdState } from "@/atoms/userState";
 import ProfileCard from "@/components/atoms/ProfileCard";
 import MypageLayout from "@/components/layout/mypageLayout";
 import theme from "@/styles/theme";
 import styled from "@emotion/styled";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 
 export default function Follow() {
+  const userId = useRecoilValue(userIdState);
+  const [followings, setFollowings] = useState([]);
   const [isFollower, setIsFollower] = useState<boolean>(true);
+
+  // 여기서 통신하고 보내주기
+  const fetchData = async () => {
+    const followings = await MypageAPI.getFollowings(userId);
+    setFollowings(followings);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const onClickIsFollow = (isfollow: boolean) => () => {
     setIsFollower(isfollow);
   };
@@ -21,7 +37,15 @@ export default function Follow() {
           </MenuButton>
         </Menu>
         <CardContainer>
-          <ProfileCard />
+          {followings.map((following: any) => (
+            <ProfileCard
+              key={following.id}
+              // id={following.id}
+              // name={following.name}
+              // profileImg={following.profileImg}
+              // isFollow={following.isFollow}
+            />
+          ))}
         </CardContainer>
       </Container>
     </MypageLayout>

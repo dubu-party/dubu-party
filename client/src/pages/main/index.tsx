@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import theme from "@/styles/theme";
 import React, { useEffect, useState } from "react";
 import Card from "@/components/blocks/Card";
-import Menu from "@/components/blocks/Menu";
+import Menu from "@/components/blocks/MyPageMenu";
 import { MainAPI } from "@/api/main";
 import { Article, ArticleService } from "@/script/@type/article";
 

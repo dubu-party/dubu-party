@@ -7,7 +7,8 @@ interface Type {
 const SEO = ({ title }: Type) => {
   return (
     <Head>
-      <title>{title}</title>
+      {/* TODO: 프로젝트 제목 정하기 */}
+      <title>Green | {title}</title>
     </Head>
   );
 };
