@@ -24,6 +24,8 @@ export default function myPosts({ myArticle }: { myArticle: any }) {
         {myArticles.map((article) => (
           <Card key={article.id} />
         ))}
+        <Card /> <Card /> <Card /> <Card />
+        <Card /> <Card /> <Card /> <Card />
       </CardContainer>
     </MypageLayout>
   );
@@ -37,4 +39,11 @@ export const getServerSideProps: GetServerSideProps = async () => {
   };
 };
 
-const CardContainer = styled.div``;
+const CardContainer = styled.div`
+  /* background-color: red; */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  grid-gap: 20px;
+  width: 100%;
+  place-items: center;
+`;

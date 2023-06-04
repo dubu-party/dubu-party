@@ -7,6 +7,10 @@ export interface updateUserData {
   instagram: string;
   profileImage: string;
 }
+export interface changePwProps {
+  password: string;
+  userId: number;
+}
 
 // getServerSideProps 함수는 서버 사이드에서 실행되는 동안 데이터를 가져오기 때문에
 // customAxios와 같은 클라이언트 사이드에서 동작하는 모듈을 사용할 수 없다.
@@ -28,11 +32,15 @@ export const MypageAPI = {
     }
   },
 
-  changePassword: async (userId: number, password: string) => {
+  // TODO: 형식을 확인해 주세요
+  changePassword: async (data: changePwProps) => {
+    // console.log(data);
+
     try {
-      const result = await customAxios.put(`/api/users/${userId}/password`, {
-        password,
-      });
+      const result = await customAxios.put(
+        `/api/users/${data.userId}/password`,
+        data.password,
+      );
       return result.data;
     } catch (err) {
       console.error(err);

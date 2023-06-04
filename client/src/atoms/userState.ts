@@ -23,13 +23,13 @@ const { persistAtom } = recoilPersist({
 
 // TODO: 이걸 왜 number로 하는건지 확인
 export const userIdState: RecoilState<number> = atom({
-  key: "userId",
+  key: "userId_state",
   default: "",
   effects_UNSTABLE: [persistAtom],
 });
 
 export const userState: RecoilState<UserState> = atom({
-  key: "user",
+  key: "user_state",
   default: {
     email: "",
     id: 0,

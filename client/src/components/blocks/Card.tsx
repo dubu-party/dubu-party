@@ -37,7 +37,8 @@ interface ContainerProps {
 }
 const Container = styled.div<ContainerProps>`
   width: 100%;
-  max-width: 310px;
+  // TODO: 물어보기
+  /* max-width: 310px; */
   height: 100%;
   background-color: ${({ bgColor }) => bgColor};
   cursor: pointer;

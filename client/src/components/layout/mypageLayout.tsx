@@ -18,7 +18,7 @@ const menuArr = [
   { title: "정보수정", goto: "/mypage" },
   { title: "팔로우", goto: "/mypage/follow" },
   { title: "좋아요 관리", goto: "/mypage/like" },
-  { title: "내가 작성한 글", goto: "/mypage/myPosts" },
+  { title: "작성글", goto: "/mypage/myPosts" },
 ];
 
 export default function MypageLayout({ children }: MypageLayoutProps) {
@@ -52,19 +52,30 @@ const Container = styled.div`
 
 const Content = styled.div`
   width: 100%;
-  max-width: 500px;
+  /* max-width: 500px; */
   display: flex;
   flex-direction: column;
-  border-radius: 8px;
   padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  justify-content: center;
+  @media all and (max-width: 479px) {
+    padding: 0 10px;
+  }
 `;
 
 const MainContainer = styled.div`
   width: 100%;
-  padding: 80px 0;
+  padding: 50px 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media all and (max-width: 479px) {
+    padding: 40px 0;
+  }
 `;
 
 const Title = styled.div`

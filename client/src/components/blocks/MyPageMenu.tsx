@@ -26,6 +26,7 @@ export default function MyPageMenu({ list }: MyPageMenuProps) {
 
 const Container = styled.div`
   width: 100%;
+  max-width: 500px;
   height: 50px; // TODO: 나중에 설정하기
   display: flex;
   justify-content: center;
@@ -47,8 +48,10 @@ const Buttons = styled.div`
     border-left: none;
   }
   transition: 0.2s;
+
+  @media all and (max-width: 390px) {
+  }
   &:hover {
     opacity: 0.5;
-    /* background-color: ${theme.color.lightBackground}; */
   }
 `;

@@ -1,5 +1,6 @@
 import { CommonAPI, UserInfo, userInfoInit } from "@/api/common";
-import { MypageAPI, updateUserData } from "@/api/myPage";
+import { changePwProps, MypageAPI, updateUserData } from "@/api/myPage";
+import { userIdState } from "@/atoms/userState";
 import BasicBtn from "@/components/atoms/BasicBtn";
 import BasicInput from "@/components/atoms/BasicInput";
 import ImgInput from "@/components/atoms/ImgInput";
@@ -9,16 +10,19 @@ import theme from "@/styles/theme";
 import styled from "@emotion/styled";
 
 import React, { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 
 export default function index() {
-  const [name, setName] = useState<string>("");
+  const userId = useRecoilValue(userIdState);
   const [img, setImg] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
   const getMyInfo = async () => {
     const info = await CommonAPI.getMyInfo();
     setImg(info.profileUrl);
-    setName(info.nickname);
+    setName(info.nickname || "");
   };
   useEffect(() => {
     getMyInfo();
@@ -32,9 +36,19 @@ export default function index() {
         instagram: "",
         profileImage: img,
       } as updateUserData;
-      const check = await MypageAPI.updateUser(data);
-      setName(check.nickname);
-      setImg(check.profileUrl);
+      const updateInfo = await MypageAPI.updateUser(data);
+
+      // 새로운 비밀번호가 있으면 바꿔주고 없으면 바꾸지 않는다
+      if (password !== "") {
+        const pwData = {
+          userId: userId,
+          password: password,
+        } as changePwProps;
+        await MypageAPI.changePassword(pwData);
+      }
+      console.log("check", updateInfo);
+      // setName(updateInfo.nickname || "");
+      // setImg(updateInfo.profileUrl);
     }
   };
 
@@ -46,11 +60,14 @@ export default function index() {
     const newValue = e.target.value;
     setName(newValue);
   };
+  const onChangePw = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setPassword(newValue);
+  };
 
   const onChangeFile = (img: string) => {
     setImg(img);
   };
-  console.log("img", img);
 
   return (
     <MypageLayout>
@@ -61,6 +78,12 @@ export default function index() {
           value={name}
           title="nickname"
           onChange={onChangeName}
+        />
+        <BasicInput
+          disabled={!isEdit}
+          value={password}
+          title="password"
+          onChange={onChangePw}
         />
 
         <ButtonContainer>
@@ -84,6 +107,7 @@ export default function index() {
 
 const Container = styled.div`
   width: 100%;
+  max-width: 500px;
   height: 100%;
   display: flex;
   flex-direction: column;
