@@ -9,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class UpdateUserForm {
     public String nickname;
-    public String instagram;
     public MultipartFile profileImage;
 
 }

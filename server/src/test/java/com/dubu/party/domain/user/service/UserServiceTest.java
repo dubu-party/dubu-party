@@ -33,14 +33,12 @@ class UserServiceTest {
         signupForm.setPassword("1234");
         signupForm.setNickname("user"+name+name);
         signupForm.setEmail("beadf"+name+"@naver.com");
-        signupForm.setInstagram("hohohoho");
         return signupForm;
     }
 
     public UpdateUserForm updateUser(String name) {
         UpdateUserForm updateUserForm = new UpdateUserForm();
         updateUserForm.setNickname("user" + name + name);
-        updateUserForm.setInstagram("hohoho");
         return updateUserForm;
     }
 

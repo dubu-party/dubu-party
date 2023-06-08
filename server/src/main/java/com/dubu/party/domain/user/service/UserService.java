@@ -93,7 +93,6 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 유저를 찾을 수 없습니다.");
         }
         user.setNickName(updateUserForm.getNickname());
-        user.setInstagram(updateUserForm.getInstagram());
 
 
         MultipartFile file = updateUserForm.getProfileImage();

@@ -23,7 +23,6 @@ class AuthServiceTest {
         signupForm.setEmail("asdf@naver.com");
         signupForm.setPassword("qwer1234");
         signupForm.setNickname("user");
-        signupForm.setInstagram("hohoho");
         return signupForm;
     }
 
