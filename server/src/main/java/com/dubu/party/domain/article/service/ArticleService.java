@@ -11,6 +11,9 @@ import com.dubu.party.domain.article.request.ArticleForm;
 import com.dubu.party.domain.user.entity.User;
 import com.dubu.party.domain.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -38,7 +41,7 @@ public class ArticleService {
 
         article.setTitle(articleForm.getTitle());
         article.setFooter(articleForm.getFooter());
-
+        article.setLikeCount(0);
         /** File **/
         MultipartFile file = articleForm.getFile();
         if (file != null) {
@@ -84,10 +87,7 @@ public class ArticleService {
         articleRepository.deleteById(id);
         return true;
     }
-    public List<ArticleDto> getAllArticles(){
-        List<Article> articles = articleRepository.findAll();
-        return ArticleDto.listOf(articles);
-    }
+
     public ArticleDetail getArticleById(Long id) {
         Article article =  articleRepository.findById(id).orElse(null);
         if(article == null){
@@ -104,4 +104,19 @@ public class ArticleService {
 
         return ArticleDto.listOf(articles);
     }
+
+    public List<ArticleDto> getArticlesByPage(int page, int size, String sort){
+        // sort 가 likes 면 likeCount 로 변경
+        if(sort.equals("likes")){
+            sort = "likeCount";
+        }
+        Sort sort1 = Sort.by(Sort.Direction.DESC, sort);
+        PageRequest pageRequest = PageRequest.of(page, size, sort1);
+        Page<Article> articlesPage = articleRepository.findAll(pageRequest);
+        List<Article> articles = articlesPage.getContent();
+
+        return ArticleDto.listOf(articles);
+    }
+
+
 }
