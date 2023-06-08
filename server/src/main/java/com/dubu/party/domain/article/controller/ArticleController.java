@@ -31,12 +31,8 @@ public class ArticleController {
     private JwtProvider jwtProvider;
 
 
-    @GetMapping("")
-    @ApiOperation(value = "모든 게시글 조회")
-    public List<ArticleDto> getAllArticles() {
-        return articleService.getAllArticles();
-    }
-    @PostMapping("")
+
+    @PostMapping
     @ApiOperation(value = "게시글 생성")
     public ArticleDto createArticle(HttpServletRequest request,
                                      ArticleForm articleForm) throws Exception {
@@ -52,9 +48,6 @@ public class ArticleController {
         return articleService.updateArticleById(userId,id, articleForm);
     }
 
-
-
-
     @GetMapping("/{id}")
     @ApiOperation(value = "게시글 조회")
     public ArticleDetail getArticleById(@PathVariable Long id) {
@@ -69,8 +62,6 @@ public class ArticleController {
         articleService.deleteArticleById(userId,id);
     }
 
-
-
     @GetMapping("/mine")
     @ApiOperation(value = "나의 모든 게시글 조회")
     public List<ArticleDto> getMyArticles(HttpServletRequest request){
@@ -84,4 +75,17 @@ public class ArticleController {
 
         return articleService.getArticlesByUser(userId);
     }
+
+
+    @GetMapping
+    @ApiOperation(value = "페이징 처리")
+    public List<ArticleDto> getArticlesByPage(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "5") int size,
+            @RequestParam(value = "sort", defaultValue = "likes") String sort
+    ){
+        return articleService.getArticlesByPage(page,size,sort);
+    }
+
+
 }

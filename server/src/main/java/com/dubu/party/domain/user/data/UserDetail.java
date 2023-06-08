@@ -16,7 +16,6 @@ public class UserDetail {
     private Long id;
     private String email;
     private String nickname;
-    private String instagram;
 
     private String profileUrl;
 
@@ -33,7 +32,6 @@ public class UserDetail {
         this.id = user.getId();
         this.email = user.getEmail();
         this.nickname = user.getNickName();
-        this.instagram = user.getInstagram();
         this.setting = user.getSetting();
 
         // 이미지 처리

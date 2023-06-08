@@ -34,7 +34,7 @@ public class ArticleDto {
 
 
     // 좋아요 누른 유저 목록 => 내가 좋아요 했는지 확인
-    private List<UserSimplify> likeUserList;
+    private List<UserSimplify> likeUsers;
 
     // TODO: 좋아요 누른 유저 목록 => 내가 좋아요 했는지 확인
 
@@ -55,8 +55,8 @@ public class ArticleDto {
         if(articleLikes == null) {
             articleLikes = new ArrayList<>();
         }
-        this.likeUserList = UserSimplify.listOfWithArticleLike(articleLikes);
-        this.likeCount = articleLikes.size();
+        this.likeUsers = UserSimplify.listOfWithArticleLike(articleLikes);
+        this.likeCount = article.getLikeCount();
 
         List<Comment> comments = article.getComments();
         if(comments == null) {

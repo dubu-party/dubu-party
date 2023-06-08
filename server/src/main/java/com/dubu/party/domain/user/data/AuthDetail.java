@@ -14,7 +14,6 @@ public class AuthDetail {
     private Long id;
     private String email;
     private String nickName;
-    private String instagram;
 
     private Setting setting;
     private String token;
@@ -25,7 +24,6 @@ public class AuthDetail {
         this.id = user.getId();
         this.email = user.getEmail();
         this.nickName = user.getNickName();
-        this.instagram = user.getInstagram();
         this.setting = user.getSetting();
         Image image = user.getProfileImage();
         if(image != null){
