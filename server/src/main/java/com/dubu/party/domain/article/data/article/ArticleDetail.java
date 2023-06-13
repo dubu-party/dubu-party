@@ -21,7 +21,8 @@ public class ArticleDetail {
     private Footer footer;
     private String fileUrl;
     private UserSimplify user;
-    private List<UserSimplify> likeUserList;
+    private List<UserSimplify> likeUsers;
+    private Integer likeCount;
     private List<CommentDto> comments;
     public ArticleDetail(Article article){
         this.id = article.getId();
@@ -34,8 +35,9 @@ public class ArticleDetail {
             this.fileUrl = image.getFileUrl();
         }
         List<ArticleLike> articleLikes = article.getArticleLikes();
+        this.likeCount = article.getLikeCount();
 
-        this.likeUserList = UserSimplify.listOfWithArticleLike(articleLikes);
+        this.likeUsers = UserSimplify.listOfWithArticleLike(articleLikes);
 
         this.comments = CommentDto.listOf(article.getComments());
     }

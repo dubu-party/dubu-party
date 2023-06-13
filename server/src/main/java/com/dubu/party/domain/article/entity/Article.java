@@ -31,6 +31,9 @@ public class Article {
     @JoinColumn(name="article_id")
     private List<ArticleLike> articleLikes;
 
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private int likeCount;
+
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
@@ -38,6 +41,5 @@ public class Article {
     @OneToMany(mappedBy = "article")
     @JsonIgnore // mappedBy는 양방향 관계에서 반대쪽 엔티티의 필드명을 지정합니다.
     private List<Comment> comments;
-
 
 }
