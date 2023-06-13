@@ -7,9 +7,14 @@ import React, { useEffect, useRef, useState } from "react";
 
 interface ImgInputProps {
   initialImg?: string;
-  onChangeFile: (img: string) => void;
+  onChangeFile: (file: File, img: string) => void;
+  isCenter?: boolean;
 }
-export default function ImgInput({ onChangeFile, initialImg }: ImgInputProps) {
+export default function ImgInput({
+  onChangeFile,
+  initialImg,
+  isCenter = true,
+}: ImgInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,7 +25,7 @@ export default function ImgInput({ onChangeFile, initialImg }: ImgInputProps) {
 
     return new Promise((resolve: any) => {
       reader.onload = () => {
-        onChangeFile(reader.result as string);
+        onChangeFile(file, reader.result as string);
         resolve();
       };
     });
@@ -32,7 +37,7 @@ export default function ImgInput({ onChangeFile, initialImg }: ImgInputProps) {
   };
 
   return (
-    <Container>
+    <Container isCenter={isCenter}>
       {/* 제목추가해주기 */}
       <ImgContainer onClick={handleClick}>
         {initialImg ? (
@@ -52,12 +57,12 @@ export default function ImgInput({ onChangeFile, initialImg }: ImgInputProps) {
   );
 }
 
-const Container = styled.div`
-  width: 100%;
+const Container = styled.div<{ isCenter: boolean }>`
+  /* width: 100%; */
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: ${({ isCenter }) => (isCenter ? "center" : "flex-start")};
   gap: 9px;
 `;
 
