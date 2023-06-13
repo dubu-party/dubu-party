@@ -35,13 +35,20 @@ export default function ImgInput({
     if (!fileInputRef.current) return;
     fileInputRef.current.click();
   };
+  console.log(initialImg);
 
   return (
     <Container isCenter={isCenter}>
       {/* 제목추가해주기 */}
       <ImgContainer onClick={handleClick}>
         {initialImg ? (
-          <Image width={200} height={200} src={initialImg} alt="Selected" />
+          // TODO: Image
+          <img
+            width={200}
+            height={200}
+            src={`${process.env.BASE_SERVER_URL}${initialImg}`}
+            alt="Selected"
+          />
         ) : (
           <NoImg>No Image</NoImg>
         )}
