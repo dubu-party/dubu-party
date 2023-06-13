@@ -1,11 +1,15 @@
 import { Article } from "@/script/@type/article/article";
 import theme from "@/styles/theme";
 import styled from "@emotion/styled";
+import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 
 export default function Card({ data }: { data?: Article }) {
+  const router = useRouter();
+
   // 여기 뭔지 확인해보기
   const [vertical, setVertical] = useState<string>("center");
+  const [isHovering, setIsHovering] = useState<boolean>(false);
 
   useEffect(() => {
     switch (data?.title.heightSort) {
@@ -21,7 +25,12 @@ export default function Card({ data }: { data?: Article }) {
   }, []);
 
   return (
-    <Container bgColor={data?.footer.background ? data?.title.color : "#000"}>
+    <Container
+      bgColor={data?.footer.background ? data?.title.color : "#000"}
+      onMouseOver={() => setIsHovering(true)}
+      onMouseOut={() => setIsHovering(false)}
+      onClick={() => router.push(`/articles/${data?.id}`)}
+    >
       <ImgContainer>
         {/* TODO: 추후 디테일을 잡아야할듯  -> 위치 가로 세로 다 변경해야하는거 아닐까..?*/}
         <Img
@@ -56,6 +65,11 @@ export default function Card({ data }: { data?: Article }) {
           {data?.user.nickname}
         </Content>
       </FooterContainer>
+      {isHovering && (
+        <HoverContainer>
+          <Like>{data?.likeCount}</Like>
+        </HoverContainer>
+      )}
     </Container>
   );
 }
@@ -75,6 +89,25 @@ const Container = styled.div<ContainerProps>`
   &:hover {
     transform: scale(1.01);
   }
+`;
+
+const HoverContainer = styled.div`
+  position: absolute;
+  top: 0;
+  width: 100%;
+  min-width: 310px;
+  // max-width: 310px;
+  height: 100%;
+  background-color: black;
+  opacity: 0.6;
+  cursor: pointer;
+  // transition: all 0.3s ease-in-out;
+  margin-bottom: calc(100vh * 0.05);
+  text-align: center;
+`;
+
+const Like = styled.div`
+  color: white;
 `;
 
 const ImgContainer = styled.div`

@@ -8,12 +8,14 @@ export class Article {
   fileUrl?: string;
   title: ArticleTitle;
   footer: ArticleFooter;
+  likeCount: number;
   user: User;
   constructor() {
     this.id = 0;
     this.fileUrl = "";
     this.title = new ArticleTitle();
     this.footer = new ArticleFooter();
+    this.likeCount = 0;
     this.user = new User();
   }
 }
