@@ -38,25 +38,7 @@ export const CommonAPI = {
       console.error(err);
     }
   },
-  // getMyInfo1: async () => {
-  //   try {
-  //     const res = await fetch(`http://localhost:3000/api/users/myInfo`, {
-  //       method: "GET",
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
 
-  //     if (res.status === 200) {
-  //       return await res.json();
-  //     }
-  //     return null;
-  //   } catch (err) {
-  //     console.error(err);
-  //     return null;
-  //   }
-  // },
   chageMode: async (data: any) => {
     try {
       const result = await customAxios.put(`/api/users/setting`, data);
