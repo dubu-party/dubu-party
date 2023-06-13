@@ -7,24 +7,30 @@ import styled from "@emotion/styled";
 import Card from "@/components/blocks/Card";
 import { useEffect, useState } from "react";
 import { Article, ArticleAPI } from "@/script/@type/article/article";
+import Footer from "@/components/atoms/Footer";
+import LinkText from "@/components/atoms/LinkText";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home({ article }: { article: Array<Article> }) {
   const list = [
-    { title: "팔로우글", goto: "/" },
-    { title: "마이페이지", goto: "/mypage" },
-    { title: "마이피드", goto: "/" },
+    { text: "팔로우글", goto: "/" },
+    { text: "마이페이지", goto: "/" },
+    { text: "마이피드", goto: "/" },
     {
-      title: "로그인",
-      goto: "/login",
+      text: "로그인",
+      // goto: "/login",
     },
   ];
 
   return (
     <Container>
       <Section>
-        {/* <Menu list={list} /> */}
+        <Menu>
+          {list.map((item, index) => {
+            return <LinkText key={index} text={item.text} goto={item.goto} />;
+          })}
+        </Menu>
         <Logo>DUBU</Logo>
       </Section>
       <Section>
@@ -34,6 +40,7 @@ export default function Home({ article }: { article: Array<Article> }) {
           })}
         </ContentWrap>
       </Section>
+      <Footer />
     </Container>
   );
 }
@@ -63,8 +70,14 @@ const Section = styled.section`
   width: 100%;
 `;
 
+const Menu = styled.header`
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+`;
+
 const ContentWrap = styled.div`
-  height: 100%;
   overflow: scroll;
   margin-top: calc(100vh * 0.25);
   justify-content: center;
@@ -107,7 +120,6 @@ const Logo = styled.div`
   top: 10%;
   color: #000000;
   text-align: center;
-  margin-top: 50px;
 `;
 
 const LoginBtn = styled.div`
