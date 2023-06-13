@@ -96,7 +96,7 @@ const Button = styled.button`
   width: 100%;
   height: 40px;
   border-radius: 8px;
-  background-color: #4d7c4e; // #4D7C4E,#2B533C,#162C24
+  background-color: #2b533c; // #4D7C4E,#2B533C,#162C24
 
   font-family: ${theme.font.semibold};
   font-size: 14px;
