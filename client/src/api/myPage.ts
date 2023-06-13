@@ -5,7 +5,7 @@ const { BASE_FETCH_URL } = process.env;
 export interface updateUserData {
   nickname: string;
   instagram: string;
-  profileImage: string;
+  profileImage: File;
 }
 export interface changePwProps {
   password: string;
@@ -23,9 +23,17 @@ export const MypageAPI = {
       console.error(err);
     }
   },
+
   updateUser: async (data: updateUserData) => {
+    const formData = new FormData();
+    if (data.profileImage) {
+      formData.append("profileImage", data.profileImage);
+    }
+    formData.append("nickname", data.nickname);
+    console.log(data);
+
     try {
-      const result = await customAxios.put(`/api/users`, data);
+      const result = await customAxios.put(`/api/users`, formData);
       return result.data;
     } catch (err) {
       console.error(err);
@@ -33,6 +41,7 @@ export const MypageAPI = {
   },
 
   // TODO: 형식을 확인해 주세요
+  // 추후 비밀번호 확인 로직 필요
   changePassword: async (data: changePwProps) => {
     // console.log(data);
 
