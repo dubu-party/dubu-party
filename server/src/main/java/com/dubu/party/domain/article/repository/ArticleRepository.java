@@ -4,6 +4,8 @@ import com.dubu.party.domain.user.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,5 +24,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     List<Article> findByUser(User user);
 
+    List<Article> findByUserId(Long userId);
 
+    @Query("SELECT a FROM Article a JOIN a.articleLikes al WHERE al.user = :user")
+    List<Article> findLikedArticlesByUser(@Param("user") User user);
 }

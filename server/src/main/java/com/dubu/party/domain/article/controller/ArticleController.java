@@ -87,5 +87,11 @@ public class ArticleController {
         return articleService.getArticlesByPage(page,size,sort);
     }
 
+    @GetMapping("/liked/{userId}")
+    @ApiOperation(value = "좋아요 한 게시글 조회")
+    public List<ArticleDto> getArticlesILike(HttpServletRequest request,@PathVariable Long userId) {
+        return articleService.getArticlesILike(userId);
+    }
+
 
 }

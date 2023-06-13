@@ -119,4 +119,13 @@ public class ArticleService {
     }
 
 
+    public List<ArticleDto> getArticlesILike (Long userId){
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("해당 유저를 찾을 수 없습니다."));
+
+        List<Article> articles = articleRepository.findLikedArticlesByUser(user);
+
+        return ArticleDto.listOf(articles);
+    }
+
 }
