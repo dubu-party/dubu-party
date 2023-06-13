@@ -1,39 +1,20 @@
 import { MypageAPI } from "@/api/myPage";
+import { userIdState } from "@/atoms/userState";
 import Card from "@/components/blocks/Card";
 import MypageLayout from "@/components/layout/mypageLayout";
-import { Article, ArticleService } from "@/script/@type/article";
+import { Article } from "@/script/@type/article/article";
 import styled from "@emotion/styled";
 import React, { useEffect } from "react";
+import { useRecoilValue } from "recoil";
 
-export default function like({ data }: { data: Article[] }) {
-  console.log(data);
-  const check = async () => {
-    const data = await MypageAPI.getArticles();
-    console.log(data);
-  };
-  useEffect(() => {
-    check();
-  }, []);
+export default function like() {
+  const userId = useRecoilValue(userIdState);
 
   return (
     <MypageLayout>
-      <CardContainer>
-        <Card />
-        {/* {data.slice(0, 3).map((article) => (
-          <Card key={article.id} data={article} />
-        ))} */}
-      </CardContainer>
+      <CardContainer>{/* <Card /> */}</CardContainer>
     </MypageLayout>
   );
-}
-
-export async function getServerSideProps() {
-  const data = await MypageAPI.getArticles();
-  return {
-    props: {
-      data,
-    },
-  };
 }
 
 const CardContainer = styled.div`

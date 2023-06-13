@@ -1,39 +1,26 @@
-import customAxios from "@/api/AxiosModule";
-import { Article, ArticleService } from "@/script/@type/article";
+import { Article, ArticleAPI } from "@/script/@type/article/article";
 import styled from "@emotion/styled";
-import axios from "axios";
+import Image from "next/image";
 import { useRouter } from "next/router";
+import MainImageCard from "./components/main-card";
 
 const ArticleList = ({ articles }: { articles: Article[] }) => {
   // 페이지를 이동하고 싶을 때는 useRouter를 사용합니다.
+  const baseServerUrl = process.env.BASE_SERVER_URL;
   const router = useRouter();
+
   return (
     <Wrapper>
-      {articles.map((article) => {
-        return (
-          <div
-            onClick={() => {
-              router.push(`/articles/${article.id}`);
-            }}
-            className="article"
-            key={article.id}
-          >
-            <div>{article.title}</div>
-            <div>{article.content}</div>
-            <img
-              src={`${process.env.BASE_SERVER_URL}${article.fileUrl}`}
-              alt="이미지"
-            />
-          </div>
-        );
-      })}
+      {articles.map((article) => (
+        <MainImageCard article={article} key={article.id} />
+      ))}
+      <button onClick={() => router.push("/articles/create")}>글쓰기</button>
     </Wrapper>
   );
 };
 
 export const getServerSideProps = async ({ req }: any) => {
-  const articles = await ArticleService.list();
-
+  const articles = await ArticleAPI.list();
   return {
     props: {
       articles,
@@ -42,12 +29,13 @@ export const getServerSideProps = async ({ req }: any) => {
 };
 
 const Wrapper = styled.section`
-  width: 100%;
+  width: 300px;
   height: 100%;
   padding: 20px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  margin: auto;
   gap: 20px;
   .article {
     cursor: pointer;

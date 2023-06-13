@@ -1,36 +1,54 @@
 import theme from "@/styles/theme";
 import styled from "@emotion/styled";
 import Image from "next/image";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 // TODO: 디자인 추후 변경하기
 
 interface ImgInputProps {
-  onChangeFile: (img: File) => void;
+  initialImg?: string;
+  onChangeFile: (file: File, img: string) => void;
+  isCenter?: boolean;
 }
-export default function ImgInput({ onChangeFile }: ImgInputProps) {
+export default function ImgInput({
+  onChangeFile,
+  initialImg,
+  isCenter = true,
+}: ImgInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
 
-    if (file) {
-      setSelectedImage(URL.createObjectURL(file));
-      onChangeFile(file);
-    }
+    return new Promise((resolve: any) => {
+      reader.onload = () => {
+        onChangeFile(file, reader.result as string);
+        resolve();
+      };
+    });
   };
 
   const handleClick = () => {
-    fileInputRef.current?.click();
+    if (!fileInputRef.current) return;
+    fileInputRef.current.click();
   };
+  console.log(initialImg);
 
   return (
-    <Container>
+    <Container isCenter={isCenter}>
       {/* 제목추가해주기 */}
       <ImgContainer onClick={handleClick}>
-        {selectedImage ? (
-          <Image width={200} height={200} src={selectedImage} alt="Selected" />
+        {initialImg ? (
+          // TODO: Image
+          <img
+            width={200}
+            height={200}
+            src={`${process.env.BASE_SERVER_URL}${initialImg}`}
+            alt="Selected"
+          />
         ) : (
           <NoImg>No Image</NoImg>
         )}
@@ -46,12 +64,12 @@ export default function ImgInput({ onChangeFile }: ImgInputProps) {
   );
 }
 
-const Container = styled.div`
-  width: 100%;
+const Container = styled.div<{ isCenter: boolean }>`
+  /* width: 100%; */
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: ${({ isCenter }) => (isCenter ? "center" : "flex-start")};
   gap: 9px;
 `;
 

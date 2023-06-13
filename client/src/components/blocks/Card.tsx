@@ -1,28 +1,75 @@
-import { Article } from "@/script/@type/article";
+import { Article } from "@/script/@type/article/article";
 import theme from "@/styles/theme";
 import styled from "@emotion/styled";
-import Image from "next/image";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useState, useEffect } from "react";
 
 export default function Card({ data }: { data?: Article }) {
-  const setting = data?.contentSetting;
+  const router = useRouter();
+
+  // 여기 뭔지 확인해보기
+  const [vertical, setVertical] = useState<string>("center");
+  const [isHovering, setIsHovering] = useState<boolean>(false);
+
+  useEffect(() => {
+    switch (data?.title.heightSort) {
+      case "TOP":
+        setVertical("left");
+        return;
+      case "BOTTOM":
+        setVertical("right");
+        return;
+      default:
+        setVertical("center");
+    }
+  }, []);
+
   return (
-    <Container bgColor={setting?.fontColor || "#000"}>
+    <Container
+      bgColor={data?.footer.background ? data?.title.color : "#000"}
+      onMouseOver={() => setIsHovering(true)}
+      onMouseOut={() => setIsHovering(false)}
+      onClick={() => router.push(`/articles/${data?.id}`)}
+    >
       <ImgContainer>
         {/* TODO: 추후 디테일을 잡아야할듯  -> 위치 가로 세로 다 변경해야하는거 아닐까..?*/}
-        <Img src="" textAlign={setting?.textAlign || "center"}>
+        <Img
+          src={`${process.env.BASE_SERVER_URL}${data?.fileUrl}`}
+          textAlign={data?.title?.widthSort || "center"}
+          justifyContent={vertical}
+        >
           <Title
-            fontColor={setting?.fontColor || "#000"}
-            fontSize={setting?.fontSize || 20}
-            fontFamily={setting?.fontFamily || theme.font.extraBold}
+            fontColor={data?.title?.color || "#000"}
+            fontSize={data?.title?.size || 20}
+            fontFamily={data?.title?.fontFamily || theme.font.extraBold}
           >
-            Title
+            {data?.title.content}
           </Title>
         </Img>
 
         {/* <Image width={200} height={200} src={""} alt="Selected" /> */}
       </ImgContainer>
-      <Content>content</Content>
+      <FooterContainer>
+        <Content
+          fontColor={data?.footer?.color || "#000"}
+          fontSize={data?.footer?.size || 20}
+          fontFamily={data?.footer?.fontFamily || theme.font.extraBold}
+        >
+          {data?.footer.content}
+        </Content>
+        <Content
+          fontColor={data?.footer?.color || "#000"}
+          fontSize={data?.footer?.size || 20}
+          fontFamily={data?.footer?.fontFamily || theme.font.extraBold}
+        >
+          {data?.user.nickname}
+        </Content>
+      </FooterContainer>
+      {isHovering && (
+        <HoverContainer>
+          <Like>{data?.likeCount}</Like>
+        </HoverContainer>
+      )}
     </Container>
   );
 }
@@ -32,14 +79,35 @@ interface ContainerProps {
 }
 const Container = styled.div<ContainerProps>`
   width: 100%;
-  max-width: 310px;
-  height: 480px;
+  // TODO: 물어보기
+  /* max-width: 310px; */
+  height: 100%;
   background-color: ${({ bgColor }) => bgColor};
   cursor: pointer;
   transition: all 0.3s ease-in-out;
+  margin-bottom: calc(100vh * 0.05);
   &:hover {
     transform: scale(1.01);
   }
+`;
+
+const HoverContainer = styled.div`
+  position: absolute;
+  top: 0;
+  width: 100%;
+  min-width: 310px;
+  // max-width: 310px;
+  height: 100%;
+  background-color: black;
+  opacity: 0.6;
+  cursor: pointer;
+  // transition: all 0.3s ease-in-out;
+  margin-bottom: calc(100vh * 0.05);
+  text-align: center;
+`;
+
+const Like = styled.div`
+  color: white;
 `;
 
 const ImgContainer = styled.div`
@@ -48,23 +116,25 @@ const ImgContainer = styled.div`
 interface ImgProps {
   src: string;
   textAlign?: string;
+  justifyContent?: string;
 }
 const Img = styled.div<ImgProps>`
   width: 100%;
-  height: 400px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  height: calc(100vh * 0.5);
   background-color: #e0e0e0;
+  display: flex;
 
   background-image: ${({ src }) => `url(${src})`};
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 
-  display: flex;
+  align-items: ${({ justifyContent }) => justifyContent};
   justify-content: ${({ textAlign }) => textAlign};
-  align-items: flex-start;
+`;
+
+const FooterContainer = styled.div`
+  width: 100%;
 `;
 
 interface TitleProps {
@@ -77,12 +147,13 @@ const Title = styled.div<TitleProps>`
   font-size: ${({ fontSize }) => fontSize}px;
   font-family: ${({ fontFamily }) => fontFamily};
   font-weight: bold;
+  padding: 10px;
 `;
 
 const Content = styled.div<TitleProps>`
   flex: 1;
-  color: white;
+  color: ${({ fontColor }) => fontColor};
+  font-size: ${({ fontSize }) => fontSize}px;
   font-family: ${({ fontFamily }) => fontFamily};
-  font-size: 20px;
-  padding: 4px;
+  padding: 10px;
 `;

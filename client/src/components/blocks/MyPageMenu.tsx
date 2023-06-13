@@ -4,11 +4,12 @@ import { useRouter } from "next/router";
 import React from "react";
 
 // TODO: 메뉴 디자인 추후 변경하기
-interface MenuProps {
+interface MyPageMenuProps {
   list: { title: string; goto: string }[];
 }
-export default function Menu({ list }: MenuProps) {
+export default function MyPageMenu({ list }: MyPageMenuProps) {
   const router = useRouter();
+
   const onHandleGoto = (goto: string) => () => {
     router.push(goto);
   };
@@ -25,6 +26,7 @@ export default function Menu({ list }: MenuProps) {
 
 const Container = styled.div`
   width: 100%;
+  max-width: 500px;
   height: 50px; // TODO: 나중에 설정하기
   display: flex;
   justify-content: center;
@@ -46,8 +48,10 @@ const Buttons = styled.div`
     border-left: none;
   }
   transition: 0.2s;
+
+  @media all and (max-width: 390px) {
+  }
   &:hover {
     opacity: 0.5;
-    /* background-color: ${theme.color.lightBackground}; */
   }
 `;

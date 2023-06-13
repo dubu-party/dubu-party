@@ -17,7 +17,12 @@ export default function BasicInput({
   return (
     <Container>
       <Title>{title}</Title>
-      <Input disabled={disabled} value={value} onChange={onChange} />
+      <Input
+        disabled={disabled}
+        value={value}
+        onChange={onChange}
+        type={title === "password" ? "password" : "text"}
+      />
     </Container>
   );
 }
