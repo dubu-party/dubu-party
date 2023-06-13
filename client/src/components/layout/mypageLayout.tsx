@@ -15,10 +15,9 @@ interface MypageLayoutProps {
 }
 
 const menuArr = [
-  { title: "정보수정", goto: "/mypage" },
+  { title: "mypage", goto: "/mypage" },
   { title: "팔로우", goto: "/mypage/follow" },
   { title: "좋아요 관리", goto: "/mypage/like" },
-  { title: "작성글", goto: "/mypage/myPosts" },
 ];
 
 export default function MypageLayout({ children }: MypageLayoutProps) {
