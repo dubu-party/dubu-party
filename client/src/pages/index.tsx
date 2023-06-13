@@ -15,11 +15,11 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home({ article }: { article: Array<Article> }) {
   const list = [
     { text: "팔로우글", goto: "/" },
-    { text: "마이페이지", goto: "/" },
+    { text: "마이페이지", goto: "/mypage" },
     { text: "마이피드", goto: "/" },
     {
       text: "로그인",
-      // goto: "/login",
+      goto: "/login",
     },
   ];
 
