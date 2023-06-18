@@ -5,11 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import { userIdState } from "@/atoms/userState";
-import { MypageAPI } from "@/api/myPage";
 import SEO from "../atoms/SEO";
-import Menu from "../blocks/MyPageMenu";
 import MyPageMenu from "../blocks/MyPageMenu";
-import { Article } from "@/script/@type/article";
 interface MypageLayoutProps {
   children: React.ReactNode;
 }
@@ -22,7 +19,6 @@ const menuArr = [
 
 export default function MypageLayout({ children }: MypageLayoutProps) {
   const router = useRouter();
-  const userId = useRecoilValue(userIdState);
 
   useEffect(() => {
     const token = localStorage.getItem("token");

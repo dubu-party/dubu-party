@@ -8,7 +8,7 @@ import { AuthAPI } from "@/api/auth";
 import Router from "next/router";
 import SEO from "@/components/atoms/SEO";
 import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
-import { userIdState, userState, UserState } from "@/atoms/userState";
+import { userIdState, UserState } from "@/atoms/userState";
 import useErrorModal from "@/hooks/useErrorModal";
 import ErrorModal from "@/components/blocks/ErrorModal";
 
@@ -17,7 +17,6 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
-  const [, setUser] = useRecoilState(userState);
   const [, setId] = useRecoilState(userIdState);
 
   // 토근이 저장되어 있다면 메인페이지로 이동
@@ -53,8 +52,6 @@ const Login = () => {
       setErrMsg(error);
     }
     if (resData) {
-      // 둘 중 하나만 쓰기
-      setUser(resData as UserState);
       setId(resData.id as number);
       Router.push("/");
     }
