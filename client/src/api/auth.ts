@@ -6,7 +6,6 @@ export interface RegisterForm {
   email: string;
   password: string;
   nickname: string;
-  phoneNumber: string;
   profileImage?: File;
 }
 export interface LoginForm {
@@ -22,7 +21,6 @@ export const AuthAPI = {
     formData.append("email", data.email);
     formData.append("password", data.password);
     formData.append("nickname", data.nickname);
-    formData.append("phoneNumber", data.phoneNumber);
     if (data.profileImage) {
       formData.append("profileImage", data.profileImage);
     }

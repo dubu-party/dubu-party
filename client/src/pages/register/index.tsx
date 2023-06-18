@@ -4,12 +4,7 @@ import theme from "@/styles/theme";
 import BasicBtn from "@/components/atoms/BasicBtn";
 import RegInput from "@/components/atoms/RegInput";
 import Router, { useRouter } from "next/router";
-import {
-  emailRegEx,
-  nameRegEx,
-  passwordRegEx,
-  phoneRegEx,
-} from "@/utils/RegEx";
+import { emailRegEx, nameRegEx, passwordRegEx } from "@/utils/RegEx";
 import LinkText from "@/components/atoms/LinkText";
 import ImgInput from "@/components/atoms/ImgInput";
 import { AuthAPI, RegisterForm } from "@/api/auth";
@@ -21,35 +16,31 @@ interface CheckProps {
   email: boolean;
   password: boolean;
   name: boolean;
-  phone: boolean;
 }
-// 아이디, 비밀번호, 이메일, 닉네임 필수 입력
 // 형식이 확정되면 형식 안내 추가하기
 const Register = () => {
   const { isOpen, openModal, closeModal } = useErrorModal();
-  const [img, setImg] = useState<File>();
+
+  const [img, setImg] = useState<string>("");
+  const [file, setFile] = useState<File | undefined>();
+
+  const [nickname, setNickname] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [nickname, setNickname] = useState<string>("");
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [isValid, setIsValid] = useState<CheckProps>({
     email: false,
     password: false,
     name: false,
-    phone: false,
   });
   const [errMsg, setErrMsg] = useState("");
 
   useEffect(() => {
+    // 이미 로그인한 경우 우회되도록 수정
     const token = localStorage.getItem("token");
     if (token) {
       Router.push("/");
     }
   }, []);
-
-  const onClickCancel = () => {
-    Router.push("/");
-  };
 
   const checkValid = (value: string, type: string) => {
     switch (type) {
@@ -68,16 +59,11 @@ const Register = () => {
         setNickname(value);
         setIsValid((prev) => ({ ...prev, name: nameRegEx.test(value) }));
         break;
-      case "전화번호":
-        setPhoneNumber(value);
-        setIsValid((prev) => ({ ...prev, phone: phoneRegEx.test(value) }));
-        break;
       default:
         setIsValid({
           email: false,
           password: false,
           name: false,
-          phone: false,
         });
         break;
     }
@@ -91,16 +77,17 @@ const Register = () => {
 
   const isFormValid = Object.values(isValid).every((valid) => valid);
 
-  const onChangeFile = (img: File) => {
+  const onChangeFile = (file: File, img: string) => {
+    setFile(file);
     setImg(img);
   };
+
   const onClickRegister = async () => {
     const data = {
       email,
       password,
       nickname,
-      phoneNumber,
-      profileImage: img,
+      profileImage: file,
     };
     const res = await AuthAPI.register(data);
     if (res?.error) {
@@ -109,6 +96,10 @@ const Register = () => {
     } else {
       Router.push("/login");
     }
+  };
+
+  const onClickCancel = () => {
+    Router.push("/");
   };
 
   return (
@@ -121,9 +112,11 @@ const Register = () => {
             <LinkText text="로그인" goto="login" LinkEffect={false} />
           </LinkContainer>
         </UpperContainer>
+
         <ImgInputContainer>
-          <ImgInput onChangeFile={onChangeFile} />
+          <ImgInput initialImg={img} onChangeFile={onChangeFile} />
         </ImgInputContainer>
+
         <RegInput
           title="닉네임"
           value={nickname}
@@ -144,13 +137,6 @@ const Register = () => {
           onChange={onChange}
           warning={isValid.password}
         />
-        <RegInput
-          title="전화번호"
-          value={phoneNumber}
-          onChange={onChange}
-          warning={isValid.phone}
-        />
-
         <ButtonContainer>
           <BasicBtn text="취소" color="black" onClick={onClickCancel} />
           <BasicBtn
@@ -169,7 +155,6 @@ export default Register;
 
 const Container = styled.div`
   width: 100%;
-  /* height: 100vh; */
   display: flex;
   flex-direction: column;
   justify-content: center;
