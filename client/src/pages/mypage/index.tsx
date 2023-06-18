@@ -5,7 +5,6 @@ import BasicBtn from "@/components/atoms/BasicBtn";
 import BasicInput from "@/components/atoms/BasicInput";
 import ImgInput from "@/components/atoms/ImgInput";
 import Card from "@/components/blocks/Card";
-import Menu from "@/components/blocks/MyPageMenu";
 import MypageLayout from "@/components/layout/mypageLayout";
 import { Article } from "@/script/@type/article/article";
 import theme from "@/styles/theme";
@@ -16,7 +15,7 @@ import { useRecoilValue } from "recoil";
 
 export default function index() {
   const userId = useRecoilValue(userIdState);
-  // 하나로 통일하기
+
   const [info, setInfo] = useState<UserInfo>(userInfoInit);
 
   const [img, setImg] = useState<string>("");
@@ -29,16 +28,35 @@ export default function index() {
 
   const fetchData = async () => {
     const infoData = await CommonAPI.getMyInfo();
-    setImg(infoData.profileUrl);
+    setImg(`${process.env.BASE_SERVER_URL}${infoData.profileUrl}`);
     setName(infoData.nickname);
     setInfo(infoData);
 
     const myArticle = await MypageAPI.getMyArticles1();
     setMyArticles(myArticle);
   };
+
   useEffect(() => {
     fetchData();
   }, []);
+
+  const onChangeFile = (file: File, img: string) => {
+    setFile(file);
+    setImg(img);
+  };
+
+  const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setName(newValue);
+  };
+  const onChangePw = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    setPassword(newValue);
+  };
+
+  const onClickCancel = () => {
+    setIsEdit(false);
+  };
 
   const onClickEdit = async () => {
     setIsEdit((prev) => !prev);
@@ -56,7 +74,7 @@ export default function index() {
           profileUrl: updateInfo.profileUrl,
         }));
         setName(updateInfo.nickname);
-        setImg(updateInfo.profileUrl);
+        setImg(`${process.env.BASE_SERVER_URL}${updateInfo.profileUrl}`);
       }
     }
 
@@ -70,32 +88,13 @@ export default function index() {
     }
   };
 
-  const onClickCancel = () => {
-    setIsEdit(false);
-  };
-
-  const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setName(newValue);
-  };
-  const onChangePw = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setPassword(newValue);
-  };
-
-  const onChangeFile = (file: File, img: string) => {
-    console.log(img);
-    setFile(file);
-    setImg(img);
-  };
-
   return (
     <MypageLayout>
       <Container>
         <InfoContainer>
           <InputContainer>
             <ImgInput
-              isCenter={false}
+              disabled={!isEdit}
               initialImg={img}
               onChangeFile={onChangeFile}
             />
