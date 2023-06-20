@@ -9,10 +9,14 @@ import { useEffect, useState } from "react";
 import { Article, ArticleAPI } from "@/script/@type/article/article";
 import Footer from "@/components/atoms/Footer";
 import LinkText from "@/components/atoms/LinkText";
+import BasicBtn from "@/components/atoms/BasicBtn";
+import { useRouter } from "next/router";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home({ article }: { article: Array<Article> }) {
+  const router = useRouter();
+
   const list = [
     { text: "팔로우글", goto: "/" },
     { text: "마이페이지", goto: "/mypage" },
@@ -34,6 +38,12 @@ export default function Home({ article }: { article: Array<Article> }) {
         <Logo>DUBU</Logo>
       </Section>
       <Section>
+        <CreateBtn>
+          <BasicBtn
+            text={"create"}
+            onClick={() => router.push("/articles/create")}
+          />
+        </CreateBtn>
         <ContentWrap>
           {article.map((item: Article | undefined, index: number) => {
             return <Card data={item} key={index} />;
@@ -79,7 +89,7 @@ const Menu = styled.header`
 
 const ContentWrap = styled.div`
   overflow: scroll;
-  margin-top: calc(100vh * 0.25);
+  margin-top: 10px;
   justify-content: center;
 
   @media all and (min-width: 479px) {
@@ -130,4 +140,10 @@ const LoginBtn = styled.div`
   top: 0;
   right: 0;
   color: #000000;
+`;
+
+const CreateBtn = styled.div`
+  width: 100px;
+  margin-top: calc(100vh * 0.25);
+  margin-left: auto;
 `;

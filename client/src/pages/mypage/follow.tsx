@@ -37,7 +37,7 @@ export default function Follow() {
           </MenuButton>
         </Menu>
         <CardContainer>
-          {followings.map((following: any) => (
+          {followings?.map((following: any) => (
             <ProfileCard
               key={following.id}
               // id={following.id}
