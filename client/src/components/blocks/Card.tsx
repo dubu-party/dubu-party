@@ -67,7 +67,7 @@ export default function Card({ data }: { data?: Article }) {
       </FooterContainer>
       {isHovering && (
         <HoverContainer>
-          <Like>{data?.likeCount}</Like>
+          <Like>좋아요 {data?.likeCount}</Like>
         </HoverContainer>
       )}
     </Container>
@@ -104,6 +104,9 @@ const HoverContainer = styled.div`
   // transition: all 0.3s ease-in-out;
   margin-bottom: calc(100vh * 0.05);
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Like = styled.div`

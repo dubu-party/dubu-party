@@ -39,6 +39,10 @@ public class ArticleLikeService {
         like.setUser(user);
         like.setArticle(article);
         articleLikeRepository.save(like);
+
+        article.setLikeCount(article.getLikeCount() + 1);
+        articleRepository.save(article);
+
         return true;
     }
 
@@ -49,6 +53,11 @@ public class ArticleLikeService {
             throw new IllegalStateException("좋아요가 눌려있지 않습니다.");
         }
         articleLikeRepository.delete(like);
+
+        Article article = like.getArticle();
+        article.setLikeCount(article.getLikeCount() - 1);
+        articleRepository.save(article);
+
         return true;
     }
 

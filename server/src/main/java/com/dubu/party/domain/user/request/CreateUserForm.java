@@ -16,8 +16,6 @@ public class CreateUserForm {
     @NotBlank
     private String nickname;
 
-
-    private String instagram;
     private MultipartFile profileImage;
 
 }
