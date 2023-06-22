@@ -1,5 +1,6 @@
 package com.dubu.party.domain.article.entity;
 import com.dubu.party.common.file.Image;
+import com.dubu.party.common.file.OriginImage;
 import com.dubu.party.domain.article.entity.data.Footer;
 import com.dubu.party.domain.article.entity.data.Title;
 import com.dubu.party.domain.user.entity.User;
@@ -26,6 +27,9 @@ public class Article {
 
     @Embedded
     private Image articleImage;
+
+    @Embedded
+    private OriginImage originImage;
 
     @OneToMany @JsonIgnore
     @JoinColumn(name="article_id")

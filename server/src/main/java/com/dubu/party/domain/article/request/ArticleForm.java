@@ -14,4 +14,6 @@ public class ArticleForm {
 
     private MultipartFile file;
 
+    private MultipartFile originFile;
+
 }
