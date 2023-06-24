@@ -4,6 +4,7 @@ import { userIdState } from "@/atoms/userState";
 import BasicBtn from "@/components/atoms/BasicBtn";
 import BasicInput from "@/components/atoms/BasicInput";
 import ImgInput from "@/components/atoms/ImgInput";
+import ProfileImgInput from "@/components/atoms/profileImgInput";
 import Card from "@/components/blocks/Card";
 import MypageLayout from "@/components/layout/mypageLayout";
 import { Article } from "@/script/@type/article/article";
@@ -28,9 +29,12 @@ export default function index() {
 
   const fetchData = async () => {
     const infoData = await CommonAPI.getMyInfo();
-    setImg(`${process.env.BASE_SERVER_URL}${infoData.profileUrl}`);
-    setName(infoData.nickname);
-    setInfo(infoData);
+    if (infoData) {
+      setImg(`${process.env.BASE_SERVER_URL}${infoData.profileUrl}`);
+      setName(infoData.nickname);
+      setInfo(infoData);
+      console.log(infoData);
+    }
 
     const myArticle = await MypageAPI.getMyArticles1();
     setMyArticles(myArticle);
@@ -93,15 +97,13 @@ export default function index() {
       <Container>
         <InfoContainer>
           <InputContainer>
-            <ImgInput
+            <ProfileImgInput
               disabled={!isEdit}
               initialImg={img}
               onChangeFile={onChangeFile}
             />
             <InputWrapper>
-              {isEdit ? (
-                <>
-                  <BasicInput
+              {/* <BasicInput
                     disabled={!isEdit}
                     value={name}
                     title="nickname"
@@ -112,31 +114,31 @@ export default function index() {
                     value={password}
                     title="password"
                     onChange={onChangePw}
-                  />
-                </>
-              ) : (
-                <>
-                  {" "}
-                  <InfoText>
-                    <TextTag>이름</TextTag>
-                    {info.nickname}
-                  </InfoText>
-                  <InfoText>
-                    <TextTag>팔로워</TextTag>
-                    {info.follower.length} 명
-                  </InfoText>
-                  <InfoText>
-                    <TextTag>팔로잉</TextTag>
-                    {info.following.length} 명
-                  </InfoText>
-                </>
-              )}
+                  /> */}
+
+              <NameText>
+                {info.nickname}
+                <EditButton onClick={onClickEdit}>프로필 편집</EditButton>
+              </NameText>
+              <InfoText>
+                {info.follower.length}
+                <TextTag>게시물</TextTag>
+              </InfoText>
+              <InfoText>
+                {info.follower.length}
+                <TextTag>팔로워</TextTag>
+              </InfoText>
+              <InfoText>
+                <TextTag>팔로잉</TextTag>
+                {info.following.length}
+              </InfoText>
             </InputWrapper>
           </InputContainer>
-          <ButtonContainer>
+
+          {/* <ButtonContainer>
             {isEdit && <Button onClick={onClickCancel}>취소</Button>}
             <Button onClick={onClickEdit}>수정</Button>
-          </ButtonContainer>
+          </ButtonContainer> */}
         </InfoContainer>
         <CardContainer>
           {myArticles.map((article) => (
@@ -148,12 +150,29 @@ export default function index() {
   );
 }
 
+const NameText = styled.div`
+  font-size: 18px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+`;
+
+const EditButton = styled.button`
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 5px 10px;
+  transition: 0.2s;
+  &:hover {
+    background-color: #e0e0e0;
+    color: #525252;
+  }
+`;
+
 const InfoText = styled.div`
   display: flex;
   gap: 10px;
-  & + & {
-    padding-top: 5px;
-  }
 `;
 const TextTag = styled.div``;
 
@@ -171,26 +190,20 @@ const InfoContainer = styled.div`
   flex-direction: column;
   align-items: flex-end;
   gap: 30px;
+  border-bottom: 1.5px solid #e0e0e0;
 `;
 
 const InputContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
   gap: 30px;
 `;
 
 const InputWrapper = styled.div`
-  flex: 0.6;
-  padding-bottom: 15px;
-`;
-
-const ButtonContainer = styled.div`
-  width: 100%;
   display: flex;
-  justify-content: flex-end;
-  gap: 10px;
+  flex-direction: column;
+  padding-bottom: 15px;
 `;
 
 const CardContainer = styled.div`

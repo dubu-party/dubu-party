@@ -6,8 +6,13 @@ import React, { useEffect, useRef, useState } from "react";
 interface ImgInputProps {
   initialImg?: string;
   onChangeFile: (file: File, img: string) => void;
+  disabled: boolean;
 }
-export default function ImgInput({ onChangeFile, initialImg }: ImgInputProps) {
+export default function ProfileImgInput({
+  onChangeFile,
+  initialImg,
+  disabled,
+}: ImgInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,20 +36,14 @@ export default function ImgInput({ onChangeFile, initialImg }: ImgInputProps) {
 
   return (
     <Container>
-      <Title>프로필 이미지</Title>
-      <ImgContainer onClick={handleClick}>
-        {initialImg ? (
-          <img width={200} height={200} src={initialImg} alt="Selected" />
-        ) : (
-          <NoImg>No Image</NoImg>
-        )}
-      </ImgContainer>
+      <ImgContainer onClick={handleClick} src={initialImg} />
       <input
         type="file"
         accept="image/*"
         onChange={handleImageChange}
         ref={fileInputRef}
         style={{ display: "none" }}
+        disabled={disabled}
       />
     </Container>
   );
@@ -58,24 +57,19 @@ const Container = styled.div`
   gap: 9px;
 `;
 
-const Title = styled.div`
-  font-family: ${theme.font.medium};
-  font-size: 13px;
-  padding: 0 5px;
-`;
-
-const ImgContainer = styled.div`
+const ImgContainer = styled.div<{ src?: string }>`
   display: flex;
-  width: 200px;
-  height: 200px;
+  width: 154px;
+  height: 154px;
   border-radius: 20px;
   border: 2px solid ${theme.color.inputBorder};
-  overflow: hidden;
-`;
+  background-image: url(${({ src }) => `'${src}'`});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 
-const NoImg = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @media all and (max-width: 370px) {
+    width: 120px;
+    height: 120px;
+  }
 `;

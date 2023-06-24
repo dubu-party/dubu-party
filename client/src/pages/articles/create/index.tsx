@@ -5,17 +5,37 @@ import {
   ArticleTitle,
 } from "@/script/@type/article/data";
 import styled from "@emotion/styled";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import HeightAlign from "./height-align";
 import WidthAlign from "./width-align";
 import ImageCard from "../components/edit-card";
 import { FONT } from "@/script/@type/article/variable";
+import html2canvas from "html2canvas";
 
 const page = () => {
   const [title, setTitle] = useState(new ArticleTitle());
   const [footer, setFooter] = useState(new ArticleFooter());
   const [file, setFile] = useState<File | undefined>();
   const [imageSrc, setImageSrc] = useState<string | undefined>();
+
+  const testRef = useRef<HTMLDivElement>(null);
+
+  async function captureElement() {
+    const check = testRef.current;
+    if (check) {
+      const canvas = await html2canvas(check);
+      console.log(canvas);
+
+      // 이미지 생성
+      const imageData = canvas.toDataURL("image/png");
+
+      // 이미지 다운로드
+      const link = document.createElement("a");
+      link.href = imageData;
+      link.download = "capture.png";
+      link.click();
+    }
+  }
 
   const obSubmit = () => {
     const articleForm: ArticleForm = {
@@ -24,6 +44,7 @@ const page = () => {
       file,
     };
     ArticleAPI.create(articleForm);
+    captureElement();
   };
 
   const handleTitleChange = (
@@ -209,13 +230,17 @@ const page = () => {
         </div>
       </Wrapper>
       {/* <ImgPreviewWrapper> */}
-      <ImageCard fileUrl={imageSrc} title={title} footer={footer} />
-      {/* </ImgPreviewWrapper> */}
+      <Test ref={testRef}>
+        <ImageCard fileUrl={imageSrc} title={title} footer={footer} />
+        {/* </ImgPreviewWrapper> */}
+      </Test>
     </FlexBox>
   );
 };
 
 export default page;
+
+const Test = styled.div``;
 
 const FlexBox = styled.div`
   display: flex;
