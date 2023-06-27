@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import React from "react";
 
 interface LinkTextProps {
-  text: string;
+  text?: string;
   goto?: string; // 추후 필수로 바꾸기
   color?: string;
   LinkEffect?: boolean;

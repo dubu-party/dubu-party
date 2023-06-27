@@ -3,6 +3,9 @@ import theme from "@/styles/theme";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
 
 export default function Card({ data }: { data?: Article }) {
   const router = useRouter();
@@ -67,6 +70,7 @@ export default function Card({ data }: { data?: Article }) {
       </FooterContainer>
       {isHovering && (
         <HoverContainer>
+          <FontAwesomeIcon icon={faHeart as IconProp} />
           <Like>좋아요 {data?.likeCount}</Like>
         </HoverContainer>
       )}

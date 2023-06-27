@@ -5,6 +5,7 @@ import { userIdState } from "@/atoms/userState";
 import BasicBtn from "@/components/atoms/BasicBtn";
 import { FollowAPI } from "@/api/follow";
 import { useRecoilValue } from "recoil";
+import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
   id: number;
@@ -41,18 +42,19 @@ const UserCard = ({ id, nickname, profileUrl }: Props) => {
         <Name>{nickname}</Name>
       </Flex>
       <FollowWrap>
-        <Text>팔로워 {followers?.length}</Text>
-        <Text>팔로잉 {followings?.length}</Text>
+        <Text>작성한 글</Text>
+        <Text>팔로워 {followers ? followers.length : 0}</Text>
+        <Text>팔로잉 {followings ? followings?.length : 0}</Text>
       </FollowWrap>
       <CreateBtn>
-        <BasicBtn text={"팔로우"} onClick={following} />
+        <BasicBtn text={"팔로우"} icon={faUserPlus} onClick={following} />
       </CreateBtn>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  width: 300px;
+  width: 330px;
   height: 250px;
   padding: 20px;
   background: #ffffff;
@@ -74,11 +76,16 @@ const Wrapper = styled.div`
 const Flex = styled.div`
   display: flex;
 `;
+const FlexRow = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 const Text = styled.div`
   font-family: ${theme.font.regular};
   font-size: 14px;
   line-height: 17px;
+  cursor: pointer;
 
   color: #000000;
 `;
