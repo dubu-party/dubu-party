@@ -10,7 +10,7 @@ import ImgInput from "@/components/atoms/ImgInput";
 import { AuthAPI, RegisterForm } from "@/api/auth";
 import SEO from "@/components/atoms/SEO";
 import useErrorModal from "@/hooks/useErrorModal";
-import ErrorModal from "@/components/blocks/ErrorModal";
+import ErrorModal from "@/components/blocks/common/ErrorModal";
 
 interface CheckProps {
   email: boolean;

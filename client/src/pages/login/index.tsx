@@ -10,7 +10,7 @@ import SEO from "@/components/atoms/SEO";
 import { useSetRecoilState, useRecoilValue, useRecoilState } from "recoil";
 import { userIdState, UserState } from "@/atoms/userState";
 import useErrorModal from "@/hooks/useErrorModal";
-import ErrorModal from "@/components/blocks/ErrorModal";
+import ErrorModal from "@/components/blocks/common/ErrorModal";
 
 const Login = () => {
   const { isOpen, openModal, closeModal } = useErrorModal();
