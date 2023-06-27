@@ -7,7 +7,6 @@ import React, { useState, useEffect } from "react";
 export default function Card({ data }: { data?: Article }) {
   const router = useRouter();
 
-  // 여기 뭔지 확인해보기
   const [vertical, setVertical] = useState<string>("center");
   const [isHovering, setIsHovering] = useState<boolean>(false);
 
