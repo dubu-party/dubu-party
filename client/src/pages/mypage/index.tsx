@@ -4,8 +4,10 @@ import { userIdState } from "@/atoms/userState";
 import BasicBtn from "@/components/atoms/BasicBtn";
 import BasicInput from "@/components/atoms/BasicInput";
 import ImgInput from "@/components/atoms/ImgInput";
-import Card from "@/components/blocks/Card";
-import Menu from "@/components/blocks/MyPageMenu";
+import ProfileImgInput from "@/components/atoms/profileImgInput";
+import Card from "@/components/blocks/common/Card";
+import MyPageInfo from "@/components/blocks/mypage/MyPageInfo";
+
 import MypageLayout from "@/components/layout/mypageLayout";
 import { Article } from "@/script/@type/article/article";
 import theme from "@/styles/theme";
@@ -16,129 +18,71 @@ import { useRecoilValue } from "recoil";
 
 export default function index() {
   const userId = useRecoilValue(userIdState);
-  // 하나로 통일하기
-  const [info, setInfo] = useState<UserInfo>(userInfoInit);
-
   const [img, setImg] = useState<string>("");
   const [file, setFile] = useState<File | undefined>();
-
-  const [name, setName] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [info, setInfo] = useState<UserInfo>(userInfoInit);
   const [myArticles, setMyArticles] = useState<Article[]>([]);
 
   const fetchData = async () => {
     const infoData = await CommonAPI.getMyInfo();
-    setImg(infoData.profileUrl);
-    setName(infoData.nickname);
-    setInfo(infoData);
-
+    if (infoData) {
+      setImg(`${process.env.BASE_SERVER_URL}${infoData.profileUrl}`);
+      setInfo(infoData);
+    }
     const myArticle = await MypageAPI.getMyArticles1();
     setMyArticles(myArticle);
   };
+
   useEffect(() => {
     fetchData();
   }, []);
 
-  const onClickEdit = async () => {
-    setIsEdit((prev) => !prev);
-    if (isEdit) {
-      const data = {
-        nickname: name,
-        profileImage: file,
-      } as updateUserData;
-
-      const updateInfo = await MypageAPI.updateUser(data);
-      if (updateInfo) {
-        setInfo((prev) => ({
-          ...prev,
-          nickname: updateInfo.nickname,
-          profileUrl: updateInfo.profileUrl,
-        }));
-        setName(updateInfo.nickname);
-        setImg(updateInfo.profileUrl);
-      }
-    }
-
-    // 새로운 비밀번호가 있으면 바꿔주고 없으면 바꾸지 않는다
-    if (password !== "") {
-      const pwData = {
-        userId: userId,
-        password: password,
-      } as changePwProps;
-      await MypageAPI.changePassword(pwData);
-    }
-  };
-
-  const onClickCancel = () => {
-    setIsEdit(false);
-  };
-
-  const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setName(newValue);
-  };
-  const onChangePw = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setPassword(newValue);
-  };
-
   const onChangeFile = (file: File, img: string) => {
-    console.log(img);
     setFile(file);
     setImg(img);
+  };
+
+  const onChangeData = (newInfo: UserInfo) => {
+    setInfo(newInfo);
+  };
+
+  const onClickEdit = async () => {
+    const data = {
+      nickname: info.nickname,
+      profileImage: file,
+    } as updateUserData;
+
+    const updateInfo = await MypageAPI.updateUser(data);
+    if (updateInfo) {
+      setInfo((prev) => ({
+        ...prev,
+        nickname: updateInfo.nickname,
+        profileUrl: updateInfo.profileUrl,
+      }));
+      setImg(`${process.env.BASE_SERVER_URL}${updateInfo.profileUrl}`);
+    }
+
+    // 따로 분리하기
+    // // 새로운 비밀번호가 있으면 바꿔주고 없으면 바꾸지 않는다
+    // if (password !== "") {
+    //   const pwData = {
+    //     userId: userId,
+    //     password: password,
+    //   } as changePwProps;
+    //   await MypageAPI.changePassword(pwData);
+    // }
   };
 
   return (
     <MypageLayout>
       <Container>
-        <InfoContainer>
-          <InputContainer>
-            <ImgInput
-              isCenter={false}
-              initialImg={img}
-              onChangeFile={onChangeFile}
-            />
-            <InputWrapper>
-              {isEdit ? (
-                <>
-                  <BasicInput
-                    disabled={!isEdit}
-                    value={name}
-                    title="nickname"
-                    onChange={onChangeName}
-                  />
-                  <BasicInput
-                    disabled={!isEdit}
-                    value={password}
-                    title="password"
-                    onChange={onChangePw}
-                  />
-                </>
-              ) : (
-                <>
-                  {" "}
-                  <InfoText>
-                    <TextTag>이름</TextTag>
-                    {info.nickname}
-                  </InfoText>
-                  <InfoText>
-                    <TextTag>팔로워</TextTag>
-                    {info.follower.length} 명
-                  </InfoText>
-                  <InfoText>
-                    <TextTag>팔로잉</TextTag>
-                    {info.following.length} 명
-                  </InfoText>
-                </>
-              )}
-            </InputWrapper>
-          </InputContainer>
-          <ButtonContainer>
-            {isEdit && <Button onClick={onClickCancel}>취소</Button>}
-            <Button onClick={onClickEdit}>수정</Button>
-          </ButtonContainer>
-        </InfoContainer>
+        <MyPageInfo
+          data={info}
+          profileImg={img}
+          onChangeData={onChangeData}
+          onChangeFile={onChangeFile}
+          onClickEdit={onClickEdit}
+        />
         <CardContainer>
           {myArticles.map((article) => (
             <Card key={article.id} />
@@ -149,12 +93,29 @@ export default function index() {
   );
 }
 
+const NameText = styled.div`
+  font-size: 18px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+`;
+
+const EditButton = styled.button`
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 5px 10px;
+  transition: 0.2s;
+  &:hover {
+    background-color: #e0e0e0;
+    color: #525252;
+  }
+`;
+
 const InfoText = styled.div`
   display: flex;
   gap: 10px;
-  & + & {
-    padding-top: 5px;
-  }
 `;
 const TextTag = styled.div``;
 
@@ -172,26 +133,20 @@ const InfoContainer = styled.div`
   flex-direction: column;
   align-items: flex-end;
   gap: 30px;
+  border-bottom: 1.5px solid #e0e0e0;
 `;
 
 const InputContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
   gap: 30px;
 `;
 
 const InputWrapper = styled.div`
-  flex: 0.6;
-  padding-bottom: 15px;
-`;
-
-const ButtonContainer = styled.div`
-  width: 100%;
   display: flex;
-  justify-content: flex-end;
-  gap: 10px;
+  flex-direction: column;
+  padding-bottom: 15px;
 `;
 
 const CardContainer = styled.div`

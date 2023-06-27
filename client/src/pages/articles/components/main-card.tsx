@@ -27,7 +27,9 @@ interface FooterStyle {
 }
 
 const MainImageCard = ({ article }: Props) => {
-  const { fileUrl, title, footer } = article;
+  const footer = article?.footer;
+  const title = article?.title;
+  const fileUrl = article?.fileUrl;
   const [titleStyle, setTitleStyle] = useState<TitleStyle>({
     heightSort: "flex-start",
     widthSort: "flex-start",
@@ -73,15 +75,15 @@ const MainImageCard = ({ article }: Props) => {
   return (
     <Wrapper onClick={() => router.push(`/articles/${article.id}`)}>
       <Title data={titleStyle}>
-        <h1>{title.content}</h1>
+        <h1>{title?.content}</h1>
       </Title>
       <Footer data={footerStyle}>
-        <p>{footer.content}</p>
+        <p>{footer?.content}</p>
       </Footer>
       <Image
         height={400}
         width={300}
-        src={`${process.env.BASE_SERVER_URL}${article.fileUrl}`}
+        src={`${process.env.BASE_SERVER_URL}${article?.fileUrl}`}
         alt={fileUrl || ""}
       />
     </Wrapper>

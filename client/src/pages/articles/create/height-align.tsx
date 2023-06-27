@@ -10,7 +10,7 @@ interface Props {
 // HEIGHT_SORT = ["TOP", "CENTER", "BOTTOM"];
 const HeightAlign = ({ title, setTitle }: Props) => {
   const checkState = (state: "TOP" | "CENTER" | "BOTTOM") => {
-    if (title.heightSort === state) return "selected";
+    if (title?.heightSort === state) return "selected";
     return "";
   };
   return (

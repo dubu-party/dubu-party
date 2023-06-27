@@ -1,6 +1,6 @@
 import { MypageAPI } from "@/api/myPage";
 import { userIdState } from "@/atoms/userState";
-import Card from "@/components/blocks/Card";
+import Card from "@/components/blocks/common/Card";
 import MypageLayout from "@/components/layout/mypageLayout";
 import { Article } from "@/script/@type/article/article";
 import styled from "@emotion/styled";

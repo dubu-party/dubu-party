@@ -5,24 +5,14 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import { userIdState } from "@/atoms/userState";
-import { MypageAPI } from "@/api/myPage";
 import SEO from "../atoms/SEO";
-import Menu from "../blocks/MyPageMenu";
-import MyPageMenu from "../blocks/MyPageMenu";
-import { Article } from "@/script/@type/article";
+import MyPageMenu from "../blocks/mypage/MyPageMenu";
 interface MypageLayoutProps {
   children: React.ReactNode;
 }
 
-const menuArr = [
-  { title: "mypage", goto: "/mypage" },
-  { title: "팔로우", goto: "/mypage/follow" },
-  { title: "좋아요 관리", goto: "/mypage/like" },
-];
-
 export default function MypageLayout({ children }: MypageLayoutProps) {
   const router = useRouter();
-  const userId = useRecoilValue(userIdState);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -35,7 +25,7 @@ export default function MypageLayout({ children }: MypageLayoutProps) {
     <Container>
       <SEO title="MyPage" />
       <Content>
-        <MyPageMenu list={menuArr} />
+        {/* <MyPageMenu list={menuArr} /> */}
         <MainContainer>{children}</MainContainer>
       </Content>
     </Container>

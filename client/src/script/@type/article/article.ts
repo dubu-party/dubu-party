@@ -52,7 +52,7 @@ export const ArticleAPI = {
         return new Article();
       })
       .catch((err) => new Article());
-    return result;
+    return result as Article;
   },
 
   toFormData: (articleForm: ArticleForm) => {

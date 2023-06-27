@@ -3,11 +3,13 @@ import theme from "@/styles/theme";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-regular-svg-icons";
 
 export default function Card({ data }: { data?: Article }) {
   const router = useRouter();
 
-  // 여기 뭔지 확인해보기
   const [vertical, setVertical] = useState<string>("center");
   const [isHovering, setIsHovering] = useState<boolean>(false);
 
@@ -67,7 +69,8 @@ export default function Card({ data }: { data?: Article }) {
       </FooterContainer>
       {isHovering && (
         <HoverContainer>
-          <Like>{data?.likeCount}</Like>
+          <FontAwesomeIcon icon={faHeart as IconProp} />
+          <Like>좋아요 {data?.likeCount}</Like>
         </HoverContainer>
       )}
     </Container>
@@ -104,6 +107,9 @@ const HoverContainer = styled.div`
   // transition: all 0.3s ease-in-out;
   margin-bottom: calc(100vh * 0.05);
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Like = styled.div`
