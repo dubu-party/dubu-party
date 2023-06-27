@@ -38,7 +38,7 @@ public class AuthService {
             user.setPassword(passwordEncoder.encode(createUserForm.getPassword()));
             user.setNickName(createUserForm.getNickname());
             user.setSetting(new Setting());
-
+            user.setDescription(createUserForm.getDescription());
             MultipartFile file = createUserForm.getProfileImage();
             if (file != null) {
                 Image image = new Image(file);

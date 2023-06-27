@@ -27,12 +27,15 @@ public class User {
 
     private String nickName;
 
+    private String description;
 
     @Embedded
     private Setting setting;
 
     @Embedded
     private Image profileImage;
+
+
 
 
     @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)

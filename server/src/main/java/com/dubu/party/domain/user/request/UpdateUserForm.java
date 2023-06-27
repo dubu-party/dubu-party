@@ -9,6 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
 @NoArgsConstructor
 public class UpdateUserForm {
     public String nickname;
+
+    public String description;
+
     public MultipartFile profileImage;
 
 }
