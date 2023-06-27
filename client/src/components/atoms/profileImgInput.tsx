@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 interface ImgInputProps {
   initialImg?: string;
-  onChangeFile: (file: File, img: string) => void;
+  onChangeFile?: (file: File, img: string) => void;
   disabled: boolean;
 }
 export default function ProfileImgInput({
@@ -23,8 +23,10 @@ export default function ProfileImgInput({
 
     return new Promise((resolve: any) => {
       reader.onload = () => {
-        onChangeFile(file, reader.result as string);
-        resolve();
+        if (onChangeFile) {
+          onChangeFile(file, reader.result as string);
+          resolve();
+        }
       };
     });
   };
@@ -36,7 +38,11 @@ export default function ProfileImgInput({
 
   return (
     <Container>
-      <ImgContainer onClick={handleClick} src={initialImg} />
+      <ImgContainer
+        disabled={disabled}
+        onClick={handleClick}
+        src={initialImg}
+      />
       <input
         type="file"
         accept="image/*"
@@ -57,7 +63,11 @@ const Container = styled.div`
   gap: 9px;
 `;
 
-const ImgContainer = styled.div<{ src?: string }>`
+interface ImgContainerProps {
+  disabled: boolean;
+  src?: string;
+}
+const ImgContainer = styled.div<ImgContainerProps>`
   display: flex;
   width: 154px;
   height: 154px;
@@ -67,8 +77,9 @@ const ImgContainer = styled.div<{ src?: string }>`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  ${({ disabled }) => !disabled && "cursor: pointer"};
 
-  @media all and (max-width: 370px) {
+  @media all and (max-width: 480px) {
     width: 120px;
     height: 120px;
   }

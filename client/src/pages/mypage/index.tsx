@@ -5,7 +5,9 @@ import BasicBtn from "@/components/atoms/BasicBtn";
 import BasicInput from "@/components/atoms/BasicInput";
 import ImgInput from "@/components/atoms/ImgInput";
 import ProfileImgInput from "@/components/atoms/profileImgInput";
-import Card from "@/components/blocks/Card";
+import Card from "@/components/blocks/common/Card";
+import MyPageInfo from "@/components/blocks/mypage/MyPageInfo";
+
 import MypageLayout from "@/components/layout/mypageLayout";
 import { Article } from "@/script/@type/article/article";
 import theme from "@/styles/theme";
@@ -16,26 +18,17 @@ import { useRecoilValue } from "recoil";
 
 export default function index() {
   const userId = useRecoilValue(userIdState);
-
-  const [info, setInfo] = useState<UserInfo>(userInfoInit);
-
   const [img, setImg] = useState<string>("");
   const [file, setFile] = useState<File | undefined>();
-
-  const [name, setName] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [info, setInfo] = useState<UserInfo>(userInfoInit);
   const [myArticles, setMyArticles] = useState<Article[]>([]);
 
   const fetchData = async () => {
     const infoData = await CommonAPI.getMyInfo();
     if (infoData) {
       setImg(`${process.env.BASE_SERVER_URL}${infoData.profileUrl}`);
-      setName(infoData.nickname);
       setInfo(infoData);
-      console.log(infoData);
     }
-
     const myArticle = await MypageAPI.getMyArticles1();
     setMyArticles(myArticle);
   };
@@ -49,97 +42,47 @@ export default function index() {
     setImg(img);
   };
 
-  const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setName(newValue);
-  };
-  const onChangePw = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setPassword(newValue);
-  };
-
-  const onClickCancel = () => {
-    setIsEdit(false);
+  const onChangeData = (newInfo: UserInfo) => {
+    setInfo(newInfo);
   };
 
   const onClickEdit = async () => {
-    setIsEdit((prev) => !prev);
-    if (isEdit) {
-      const data = {
-        nickname: name,
-        profileImage: file,
-      } as updateUserData;
+    const data = {
+      nickname: info.nickname,
+      profileImage: file,
+    } as updateUserData;
 
-      const updateInfo = await MypageAPI.updateUser(data);
-      if (updateInfo) {
-        setInfo((prev) => ({
-          ...prev,
-          nickname: updateInfo.nickname,
-          profileUrl: updateInfo.profileUrl,
-        }));
-        setName(updateInfo.nickname);
-        setImg(`${process.env.BASE_SERVER_URL}${updateInfo.profileUrl}`);
-      }
+    const updateInfo = await MypageAPI.updateUser(data);
+    if (updateInfo) {
+      setInfo((prev) => ({
+        ...prev,
+        nickname: updateInfo.nickname,
+        profileUrl: updateInfo.profileUrl,
+      }));
+      setImg(`${process.env.BASE_SERVER_URL}${updateInfo.profileUrl}`);
     }
 
-    // 새로운 비밀번호가 있으면 바꿔주고 없으면 바꾸지 않는다
-    if (password !== "") {
-      const pwData = {
-        userId: userId,
-        password: password,
-      } as changePwProps;
-      await MypageAPI.changePassword(pwData);
-    }
+    // 따로 분리하기
+    // // 새로운 비밀번호가 있으면 바꿔주고 없으면 바꾸지 않는다
+    // if (password !== "") {
+    //   const pwData = {
+    //     userId: userId,
+    //     password: password,
+    //   } as changePwProps;
+    //   await MypageAPI.changePassword(pwData);
+    // }
   };
 
   return (
     <MypageLayout>
       <Container>
-        <InfoContainer>
-          <InputContainer>
-            <ProfileImgInput
-              disabled={!isEdit}
-              initialImg={img}
-              onChangeFile={onChangeFile}
-            />
-            <InputWrapper>
-              {/* <BasicInput
-                    disabled={!isEdit}
-                    value={name}
-                    title="nickname"
-                    onChange={onChangeName}
-                  />
-                  <BasicInput
-                    disabled={!isEdit}
-                    value={password}
-                    title="password"
-                    onChange={onChangePw}
-                  /> */}
-
-              <NameText>
-                {info.nickname}
-                <EditButton onClick={onClickEdit}>프로필 편집</EditButton>
-              </NameText>
-              <InfoText>
-                {info.follower.length}
-                <TextTag>게시물</TextTag>
-              </InfoText>
-              <InfoText>
-                {info.follower.length}
-                <TextTag>팔로워</TextTag>
-              </InfoText>
-              <InfoText>
-                <TextTag>팔로잉</TextTag>
-                {info.following.length}
-              </InfoText>
-            </InputWrapper>
-          </InputContainer>
-
-          {/* <ButtonContainer>
-            {isEdit && <Button onClick={onClickCancel}>취소</Button>}
-            <Button onClick={onClickEdit}>수정</Button>
-          </ButtonContainer> */}
-        </InfoContainer>
+        <MyPageInfo
+          data={info}
+          profileImg={img}
+          onChangeData={onChangeData}
+          onChangeFile={onChangeFile}
+          onClickEdit={onClickEdit}
+        />
         <CardContainer>
           {myArticles.map((article) => (
             <Card key={article.id} />

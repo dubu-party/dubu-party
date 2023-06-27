@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import axios from "axios";
 import styled from "@emotion/styled";
-import Card from "@/components/blocks/Card";
+import Card from "@/components/blocks/common/Card";
 import { useEffect, useState } from "react";
 import { Article, ArticleAPI } from "@/script/@type/article/article";
 import Footer from "@/components/atoms/Footer";
