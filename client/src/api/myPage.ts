@@ -76,13 +76,16 @@ export const MypageAPI = {
   },
   getMyArticles1: async () => {
     try {
-      const res = await fetch(`http://localhost:3000/api/articles/mine`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+      const res = await fetch(
+        `https://dubu-party-5u9xxggz0-dubu.vercel.app/api/articles/mine`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         },
-      });
+      );
 
       if (res.status === 200) {
         return await res.json();
