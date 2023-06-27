@@ -2,6 +2,7 @@ package com.dubu.party.domain.article.service;
 
 
 import com.dubu.party.common.file.Image;
+import com.dubu.party.common.file.OriginImage;
 import com.dubu.party.common.security.JwtProvider;
 import com.dubu.party.domain.article.data.article.ArticleDetail;
 import com.dubu.party.domain.article.data.article.ArticleDto;
@@ -48,6 +49,11 @@ public class ArticleService {
             article.setArticleImage(new Image(file));
         }
 
+        MultipartFile originFile = articleForm.getOriginFile();
+        if (originFile != null) {
+            article.setOriginImage(new OriginImage(originFile));
+        }
+
         articleRepository.save(article);
         return new ArticleDto(article);
     }
@@ -70,6 +76,11 @@ public class ArticleService {
         MultipartFile file = articleForm.getFile();
         if (file != null) {
             article.setArticleImage(new Image(file));
+        }
+
+        MultipartFile originFile = articleForm.getOriginFile();
+        if (originFile != null) {
+            article.setOriginImage(new OriginImage(originFile));
         }
 
         articleRepository.save(article);

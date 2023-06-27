@@ -1,6 +1,7 @@
 package com.dubu.party.domain.article.data.article;
 
 import com.dubu.party.common.file.Image;
+import com.dubu.party.common.file.OriginImage;
 import com.dubu.party.domain.article.entity.Article;
 import com.dubu.party.domain.article.entity.ArticleLike;
 import com.dubu.party.domain.article.entity.Comment;
@@ -27,6 +28,8 @@ public class ArticleDto {
 
     private String fileUrl;
 
+    private String originFileUrl;
+
     private UserSimplify user;
 
     private Integer likeCount;
@@ -51,6 +54,12 @@ public class ArticleDto {
         if(image != null){
             this.fileUrl = image.getFileUrl();
         }
+
+        OriginImage originImage = article.getOriginImage();
+        if(originImage != null){
+            this.originFileUrl = originImage.getOriginFileUrl();
+        }
+
         List<ArticleLike> articleLikes = article.getArticleLikes();
         if(articleLikes == null) {
             articleLikes = new ArrayList<>();
