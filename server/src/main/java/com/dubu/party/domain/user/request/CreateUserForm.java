@@ -16,6 +16,8 @@ public class CreateUserForm {
     @NotBlank
     private String nickname;
 
+    private String description;
+
     private MultipartFile profileImage;
 
 }

@@ -18,12 +18,14 @@ public class AuthDetail {
     private Setting setting;
     private String token;
 
+    private String description;
     private String profileUrl;
 
     public AuthDetail(User user) {
         this.id = user.getId();
         this.email = user.getEmail();
         this.nickName = user.getNickName();
+        this.description = user.getDescription();
         this.setting = user.getSetting();
         Image image = user.getProfileImage();
         if(image != null){

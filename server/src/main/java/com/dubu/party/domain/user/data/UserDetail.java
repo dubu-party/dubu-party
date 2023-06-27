@@ -17,6 +17,7 @@ public class UserDetail {
     private String email;
     private String nickname;
 
+    private String description;
     private String profileUrl;
 
     private List<UserSimplify> follower;
@@ -33,7 +34,7 @@ public class UserDetail {
         this.email = user.getEmail();
         this.nickname = user.getNickName();
         this.setting = user.getSetting();
-
+        this.description = user.getDescription();
         // 이미지 처리
         Image image = user.getProfileImage();
         if(image != null){
