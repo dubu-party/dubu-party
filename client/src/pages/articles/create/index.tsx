@@ -24,12 +24,7 @@ const page = () => {
     const check = testRef.current;
     if (check) {
       const canvas = await html2canvas(check);
-      console.log(canvas);
-
-      // 이미지 생성
       const imageData = canvas.toDataURL("image/png");
-
-      // 이미지 다운로드
       const link = document.createElement("a");
       link.href = imageData;
       link.download = "capture.png";
@@ -229,10 +224,8 @@ const page = () => {
           </button>
         </div>
       </Wrapper>
-      {/* <ImgPreviewWrapper> */}
       <Test ref={testRef}>
         <ImageCard fileUrl={imageSrc} title={title} footer={footer} />
-        {/* </ImgPreviewWrapper> */}
       </Test>
     </FlexBox>
   );
@@ -247,7 +240,6 @@ const FlexBox = styled.div`
   width: 100%;
   min-height: 100vh;
   height: 100%;
-  background-color: #1a4524;
   align-items: center;
   justify-content: space-around;
   flex-wrap: wrap;
@@ -255,6 +247,7 @@ const FlexBox = styled.div`
     flex-direction: row;
   }
 `;
+
 const Wrapper = styled.article`
   width: 510px;
   min-height: 680px;
@@ -342,6 +335,7 @@ const TitleInput = styled.input`
     color: #c1c1c1;
   }
 `;
+
 const FooterInput = styled.textarea`
   height: 100px;
   font-size: 20px;
@@ -361,6 +355,7 @@ const FooterInput = styled.textarea`
     color: #c1c1c1;
   }
 `;
+
 const ColorInput = styled.input`
   width: 25px;
   height: 25px;
@@ -376,6 +371,7 @@ const ColorInput = styled.input`
     height: 30px;
   }
 `;
+
 const Select = styled.select`
   min-width: 60px;
   padding: 0 10px;

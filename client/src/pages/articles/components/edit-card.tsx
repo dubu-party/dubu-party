@@ -71,10 +71,10 @@ const EditImageCard = ({ fileUrl, title, footer }: Props) => {
   return (
     <Wrapper>
       <Title data={titleStyle}>
-        <h1>{title.content}</h1>
+        <h1>{title?.content}</h1>
       </Title>
       <Footer data={footerStyle}>
-        <p>{footer.content}</p>
+        <p>{footer?.content}</p>
       </Footer>
       <img src={fileUrl} alt={fileUrl} />
     </Wrapper>

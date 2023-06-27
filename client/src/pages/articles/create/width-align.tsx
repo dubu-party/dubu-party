@@ -1,7 +1,7 @@
 import { ArticleTitle } from "@/script/@type/article/data";
 import styled from "@emotion/styled";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 
 interface Props {
   title: ArticleTitle;
@@ -9,58 +9,65 @@ interface Props {
 }
 
 const WidthAlign = ({ title, setTitle }: Props) => {
-  const checkState = (state: "LEFT" | "CENTER" | "RIGHT") => {
-    if (title.widthSort === state) return "selected";
-    return "";
+  // useEffect(() => {
+  //   console.log(title.widthSort);
+  // }, [title]);
+
+  const onClickButton = (width: "LEFT" | "CENTER" | "RIGHT") => () => {
+    console.log("click", width);
+
+    setTitle({ ...title, widthSort: width });
   };
+
   return (
     <Wrapper>
-      <div id={checkState("LEFT")} className="image_box">
+      <ImageBox selected={title?.widthSort === "LEFT"}>
         <Image
           src="/assets/icon/text-align-left.png"
           alt="align-left"
           width={20}
           height={20}
-          onClick={() => setTitle({ ...title, widthSort: "LEFT" })}
+          onClick={onClickButton("LEFT")}
         />
-      </div>
-      <div id={checkState("CENTER")} className="image_box">
+      </ImageBox>
+      <ImageBox selected={title?.widthSort === "CENTER"}>
         <Image
           src="/assets/icon/text-align-center.png"
           alt="align-center"
           width={20}
           height={20}
-          onClick={() => setTitle({ ...title, widthSort: "CENTER" })}
+          onClick={onClickButton("CENTER")}
         />
-      </div>
-      <div id={checkState("RIGHT")} className="image_box">
+      </ImageBox>
+      <ImageBox selected={title?.widthSort === "RIGHT"}>
         <Image
           src="/assets/icon/text-align-right.png"
           alt="align-right"
           width={20}
           height={20}
-          onClick={() => setTitle({ ...title, widthSort: "RIGHT" })}
+          onClick={onClickButton("RIGHT")}
         />
-      </div>
+      </ImageBox>
     </Wrapper>
   );
 };
+
+export default WidthAlign;
+
 const Wrapper = styled.div`
   width: 120px;
   height: 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  .image_box {
-    padding: 5px;
-    border-radius: 4px;
-    &:hover {
-      cursor: pointer;
-      background-color: #f0f0f08e;
-    }
-  }
-  #selected {
-    background-color: #a9a9a959;
+`;
+
+const ImageBox = styled.div<{ selected: boolean }>`
+  padding: 5px;
+  border-radius: 4px;
+  ${({ selected }) => selected}
+  &:hover {
+    cursor: pointer;
+    background-color: #f0f0f08e;
   }
 `;
-export default WidthAlign;

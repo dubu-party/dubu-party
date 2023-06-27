@@ -25,7 +25,6 @@ const index = ({ article }: { article: Article }) => {
 
 export const getServerSideProps = async ({ params }: any) => {
   const article = await ArticleAPI.get(Number(params.id));
-  console.log(article.title, "article");
   return {
     props: {
       article: article,
