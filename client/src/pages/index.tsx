@@ -11,6 +11,7 @@ import Footer from "@/components/atoms/Footer";
 import LinkText from "@/components/atoms/LinkText";
 import BasicBtn from "@/components/atoms/BasicBtn";
 import { useRouter } from "next/router";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +19,7 @@ export default function Home({ article }: { article: Array<Article> }) {
   const router = useRouter();
 
   const list = [
-    { text: "팔로우글", goto: "/" },
+    { text: "팔로우글", icon: faPenToSquare, goto: "/" },
     { text: "마이페이지", goto: "/mypage" },
     { text: "마이피드", goto: "/" },
     {
@@ -26,6 +27,10 @@ export default function Home({ article }: { article: Array<Article> }) {
       goto: "/login",
     },
   ];
+
+  const onHandleGoto = (goto: string) => () => {
+    router.push(goto);
+  };
 
   return (
     <Container>
@@ -35,12 +40,14 @@ export default function Home({ article }: { article: Array<Article> }) {
             return <LinkText key={index} text={item.text} goto={item.goto} />;
           })}
         </Menu>
-        <Logo>DUBU</Logo>
+        <Green>Green</Green>
+        <Logo onClick={onHandleGoto("/")}>DUBU</Logo>
       </Section>
       <Section>
         <CreateBtn>
           <BasicBtn
             text={"create"}
+            icon={faPenToSquare}
             onClick={() => router.push("/articles/create")}
           />
         </CreateBtn>
@@ -68,12 +75,14 @@ export const getServerSideProps = async ({ params }: any) => {
 const Container = styled.div`
   width: 100%;
   height: 100%;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   padding-left: 20px;
   padding-right: 20px;
+  background-color: #1a4524;
 `;
 
 const Section = styled.section`
@@ -121,6 +130,18 @@ const ContentWrap = styled.div`
   }
 `;
 
+const Green = styled.div`
+  width: 88%;
+  font-family: DungGeunMo;
+  font-size: 30px;
+  line-height: 17px;
+  position: absolute;
+  top: 10%;
+  color: green;
+  text-align: center;
+  cursor: pointer;
+`;
+
 const Logo = styled.div`
   width: 100%;
   font-family: DungGeunMo;
@@ -128,8 +149,9 @@ const Logo = styled.div`
   line-height: 17px;
   position: absolute;
   top: 10%;
-  color: #000000;
+  color: white;
   text-align: center;
+  cursor: pointer;
 `;
 
 const LoginBtn = styled.div`
@@ -144,6 +166,6 @@ const LoginBtn = styled.div`
 
 const CreateBtn = styled.div`
   width: 100px;
-  margin-top: calc(100vh * 0.25);
+  margin-top: calc(100vh * 0.2);
   margin-left: auto;
 `;
