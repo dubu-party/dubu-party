@@ -11,3 +11,9 @@ export class User {
     this.instagram = "";
   }
 }
+
+export interface SimpleUser {
+  id: number;
+  nickname: string;
+  profileUrl?: string;
+}

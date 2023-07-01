@@ -1,11 +1,12 @@
 import styled from "@emotion/styled";
 import theme from "@/styles/theme";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { userIdState } from "@/atoms/userState";
 import BasicBtn from "@/components/atoms/BasicBtn";
 import { FollowAPI } from "@/api/follow";
 import { useRecoilValue } from "recoil";
-import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { faUserMinus, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { SimpleUser } from "@/script/@type/user";
 
 interface Props {
   id: number;
@@ -16,11 +17,16 @@ interface Props {
 const UserCard = ({ id, nickname, profileUrl }: Props) => {
   const userId = useRecoilValue(userIdState);
 
-  const [followings, setFollowings] = useState<number[]>();
-  const [followers, setFollowers] = useState<number[]>();
+  const [followings, setFollowings] = useState<SimpleUser[]>([]);
+  const [followers, setFollowers] = useState<SimpleUser[]>([]);
 
-  const following = () => {
-    FollowAPI.following(userId);
+  const following = async () => {
+    await FollowAPI.following(id);
+    fetchData();
+  };
+  const followingCancel = async () => {
+    await FollowAPI.cancelFollowing(id);
+    fetchData();
   };
 
   const fetchData = async () => {
@@ -35,6 +41,13 @@ const UserCard = ({ id, nickname, profileUrl }: Props) => {
     fetchData();
   }, []);
 
+  const checkFollow = useCallback(() => {
+    if (followers.find((follower) => follower.id === userId)) {
+      return true;
+    }
+    return false;
+  }, [followers, followings]);
+
   return (
     <Wrapper>
       <Flex>
@@ -47,7 +60,15 @@ const UserCard = ({ id, nickname, profileUrl }: Props) => {
         <Text>팔로잉 {followings ? followings?.length : 0}</Text>
       </FollowWrap>
       <CreateBtn>
-        <BasicBtn text={"팔로우"} icon={faUserPlus} onClick={following} />
+        {checkFollow() ? (
+          <BasicBtn
+            text={"팔로우 취소"}
+            icon={faUserMinus}
+            onClick={followingCancel}
+          />
+        ) : (
+          <BasicBtn text={"팔로우"} icon={faUserPlus} onClick={following} />
+        )}
       </CreateBtn>
     </Wrapper>
   );
