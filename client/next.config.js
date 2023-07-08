@@ -15,7 +15,8 @@ const nextConfig = {
     return [
       {
         source: "/api/:path*", // /api/로 시작하는 모든 요청을 heyhey.i234.me:3333/api/로 보낸다.
-        destination: "http://heyhey.i234.me:3333/api/:path*",
+        // destination: "http://heyhey.i234.me:3333/api/:path*",
+        destination: "http://dubu-server.heyhey.i234.me/api/:path*",
       },
     ];
   },
