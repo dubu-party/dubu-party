@@ -21,7 +21,7 @@ const Login = () => {
 
   // 토근이 저장되어 있다면 메인페이지로 이동
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     if (token) {
       Router.push("/");
     }

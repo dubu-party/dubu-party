@@ -11,7 +11,7 @@ const customAxios: AxiosInstance = axios.create({
 customAxios.interceptors.request.use(
   (config) => {
     // 따로 빼도 되는 부분
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
