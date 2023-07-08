@@ -85,7 +85,7 @@ const Wrapper = styled.div`
   // 사진의 황금 비율 : 3:4
   width: 510px;
   height: 680px;
-  margin: 0 10px;
+  /* margin: 0 10px; */
   position: relative;
   background-color: #ffffff;
   img {

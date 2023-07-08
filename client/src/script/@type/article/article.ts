@@ -6,6 +6,7 @@ import { ArticleForm, ArticleFooter, ArticleTitle } from "./data";
 export class Article {
   id: number;
   fileUrl?: string;
+  originFileUrl?: string;
   title: ArticleTitle;
   footer: ArticleFooter;
   likeCount: number;
@@ -73,5 +74,17 @@ export const ArticleAPI = {
       formData.append("originFile", articleForm.originFile);
     }
     return formData;
+  },
+
+  // 추가
+
+  delete: async (contentId: number) => {
+    try {
+      const result = await customAxios.delete(`/api/articles/${contentId}`);
+      console.log(result);
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
   },
 };

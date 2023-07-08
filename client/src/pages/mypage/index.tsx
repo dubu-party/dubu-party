@@ -30,7 +30,7 @@ export default function index() {
       setInfo(infoData);
     }
     const myArticle = await MypageAPI.getMyArticles();
-    // console.log(myArticle);
+    console.log(myArticle);
 
     setMyArticles(myArticle);
   };
@@ -87,7 +87,7 @@ export default function index() {
         />
         <CardContainer>
           {myArticles.map((article) => (
-            <Card key={article.id} />
+            <Card key={article.id} data={article} />
           ))}
         </CardContainer>
       </Container>
