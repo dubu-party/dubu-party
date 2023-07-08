@@ -69,6 +69,9 @@ export const ArticleAPI = {
     if (articleForm.file) {
       formData.append("file", articleForm.file);
     }
+    if (articleForm.originFile) {
+      formData.append("originFile", articleForm.originFile);
+    }
     return formData;
   },
 };
