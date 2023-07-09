@@ -1,3 +1,5 @@
+import theme from "@/styles/theme";
+import styled from "@emotion/styled";
 import React from "react";
 
 interface PaginationProps {
@@ -18,32 +20,54 @@ const Pagination = ({
 
   return (
     <div>
-      <button
+      <ArrowButton
         onClick={handlePageChange}
-        data-page={currentPage - 1}
-        disabled={currentPage === 1}
+        data-page={Math.max(0, currentPage - 1)}
+        disabled={currentPage === 0}
       >
-        Prev
-      </button>
+        {`<`}
+      </ArrowButton>
       {Array.from({ length: totalPages }, (_, index) => index).map((page) => (
-        <button
+        <NumButton
           key={page}
           onClick={handlePageChange}
           data-page={page}
           disabled={currentPage === page}
+          current={currentPage === page}
         >
           {page + 1}
-        </button>
+        </NumButton>
       ))}
-      <button
+      <ArrowButton
         onClick={handlePageChange}
-        data-page={currentPage + 1}
+        data-page={Math.min(totalPages, currentPage + 1)}
         disabled={currentPage === totalPages}
       >
-        Next
-      </button>
+        {`>`}
+      </ArrowButton>
     </div>
   );
 };
 
 export default Pagination;
+
+const ArrowButton = styled.button`
+  font-size: 14px;
+  font-family: ${theme.font.extraBold};
+  background: none;
+  border: none;
+`;
+
+const NumButton = styled.button<{ current: boolean }>`
+  font-size: 14px;
+  font-family: ${theme.font.bold};
+  padding: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+  color: ${({ current }) => (current ? "#4D7C4E" : "black")};
+  &:hover {
+    color: ${({ current }) => (current ? "#4D7C4E" : "#333")};
+  }
+`;

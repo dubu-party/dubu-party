@@ -23,7 +23,9 @@ export default function Home({ article }: { article: Array<Article> }) {
   const router = useRouter();
   const [page, setPage] = useRecoilState(listPageState);
   const [articles, setArticles] = useState<Article[]>(article);
-
+  useEffect(() => {
+    console.log(page);
+  }, [page]);
   const list = [
     { text: "팔로우글", icon: faPenToSquare, goto: "/" },
     { text: "마이페이지", goto: "/mypage" },
@@ -103,7 +105,7 @@ const Container = styled.div`
   flex-direction: column;
   padding-left: 20px;
   padding-right: 20px;
-  background-color: #1a4524;
+  /* background-color: #1a4524; */
 `;
 
 const Section = styled.section`
