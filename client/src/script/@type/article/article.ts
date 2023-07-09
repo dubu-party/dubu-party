@@ -21,10 +21,17 @@ export class Article {
   }
 }
 
+export interface PagingListType {
+  page: number;
+  size: number;
+  sort: "likes" | "id";
+}
+
 export const ArticleAPI = {
   list: async () => {
+    // .get("/api/articles")
     const result = await customServerAxios
-      .get("/api/articles")
+      .get(`/api/articles?page=0&size=12&sort=likes`)
       .then((res) => {
         if (res.status === 200) return res.data;
         return [];
@@ -77,11 +84,27 @@ export const ArticleAPI = {
   },
 
   // 추가
-
   delete: async (contentId: number) => {
     try {
       const result = await customAxios.delete(`/api/articles/${contentId}`);
       console.log(result);
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  pagingList: async (pagingData: PagingListType) => {
+    try {
+      const result = await customAxios
+        .get(
+          `/api/articles?page=${pagingData.page}&size=${pagingData.size}&sort=${pagingData.sort}`,
+        )
+        .then((res) => {
+          if (res.status === 200) return res.data;
+          return [];
+        })
+        .catch((err) => []);
       return result;
     } catch (err) {
       console.error(err);

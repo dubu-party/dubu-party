@@ -7,16 +7,22 @@ import styled from "@emotion/styled";
 import Card from "@/components/blocks/common/Card";
 import { useEffect, useState } from "react";
 import { Article, ArticleAPI } from "@/script/@type/article/article";
-import Footer from "@/components/atoms/Footer";
+import Footer from "@/components/blocks/common/Footer";
 import LinkText from "@/components/atoms/LinkText";
 import BasicBtn from "@/components/atoms/BasicBtn";
 import { useRouter } from "next/router";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { useQuery } from "@tanstack/react-query";
+import { useRecoilState } from "recoil";
+import { listPageState } from "@/atoms/pageState";
+import Pagination from "@/components/blocks/common/Pagination";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home({ article }: { article: Array<Article> }) {
   const router = useRouter();
+  const [page, setPage] = useRecoilState(listPageState);
+  const [articles, setArticles] = useState<Article[]>(article);
 
   const list = [
     { text: "팔로우글", icon: faPenToSquare, goto: "/" },
@@ -27,6 +33,16 @@ export default function Home({ article }: { article: Array<Article> }) {
       goto: "/login",
     },
   ];
+
+  const onChangePage = async (pageNum: number) => {
+    setPage(pageNum);
+    const infoData = await ArticleAPI.pagingList({
+      page: pageNum,
+      size: 12,
+      sort: "likes",
+    });
+    setArticles(infoData);
+  };
 
   const onHandleGoto = (goto: string) => () => {
     router.push(goto);
@@ -52,11 +68,16 @@ export default function Home({ article }: { article: Array<Article> }) {
           />
         </CreateBtn>
         <ContentWrap>
-          {article.map((item: Article | undefined, index: number) => {
+          {articles.map((item: Article | undefined, index: number) => {
             return <Card data={item} key={index} />;
           })}
         </ContentWrap>
       </Section>
+      <Pagination
+        totalPages={3}
+        currentPage={page}
+        onPageChange={onChangePage}
+      />
       <Footer />
     </Container>
   );

@@ -3,7 +3,7 @@ import React from "react";
 interface PaginationProps {
   totalPages: number;
   currentPage: number;
-  onPageChange: (page: number) => void;
+  onPageChange: (pageNum: number) => void;
 }
 
 const Pagination = ({
@@ -25,18 +25,16 @@ const Pagination = ({
       >
         Prev
       </button>
-      {Array.from({ length: totalPages }, (_, index) => index + 1).map(
-        (page) => (
-          <button
-            key={page}
-            onClick={handlePageChange}
-            data-page={page}
-            disabled={currentPage === page}
-          >
-            {page}
-          </button>
-        ),
-      )}
+      {Array.from({ length: totalPages }, (_, index) => index).map((page) => (
+        <button
+          key={page}
+          onClick={handlePageChange}
+          data-page={page}
+          disabled={currentPage === page}
+        >
+          {page + 1}
+        </button>
+      ))}
       <button
         onClick={handlePageChange}
         data-page={currentPage + 1}

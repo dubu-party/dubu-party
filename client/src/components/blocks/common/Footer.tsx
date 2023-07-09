@@ -1,9 +1,10 @@
 import theme from "@/styles/theme";
 import styled from "@emotion/styled";
 import React from "react";
+import Pagination from "./Pagination";
 
 export default function Footer() {
-  return <Container>made by dubu</Container>;
+  return <Container>footer</Container>;
 }
 
 const Container = styled.div`
