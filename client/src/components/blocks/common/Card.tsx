@@ -28,17 +28,6 @@ export default function Card({ data }: CardProps) {
     }
   }, []);
 
-  const onClickDelete = async (e: React.MouseEvent) => {
-    // e.stopPropagation();
-    console.log("delete", data);
-
-    if (data) {
-      console.log(data.id);
-
-      const myArticle = await ArticleAPI.delete(data.id);
-      console.log(myArticle);
-    }
-  };
   const onClick = () => {
     router.push(`/articles/${data?.id}`);
   };
@@ -84,7 +73,6 @@ export default function Card({ data }: CardProps) {
         </FooterContainer> */}
       {isHovering && (
         <HoverContainer>
-          <Button onClick={onClickDelete}>delete</Button>
           <FontAwesomeIcon icon={faHeart as IconProp} />
           <Like>좋아요 {data?.likeCount}</Like>
         </HoverContainer>
@@ -92,10 +80,6 @@ export default function Card({ data }: CardProps) {
     </Container>
   );
 }
-
-const Button = styled.button`
-  z-index: 9;
-`;
 
 interface ContainerProps {
   bgColor?: string;

@@ -94,6 +94,15 @@ export const ArticleAPI = {
     }
   },
 
+  update: async (contentId: number, articleForm: ArticleForm) => {
+    try {
+      const result = await customAxios.put(`/api/articles/${contentId}`);
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
   pagingList: async (pagingData: PagingListType) => {
     try {
       const result = await customAxios
