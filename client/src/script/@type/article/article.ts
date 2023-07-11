@@ -21,16 +21,21 @@ export class Article {
 }
 
 export const ArticleAPI = {
-  list: async () => {
+  list: async (page?: number, size?: number, sort?: string) => {
+    const pageNum = page ? page : 1;
+    const sizeNum = size ? size : 9;
+    const sortType = sort ? sort : "likes";
+
     const result = await customServerAxios
-      .get("/api/articles")
+      .get(`/api/articles?page=${pageNum}&size=${sizeNum}&sort=${sortType}`)
       .then((res) => {
         if (res.status === 200) return res.data;
         return [];
       })
-      .catch((err) => []);
+      .catch((err) => console.log(err));
     return result;
   },
+
   create: async (articleForm: ArticleForm) => {
     const formData = ArticleAPI.toFormData(articleForm);
     customAxios.defaults.headers["Content-Type"] = "multipart/form-data";
