@@ -29,8 +29,8 @@ export interface PagingListType {
 
 export const ArticleAPI = {
   list: async (page?: number, size?: number, sort?: string) => {
-    const pageNum = page ? page : 1;
-    const sizeNum = size ? size : 9;
+    const pageNum = page ? page : 0;
+    const sizeNum = size ? size : 12;
     const sortType = sort ? sort : "likes";
 
     const result = await customServerAxios
