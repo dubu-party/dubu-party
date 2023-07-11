@@ -82,7 +82,7 @@ export const MypageAPI = {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
           },
         },
       );
@@ -96,24 +96,4 @@ export const MypageAPI = {
       return [];
     }
   },
-  // getMyArticles1: async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `${process.env.BASE_FETCH_URL}/api/articles/mine`,
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       },
-  //     );
-
-  //     if (response.status === 200) {
-  //       return response.data;
-  //     }
-  //     return null;
-  //   } catch (error) {
-  //     console.error(error);
-  //     return null;
-  //   }
-  // },
 };

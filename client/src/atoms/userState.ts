@@ -18,6 +18,7 @@ const sessionStorage =
   typeof window !== "undefined" ? window.sessionStorage : undefined;
 const { persistAtom } = recoilPersist({
   key: "test-persist",
+  storage: sessionStorage,
 });
 
 // TODO: 이걸 왜 number로 하는건지 확인

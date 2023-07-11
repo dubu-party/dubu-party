@@ -1,4 +1,4 @@
-import { Article } from "@/script/@type/article/article";
+import { Article, ArticleAPI } from "@/script/@type/article/article";
 import theme from "@/styles/theme";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
@@ -7,9 +7,11 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 
-export default function Card({ data }: { data?: Article }) {
+interface CardProps {
+  data?: Article;
+}
+export default function Card({ data }: CardProps) {
   const router = useRouter();
-
   const [vertical, setVertical] = useState<string>("center");
   const [isHovering, setIsHovering] = useState<boolean>(false);
 
@@ -26,47 +28,49 @@ export default function Card({ data }: { data?: Article }) {
     }
   }, []);
 
+  const onClick = () => {
+    router.push(`/articles/${data?.id}`);
+  };
+
   return (
     <Container
+      src={`${process.env.BASE_SERVER_URL}${data?.originFileUrl}`}
       bgColor={data?.footer.background ? data?.title.color : "#000"}
       onMouseOver={() => setIsHovering(true)}
       onMouseOut={() => setIsHovering(false)}
-      onClick={() => router.push(`/articles/${data?.id}`)}
+      onClick={onClick}
     >
-      <ImgContainer>
-        {/* TODO: 추후 디테일을 잡아야할듯  -> 위치 가로 세로 다 변경해야하는거 아닐까..?*/}
-        <Img
-          src={`${process.env.BASE_SERVER_URL}${data?.fileUrl}`}
-          textAlign={data?.title?.widthSort || "center"}
-          justifyContent={vertical}
-        >
-          <Title
-            fontColor={data?.title?.color || "#000"}
-            fontSize={data?.title?.size || 20}
-            fontFamily={data?.title?.fontFamily || theme.font.extraBold}
+      {/* <ImgContainer>
+          <Img
+            src={`${process.env.BASE_SERVER_URL}${data?.fileUrl}`}
+            textAlign={data?.title?.widthSort || "center"}
+            justifyContent={vertical}
           >
-            {data?.title.content}
-          </Title>
-        </Img>
-
-        {/* <Image width={200} height={200} src={""} alt="Selected" /> */}
-      </ImgContainer>
-      <FooterContainer>
-        <Content
-          fontColor={data?.footer?.color || "#000"}
-          fontSize={data?.footer?.size || 20}
-          fontFamily={data?.footer?.fontFamily || theme.font.extraBold}
-        >
-          {data?.footer.content}
-        </Content>
-        <Content
-          fontColor={data?.footer?.color || "#000"}
-          fontSize={data?.footer?.size || 20}
-          fontFamily={data?.footer?.fontFamily || theme.font.extraBold}
-        >
-          {data?.user.nickname}
-        </Content>
-      </FooterContainer>
+            <Title
+              fontColor={data?.title?.color || "#000"}
+              fontSize={data?.title?.size || 20}
+              fontFamily={data?.title?.fontFamily || theme.font.extraBold}
+            >
+              {data?.title.content}
+            </Title>
+          </Img>
+        </ImgContainer>
+        <FooterContainer>
+          <Content
+            fontColor={data?.footer?.color || "#000"}
+            fontSize={data?.footer?.size || 20}
+            fontFamily={data?.footer?.fontFamily || theme.font.extraBold}
+          >
+            {data?.footer.content}
+          </Content>
+          <Content
+            fontColor={data?.footer?.color || "#000"}
+            fontSize={data?.footer?.size || 20}
+            fontFamily={data?.footer?.fontFamily || theme.font.extraBold}
+          >
+            {data?.user.nickname}
+          </Content>
+        </FooterContainer> */}
       {isHovering && (
         <HoverContainer>
           <FontAwesomeIcon icon={faHeart as IconProp} />
@@ -79,12 +83,18 @@ export default function Card({ data }: { data?: Article }) {
 
 interface ContainerProps {
   bgColor?: string;
+  src: string;
 }
 const Container = styled.div<ContainerProps>`
+  border: 1px solid;
   width: 100%;
+  height: 450px;
+  background-image: ${({ src }) => `url(${src})`};
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
   // TODO: 물어보기
   /* max-width: 310px; */
-  height: 100%;
   background-color: ${({ bgColor }) => bgColor};
   cursor: pointer;
   transition: all 0.3s ease-in-out;
@@ -98,14 +108,14 @@ const HoverContainer = styled.div`
   position: absolute;
   top: 0;
   width: 100%;
-  min-width: 310px;
+  /* min-width: 310px; */
   // max-width: 310px;
   height: 100%;
   background-color: black;
   opacity: 0.6;
   cursor: pointer;
   // transition: all 0.3s ease-in-out;
-  margin-bottom: calc(100vh * 0.05);
+  /* margin-bottom: calc(100vh * 0.05); */
   text-align: center;
   display: flex;
   justify-content: center;
@@ -124,6 +134,7 @@ interface ImgProps {
   textAlign?: string;
   justifyContent?: string;
 }
+
 const Img = styled.div<ImgProps>`
   width: 100%;
   height: calc(100vh * 0.5);

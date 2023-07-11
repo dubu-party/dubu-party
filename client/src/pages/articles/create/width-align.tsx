@@ -9,13 +9,7 @@ interface Props {
 }
 
 const WidthAlign = ({ title, setTitle }: Props) => {
-  // useEffect(() => {
-  //   console.log(title.widthSort);
-  // }, [title]);
-
   const onClickButton = (width: "LEFT" | "CENTER" | "RIGHT") => () => {
-    console.log("click", width);
-
     setTitle({ ...title, widthSort: width });
   };
 
@@ -65,7 +59,7 @@ const Wrapper = styled.div`
 const ImageBox = styled.div<{ selected: boolean }>`
   padding: 5px;
   border-radius: 4px;
-  ${({ selected }) => selected}
+  background-color: ${({ selected }) => selected && "#a9a9a959"};
   &:hover {
     cursor: pointer;
     background-color: #f0f0f08e;

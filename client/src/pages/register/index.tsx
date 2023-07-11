@@ -36,7 +36,7 @@ const Register = () => {
 
   useEffect(() => {
     // 이미 로그인한 경우 우회되도록 수정
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     if (token) {
       Router.push("/");
     }

@@ -6,6 +6,7 @@ import { ArticleForm, ArticleFooter, ArticleTitle } from "./data";
 export class Article {
   id: number;
   fileUrl?: string;
+  originFileUrl?: string;
   title: ArticleTitle;
   footer: ArticleFooter;
   likeCount: number;
@@ -20,17 +21,28 @@ export class Article {
   }
 }
 
+export interface PagingListType {
+  page: number;
+  size: number;
+  sort: "likes" | "id";
+}
+
 export const ArticleAPI = {
-  list: async () => {
+  list: async (page?: number, size?: number, sort?: string) => {
+    const pageNum = page ? page : 0;
+    const sizeNum = size ? size : 12;
+    const sortType = sort ? sort : "likes";
+
     const result = await customServerAxios
-      .get("/api/articles")
+      .get(`/api/articles?page=${pageNum}&size=${sizeNum}&sort=${sortType}`)
       .then((res) => {
         if (res.status === 200) return res.data;
         return [];
       })
-      .catch((err) => []);
+      .catch((err) => console.log(err));
     return result;
   },
+
   create: async (articleForm: ArticleForm) => {
     const formData = ArticleAPI.toFormData(articleForm);
     customAxios.defaults.headers["Content-Type"] = "multipart/form-data";
@@ -69,6 +81,46 @@ export const ArticleAPI = {
     if (articleForm.file) {
       formData.append("file", articleForm.file);
     }
+    if (articleForm.originFile) {
+      formData.append("originFile", articleForm.originFile);
+    }
     return formData;
+  },
+
+  // 추가
+  delete: async (contentId: number) => {
+    try {
+      const result = await customAxios.delete(`/api/articles/${contentId}`);
+      console.log(result);
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  update: async (contentId: number, articleForm: ArticleForm) => {
+    try {
+      const result = await customAxios.put(`/api/articles/${contentId}`);
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
+  },
+
+  pagingList: async (pagingData: PagingListType) => {
+    try {
+      const result = await customAxios
+        .get(
+          `/api/articles?page=${pagingData.page}&size=${pagingData.size}&sort=${pagingData.sort}`,
+        )
+        .then((res) => {
+          if (res.status === 200) return res.data;
+          return [];
+        })
+        .catch((err) => []);
+      return result;
+    } catch (err) {
+      console.error(err);
+    }
   },
 };

@@ -29,7 +29,9 @@ export default function index() {
       setImg(`${process.env.BASE_SERVER_URL}${infoData.profileUrl}`);
       setInfo(infoData);
     }
-    const myArticle = await MypageAPI.getMyArticles1();
+    const myArticle = await MypageAPI.getMyArticles();
+    console.log(myArticle);
+
     setMyArticles(myArticle);
   };
 
@@ -85,7 +87,7 @@ export default function index() {
         />
         <CardContainer>
           {myArticles.map((article) => (
-            <Card key={article.id} />
+            <Card key={article.id} data={article} />
           ))}
         </CardContainer>
       </Container>

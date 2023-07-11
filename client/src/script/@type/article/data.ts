@@ -39,4 +39,5 @@ export interface ArticleForm {
   title: ArticleTitle;
   footer: ArticleFooter;
   file?: File;
+  originFile: File;
 }

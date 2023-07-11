@@ -34,7 +34,7 @@ export const AuthAPI = {
   login: async (data: LoginForm) => {
     try {
       const result = await customAxios.post("/api/auth/login", data);
-      localStorage.setItem("token", result.data.token);
+      sessionStorage.setItem("token", result.data.token);
 
       const user = {
         email: result.data.email,
@@ -54,6 +54,6 @@ export const AuthAPI = {
   },
 
   logout: () => {
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
   },
 };

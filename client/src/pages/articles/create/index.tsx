@@ -18,28 +18,72 @@ const page = () => {
   const [file, setFile] = useState<File | undefined>();
   const [imageSrc, setImageSrc] = useState<string | undefined>();
 
-  const testRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLDivElement>(null);
 
-  async function captureElement() {
-    const check = testRef.current;
-    if (check) {
-      const canvas = await html2canvas(check);
-      const imageData = canvas.toDataURL("image/png");
-      const link = document.createElement("a");
-      link.href = imageData;
-      link.download = "capture.png";
-      link.click();
+  const dataURLtoFile = (
+    dataURL: string,
+    filename: string,
+  ): File | undefined => {
+    const mimeType = dataURL.match(/^data:(.*?);/);
+    if (!mimeType) return;
+
+    const base64Data = dataURL.replace(
+      /^data:image\/(png|jpg|jpeg);base64,/,
+      "",
+    );
+    const byteCharacters = atob(base64Data);
+    const byteArrays = new Uint8Array(byteCharacters.length);
+
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteArrays[i] = byteCharacters.charCodeAt(i);
     }
-  }
+    return new File([byteArrays], filename, { type: mimeType[1] });
+  };
 
-  const obSubmit = () => {
+  const onGetImgData = async () => {
+    const hasImg = imgRef.current;
+    if (hasImg) {
+      const canvas = await html2canvas(hasImg);
+      const imageData = canvas.toDataURL("image/png");
+      return imageData;
+    }
+  };
+  const onGetFileData = async () => {
+    const imgData = await onGetImgData();
+    if (!imgData) return;
+    const file = dataURLtoFile(imgData, "capture.png");
+    // console.log(file);
+    // const fileUrl = URL.createObjectURL(file);
+    // const fileLink = document.createElement("a");
+    // fileLink.href = fileUrl;
+    // fileLink.download = "capture.png";
+    // fileLink.click();
+    // URL.revokeObjectURL(fileUrl);
+    return file;
+  };
+
+  const onClickSave = async () => {
+    const imgData = await onGetImgData();
+    if (!imgData) return;
+    const link = document.createElement("a");
+    link.href = imgData;
+    link.download = "capture.png";
+    link.click();
+  };
+
+  const onClickSubmit = async () => {
+    const fileData = await onGetFileData();
+    if (!fileData) return;
+
+    const reader = new FileReader();
+    reader.readAsDataURL(fileData);
     const articleForm: ArticleForm = {
       title,
       footer,
       file,
+      originFile: fileData,
     };
     ArticleAPI.create(articleForm);
-    captureElement();
   };
 
   const handleTitleChange = (
@@ -67,6 +111,7 @@ const page = () => {
     const reader = new FileReader(); // 파일을 읽어오는 객체
     reader.readAsDataURL(file); // 파일을 읽어오는 메서드
     setFile(files[0]);
+    // console.log("원래 있던거: ", file, files[0]);
 
     return new Promise((resolve: any) => {
       reader.onload = () => {
@@ -219,12 +264,17 @@ const page = () => {
             </label>
             <input onChange={handleFile} type="file" id="file" name="file" />
           </FileInput>
-          <button className="submit_btn" onClick={() => obSubmit()}>
-            등록
-          </button>
+          <ButtonContainer>
+            <button className="submit_btn" onClick={onClickSave}>
+              저장
+            </button>
+            <button className="submit_btn" onClick={onClickSubmit}>
+              등록
+            </button>
+          </ButtonContainer>
         </div>
       </Wrapper>
-      <Test ref={testRef}>
+      <Test ref={imgRef}>
         <ImageCard fileUrl={imageSrc} title={title} footer={footer} />
       </Test>
     </FlexBox>
@@ -420,5 +470,14 @@ const FileInput = styled.div`
       background-color: #f5f5f5;
       transition: background-color 0.3s;
     }
+  }
+`;
+
+const ButtonContainer = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  > button {
+    width: 100%;
   }
 `;
