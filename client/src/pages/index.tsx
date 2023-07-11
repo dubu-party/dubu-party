@@ -1,99 +1,18 @@
 import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
-import axios from "axios";
 import styled from "@emotion/styled";
-import Card from "@/components/blocks/common/Card";
 import { useEffect, useState } from "react";
-import { Article, ArticleAPI } from "@/script/@type/article/article";
-import Footer from "@/components/blocks/common/Footer";
-import LinkText from "@/components/atoms/LinkText";
-import BasicBtn from "@/components/atoms/BasicBtn";
 import { useRouter } from "next/router";
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-import { useQuery } from "@tanstack/react-query";
-import { useRecoilState } from "recoil";
-import { listPageState } from "@/atoms/pageState";
-import Pagination from "@/components/blocks/common/Pagination";
 
-const inter = Inter({ subsets: ["latin"] });
-
-export default function Home({ article }: { article: Array<Article> }) {
+export default function Home() {
   const router = useRouter();
-  const [page, setPage] = useRecoilState(listPageState);
-  const [articles, setArticles] = useState<Article[]>(article);
+
   useEffect(() => {
-    console.log(page);
-  }, [page]);
-  const list = [
-    { text: "팔로우글", icon: faPenToSquare, goto: "/" },
-    { text: "마이페이지", goto: "/mypage" },
-    { text: "마이피드", goto: "/" },
-    {
-      text: "로그인",
-      goto: "/login",
-    },
-  ];
+    router.push("/articles");
+  }, []);
 
-  const onChangePage = async (pageNum: number) => {
-    setPage(pageNum);
-    const infoData = await ArticleAPI.pagingList({
-      page: pageNum,
-      size: 12,
-      sort: "likes",
-    });
-    setArticles(infoData);
-  };
-
-  const onHandleGoto = (goto: string) => () => {
-    router.push(goto);
-  };
-
-  return (
-    <Container>
-      <Section>
-        <Menu>
-          {list.map((item, index) => {
-            return <LinkText key={index} text={item.text} goto={item.goto} />;
-          })}
-        </Menu>
-        <Green>Green</Green>
-        <Logo onClick={onHandleGoto("/")}>DUBU</Logo>
-      </Section>
-      <Section>
-        <CreateBtn>
-          <BasicBtn
-            text={"create"}
-            icon={faPenToSquare}
-            onClick={() => router.push("/articles/create")}
-          />
-        </CreateBtn>
-        <ContentWrap>
-          {articles.map((item: Article | undefined, index: number) => {
-            return <Card data={item} key={index} />;
-          })}
-        </ContentWrap>
-      </Section>
-      <Pagination
-        totalPages={3}
-        currentPage={page}
-        onPageChange={onChangePage}
-      />
-      <Footer />
-    </Container>
-  );
+  return <Container></Container>;
 }
-
-export const getServerSideProps = async ({ params }: any) => {
-  const article = await ArticleAPI.list();
-
-  return {
-    props: {
-      article: article,
-    },
-  };
-};
 
 const Container = styled.div`
   width: 100%;

@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import React from "react";
 
-interface LinkTextProps {
+export interface LinkTextProps {
   text?: string;
   goto?: string; // 추후 필수로 바꾸기
   color?: string;
@@ -20,8 +20,12 @@ export default function LinkText({
 
   const onHandleGoto = (goto: string) => () => {
     console.log("goto: ", goto);
+    if (text === "로그아웃") {
+      localStorage.removeItem("token");
+    }
     router.push(goto);
   };
+
   return (
     <Container
       onClick={onHandleGoto(goto || "/")}
