@@ -84,12 +84,12 @@ import styled from "@emotion/styled";
 import Card from "@/components/blocks/common/Card";
 import { useEffect, useState } from "react";
 import { Article, ArticleAPI } from "@/script/@type/article/article";
-import Footer from "@/components/atoms/Footer";
 import LinkText, { LinkTextProps } from "@/components/atoms/LinkText";
 import BasicBtn from "@/components/atoms/BasicBtn";
 import { useRouter } from "next/router";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "@/components/blocks/common/Pagination";
+import Footer from "@/components/blocks/common/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 

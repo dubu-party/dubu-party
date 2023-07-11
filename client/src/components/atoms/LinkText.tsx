@@ -52,6 +52,6 @@ const Container = styled.div<ContainerProps>`
   color: ${({ color }) => color || theme.color.fontColor};
   &:hover {
     cursor: pointer;
-    ${({ LinkEffect }) => LinkEffect && `opacity: 0.8;`})
+    ${({ LinkEffect }) => LinkEffect && `opacity: 0.8;`}
   }
 `;
